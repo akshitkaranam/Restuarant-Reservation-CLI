@@ -31,7 +31,7 @@ Modify active orders -> there will be list of active orders to choose from -> mo
 Check-out customer -> receipt is printed (with GST) and order object is saved to InvoiceList. [NEED TO INCLUDE STAFF,STILL WORKING ON IT]
 
 10.
-Print Sales by Time Period (Working on it, should be done by tonight).
+Print Sales by Time Period (Working now!!)
 
 
 From what I have tested so far, it has been working okay, if you guys find any bugs do let me know. 
