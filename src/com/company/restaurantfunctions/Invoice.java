@@ -2,10 +2,12 @@ package com.company.restaurantfunctions;
 
 import com.company.menuItem.MenuItem;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Map;
 
-public class Invoice {
+public class Invoice implements Comparable<Invoice> {
 
     private final Order order;
     private double priceBeforeTax = 0.0;
@@ -58,19 +60,29 @@ public class Invoice {
         System.out.println("Taxes: " + taxPrice);
         System.out.println("----------------------------------------------");
         System.out.println("Total: " + priceAfterTax);
+        InvoiceList.addInvoice(this);
     }
 
 
-    //    List<Tax> taxList = TaxList.getTaxList();
-//        double gstAddedAfterAllOtherTax = 1;
-//
-//        for (Tax tax : taxList) {
-//            if (tax.getTaxName().equals("GST")) {
-//                gstAddedAfterAllOtherTax = tax.getPercentageTax();
-//            } else {
-//                priceAfterTax += (priceBeforeTax * (1.0 + tax.getPercentageTax()));
-//            }
-//        }
 
 
+    @Override
+    public int compareTo(Invoice in) {
+        return this.localDateTime.compareTo(in.localDateTime);
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public LocalDate getDate() {
+        return localDateTime.toLocalDate();
+    }
+    public Month getMonth() {
+        return localDateTime.getMonth();
+    }
+
+    public double getPriceAfterTax() {
+        return priceAfterTax;
+    }
 }

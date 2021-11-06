@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.*;
 import java.util.List;
 
@@ -61,10 +62,7 @@ public class POSApp {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-//
-//        for(int i =0;i<MenuList.getmItemList().size();i++){
-//            System.out.println(MenuList.getmItemList().get(i));
-//        }
+
 
         int option;
         Scanner scanner = new Scanner(System.in);
@@ -117,6 +115,44 @@ public class POSApp {
     }
 
     private static void printSalesByTimePeriod() {
+        int option =1;
+        Scanner sc = new Scanner(System.in);
+
+        do {
+            System.out.println("Choose an option:\n"
+                    + "================================\n"
+                    + "|1. Get Report By Day |\n"
+                    + "|2. Get Report By Month|\n"
+                    + "|3. Quit|\n"
+                    + "==================================");
+            option = sc.nextInt();
+            switch (option) {
+                case 1:
+                    System.out.println("Enter the desired date in the format YYYY-MM-DD");
+                    String dateEntered = sc.next();
+                    LocalDate date = LocalDate.parse(dateEntered);
+                   InvoiceList.salesReportByDay(date);
+                    break;
+                case 2:
+                    System.out.println("Enter the date month in the format ");
+                    String monthEntered = sc.next();
+                    Month month = Month.valueOf(monthEntered);
+                    InvoiceList.salesReportByMonth(month);
+                    break;
+                case 3:
+                    System.out.println("Quitting, going back to Main Menu!");
+                    break;
+
+                default:
+                    System.out.println("Choose option (1-3):");
+                    break;
+            }
+
+        } while (option !=3);
+
+
+
+
     }
 
     private static void checkOutCustomer() {
