@@ -1,0 +1,41 @@
+There are 10 cases in the switch statement:
+
+1 and 2: 
+Taken from Joel’s code, didn’t change anything except that I change the mItemList to static. 
+I am still working on integrating the PromotionPackage, wanted to ensure that the basic working code is out.
+Also, while testing, I realised that I have to keep on creating new MenuItems every time I restart the program ,so I have come up with a way to save the items into a csv after adding. Once the program is restarted, the MenuItem objects will be created by reading the csv (menu.csv) file. We can remove this if needed. 
+
+3: 
+Create a reservation -> Create an Order Object in TableDateSlot object with some attributes needed for reservation (ie customer name, time). This is the same implementation as I shared during the meeting last time.
+
+4.
+Show Active Reservations by Date -> enter the date -> shows the list of active reservations for that date
+
+5.
+Remove Reservation Booking -> just follow the instructions, you should be able to delete accordingly.
+
+6.
+Show available tables (DON’T Know what to show need to discuss)
+
+7.
+Check-In Customer -> there will be a list of customers to choose from where their reservation timing hasn’t exceeded the end time -> check-in -> this order will become an active order.
+
+8.
+Modify active orders -> there will be list of active orders to choose from -> modify accordingly.
+
+9.
+Check-out customer -> receipt is printed (with GST) and order object is saved to InvoiceList. [NEED TO INCLUDE STAFF,STILL WORKING ON IT]
+
+10.
+Print Sales by Time Period (Working on it, should be done by tonight).
+
+
+From what I have tested so far, it has been working okay, if you guys find any bugs do let me know. I haven’t implemented exception handling for a lot of scenarios so, please ignore that for now. 
+
+
+This is a flow chart of how a typical order should flow:
+
+1. Make Reservation
+2. Check-In Customer
+3. Modify Active Order
+4. Check Out Customer
