@@ -511,7 +511,7 @@ public class POSApp {
         System.out.println("5: Remove Reservation Booking");
         System.out.println("6: Check table availability");
         System.out.println("7: Check-in Customer");
-        System.out.println("8: Show Active Orders");
+        System.out.println("8: Modify Active Orders");
         System.out.println("9: Check-out Customer");
         System.out.println("10: Print Sales Report by Time Period");
         System.out.println("11: Quit");
