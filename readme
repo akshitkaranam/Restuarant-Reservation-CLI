@@ -1,7 +1,7 @@
 There are 10 cases in the switch statement:
 
 1 and 2: 
-Taken from Joel’s code, didn’t change anything except that I change the mItemList to static. 
+Taken from Joel’s code, didn’t change anything except that I changed the mItemList to static. 
 I am still working on integrating the PromotionPackage, wanted to ensure that the basic working code is out.
 Also, while testing, I realised that I have to keep on creating new MenuItems every time I restart the program ,so I have come up with a way to save the items into a csv after adding. Once the program is restarted, the MenuItem objects will be created by reading the csv (menu.csv) file. We can remove this if needed. 
 
