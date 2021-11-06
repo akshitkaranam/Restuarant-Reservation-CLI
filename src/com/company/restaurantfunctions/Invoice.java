@@ -60,6 +60,9 @@ public class Invoice implements Comparable<Invoice> {
         System.out.println("Taxes: " + taxPrice);
         System.out.println("----------------------------------------------");
         System.out.println("Total: " + priceAfterTax);
+        System.out.println("----------------------------------------------");
+        System.out.println();
+        System.out.println();
         InvoiceList.addInvoice(this);
     }
 

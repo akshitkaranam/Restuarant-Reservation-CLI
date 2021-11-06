@@ -172,7 +172,6 @@ public class POSApp {
         Order orderToCheckOut = activeOrders.get(optionChosen);
         Invoice thisOrderInvoice = new Invoice(orderToCheckOut);
         thisOrderInvoice.generateReceipt();
-        InvoiceList.addInvoice(thisOrderInvoice);
         activeOrders.remove(optionChosen);
 
         //Remove Reservation
@@ -315,7 +314,7 @@ public class POSApp {
         Order relevantOrder = orderOfAllReservationForToday.get(optionSelected);
         relevantOrder.setOrderIsActive(true);
         Restaurant.addActiveOrder(relevantOrder);
-        System.out.println("Successfully checked-in " + relevantOrder.getCustomer().getName() + "with group size of"
+        System.out.println("Successfully checked-in " + relevantOrder.getCustomer().getName() + " with group size of"
         + relevantOrder.getGroupSize() + "! Please escort them to table number: " + relevantOrder.getTableNumber() );
     }
 
