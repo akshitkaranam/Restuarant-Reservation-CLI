@@ -38,7 +38,7 @@ From what I have tested so far, it has been working okay, if you guys find any b
 I haven’t implemented exception handling for a lot of scenarios so, please ignore that for now. 
 
 
-This is a flow chart of how a typical order should flow:
+This is the flow of how a typical order should flow:
 
 1. Make Reservation
 2. Check-In Customer
