@@ -40,6 +40,9 @@ public class TableDateSlots {
         this.slots.put(LocalTime.of(20,30),null);
         this.slots.put(LocalTime.of(21,0),null);
         this.slots.put(LocalTime.of(21,30),null);
+        this.slots.put(LocalTime.of(22,00),null);
+        this.slots.put(LocalTime.of(22,30),null);
+        this.slots.put(LocalTime.of(23,00),null);
 
     }
 
