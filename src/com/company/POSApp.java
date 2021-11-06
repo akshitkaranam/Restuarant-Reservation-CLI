@@ -134,9 +134,9 @@ public class POSApp {
                    InvoiceList.salesReportByDay(date);
                     break;
                 case 2:
-                    System.out.println("Enter the date month in the format ");
-                    String monthEntered = sc.next();
-                    Month month = Month.valueOf(monthEntered);
+                    System.out.println("Enter the date month in the format MM (i.e 12) ");
+                    int monthEntered = sc.nextInt();
+                    Month month = Month.of(monthEntered);
                     InvoiceList.salesReportByMonth(month);
                     break;
                 case 3:
@@ -314,7 +314,7 @@ public class POSApp {
         Order relevantOrder = orderOfAllReservationForToday.get(optionSelected);
         relevantOrder.setOrderIsActive(true);
         Restaurant.addActiveOrder(relevantOrder);
-        System.out.println("Successfully checked-in " + relevantOrder.getCustomer().getName() + " with group size of"
+        System.out.println("Successfully checked-in " + relevantOrder.getCustomer().getName() + " with group size of "
         + relevantOrder.getGroupSize() + "! Please escort them to table number: " + relevantOrder.getTableNumber() );
     }
 
