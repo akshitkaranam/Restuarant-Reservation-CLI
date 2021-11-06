@@ -166,7 +166,7 @@ public class POSApp {
         Scanner scanner = new Scanner(System.in);
         int i =0;
         for(Order order:activeOrders){
-            System.out.println(i + ": " + order.getCustomer().getName() + ". Table Number: " + order.getTableNumber());
+            System.out.println(i++ + ": " + order.getCustomer().getName() + ". Table Number: " + order.getTableNumber());
         }
         int optionChosen = scanner.nextInt();
         Order orderToCheckOut = activeOrders.get(optionChosen);
