@@ -14,8 +14,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.List;
 
@@ -218,17 +220,51 @@ public class POSApp {
 
     }
 
-    public static void addReservation() {
+    public static void addReservation(){
         Scanner scanner = new Scanner(System.in);
         Set<LocalTime> availableSlotsSet = new LinkedHashSet<>();
+        LocalDate date;
+        LocalTime time;
+        int groupSize;
+        int durationInMinutes;
+        boolean reservationIsPossible;
 
-        System.out.println("Enter the date you wish to reserve in the format YYYY-MM-DD");
-        String dateEntered = scanner.next();
-        LocalDate date = LocalDate.parse(dateEntered);
+
+        while(true){
+            try{
+                System.out.println("Enter the date you wish to reserve in the format YYYY-MM-DD");
+                String dateEntered = scanner.next();
+                date = LocalDate.parse(dateEntered);
+
+                if(date.isBefore(LocalDate.now())){
+                    System.out.println("You cannot add Reservation to the past! Please enter a valid date!");
+                    continue;
+                }
+
+                if(date.isAfter(LocalDate.now().plusDays(14))){
+                    System.out.println("You can only add reservations for the next 14 days!");
+                    continue;
+                }
+                break;
+
+            }catch(DateTimeParseException e){
+                System.out.println("INCORRECT ENTRY!");
+                System.out.println("Please enter in the correct format: YYYY-MM-DD");
+            }
+        }
 
 
-        System.out.println("Please enter your group size: ");
-        int groupSize = scanner.nextInt();
+        while(true){
+            try{
+                System.out.println("Please enter your group size: ");
+                scanner.nextLine();
+                groupSize = scanner.nextInt();
+                break;
+            }catch(InputMismatchException e){
+                System.out.println("INCORRECT ENTRY!");
+                System.out.println("Please enter only integer values!");
+            }
+        }
 
 
         for (Map.Entry<Integer, Table> tableEntry : Restaurant.getTableList().entrySet()) {
@@ -250,19 +286,55 @@ public class POSApp {
         }
 
         if (availableSlotsSet.isEmpty()) {
-            System.out.println("Sorry there are no tables available on this date: " + date + "for a group size of " + groupSize);
+            System.out.println("Sorry there are no tables available on this date: " + date + " for a group size of " + groupSize);
+            System.out.println();
             return;
         }
 
-        System.out.println("Please enter the time you want to book:  e.g 09:30 ");
-        String timeEntered = scanner.next();
-        timeEntered = timeEntered + ":00";
-        LocalTime time = LocalTime.parse(timeEntered);
-        System.out.println("Please enter the the duration you want to reserve the table in hours (e.g. 1.5 or 2");
-        double duration = scanner.nextDouble();
-        int durationInMinutes = (int) (60 * duration);
-        boolean reservationIsPossible = false;
+        while(true){
+            try{
+                System.out.println("Please enter the time you want to book:  e.g 09:30 ");
+                String timeEntered = scanner.next();
+                timeEntered = timeEntered + ":00";
+                time = LocalTime.parse(timeEntered);
 
+                if(time.getMinute() != 0 && time.getMinute() !=30){
+                    System.out.println("You can only reserve slots in increments of 30 minutes. Please try again!");
+                    continue;
+                }
+
+                if(LocalDateTime.of(date,time).isBefore(LocalDateTime.now().minusMinutes(15))){
+                    System.out.println("You cannot reserve slots in the past. Please try again!");
+                }else{
+                    break;
+                }
+
+
+            }catch(DateTimeParseException e){
+                System.out.println("INCORRECT ENTRY!");
+                System.out.println("Please enter in the correct format: hh:mm (i.e. 09:30)");
+            }
+        }
+
+        while(true){
+            try{
+                System.out.println("Please enter the the duration you want to reserve the table in hours (e.g. 1.5 or 2");
+                scanner.nextLine();
+                double duration = scanner.nextDouble();
+
+                if(duration % 0.5 != 0){
+                    System.out.println("Please only enter duration with 0.5 increments (i.e 1/1.5/2.5)");
+                    continue;
+                }
+
+                durationInMinutes = (int) (60 * duration);
+                reservationIsPossible = false;
+                break;
+            }catch(InputMismatchException e){
+                System.out.println("INCORRECT ENTRY!");
+                System.out.println("Please enter only decimal values!");
+            }
+        }
 
         for (Map.Entry<Integer, Table> tableEntry : Restaurant.getTableList().entrySet()) {
             if (tableEntry.getValue().getNumberOfSeats() >= groupSize) {
@@ -322,21 +394,45 @@ public class POSApp {
             Order thisOrder = new Order(thisCustomer,groupSize,tableEntry.getValue().getTableNumber()
                     ,date,time,time.plusMinutes(durationInMinutes));
 
-//            tableEntry.getValue().addReservation(reservation);
             tableEntry.getValue().getTableDateSlotsList().get(date).reserveSlot(time, thisOrder, durationInMinutes);
 
             System.out.println("Reservation is confirmed for " + name + " on " + date + " at " + time + " to " + time.plusMinutes(durationInMinutes));
+            System.out.println();
             return;
 
         }
         System.out.println("Sorry Reservation isn't possible for this date, time and duration");
+        System.out.println();
     }
 
     public static void showListOfReservationByDate() {
-        System.out.println("Enter the date you wish to get the list of reservations in the format YYYY-MM-DD");
+        LocalDate date;
         Scanner scanner = new Scanner(System.in);
-        String dateEntered = scanner.next();
-        LocalDate date = LocalDate.parse(dateEntered);
+
+
+        while(true){
+            try{
+                System.out.println("Enter the date you wish to get the list of reservations in the format YYYY-MM-DD");
+                String dateEntered = scanner.next();
+                date = LocalDate.parse(dateEntered);
+                if(date.isBefore(LocalDate.now())){
+                    System.out.println("You cannot access Reservation of the past! Please enter a valid date!");
+                    continue;
+                }
+
+                if(date.isAfter(LocalDate.now().plusDays(14))){
+                    System.out.println("You can only access reservations for the next 14 days!");
+                    continue;
+                }
+                break;
+
+            }catch(DateTimeParseException e){
+                System.out.println("INCORRECT ENTRY!");
+                System.out.println("Please enter the date in the correct format: YYYY-MM-DD");
+                System.out.println();
+            }
+        }
+
 
         Set<Order> setOfAllReservation = new HashSet<>();
 
@@ -361,12 +457,40 @@ public class POSApp {
 
     private static void removeReservation() {
 
-        System.out.println("Enter the date you wish to remove reservations in the format YYYY-MM-DD");
+
+        LocalDate date;
         Scanner scanner = new Scanner(System.in);
-        String dateEntered = scanner.next();
-        LocalDate date = LocalDate.parse(dateEntered);
+
+
+        while(true){
+            try{
+                System.out.println("Enter the date you wish to remove reservations in the format YYYY-MM-DD");
+                String dateEntered = scanner.next();
+                date = LocalDate.parse(dateEntered);
+
+                if(date.isBefore(LocalDate.now())){
+                    System.out.println("You cannot add Reservation to the past! Please enter a valid date!");
+                    continue;
+                }
+
+                if(date.isAfter(LocalDate.now().plusDays(14))){
+                    System.out.println("You can only add reservations for the next 14 days!");
+                    continue;
+                }
+
+                break;
+            }catch(DateTimeParseException e){
+                System.out.println("INCORRECT ENTRY!");
+                System.out.println("Please enter in the correct format: YYYY-MM-DD");
+                System.out.println();
+            }
+        }
+
+
 
         Set<Order> setOfAllReservation = new HashSet<>();
+        List<Integer> availableIndex = new ArrayList<>();
+
 
         for (Table table : Restaurant.getTableList().values()) {
             List<Order> reservations = table.getOrderReservationsByDateForTable(date);
@@ -374,6 +498,7 @@ public class POSApp {
         }
 
         List<Order> listOfAllOrderReservations = new ArrayList<>(setOfAllReservation);
+        int optionChosen;
 
         if(listOfAllOrderReservations.isEmpty()){
             System.out.println("There are no reservations available!");
@@ -383,9 +508,19 @@ public class POSApp {
             if(listOfAllOrderReservations.get(i) == null){
                 continue;
             }
+            availableIndex.add(i);
             System.out.println( i +": "+ listOfAllOrderReservations.get(i));
         }
-        int optionChosen = scanner.nextInt();
+
+        while(true){
+            optionChosen = scanner.nextInt();
+            if(availableIndex.contains(optionChosen)){
+                break;
+            }else{
+                System.out.println("Please enter a valid choice!");
+            }
+        }
+
         Order orderToRemove = listOfAllOrderReservations.get(optionChosen);
         LocalTime reservationStartTime = orderToRemove.getReservationStartTime();
         LocalTime reservationEndTime = orderToRemove.getReservationEndTime();
@@ -420,6 +555,7 @@ public class POSApp {
         System.out.println("Choose the from the following reservation to check-in: ");
         List<Order> orderOfAllReservationForToday = new ArrayList<>(setOfAllReservation);
         boolean inactiveAvailable = false;
+        List<Integer> availableIndex = new ArrayList<>();
         for(int i =0;i<orderOfAllReservationForToday.size();i++){
             Order thisOrder = orderOfAllReservationForToday.get(i);
 
@@ -432,6 +568,7 @@ public class POSApp {
                     System.out.println(i + ": " + thisOrder.getCustomer().getName() + " "
                             + thisOrder.getCustomer().getContactNumber());
                 }
+                availableIndex.add(i);
             }
         }
 
@@ -440,7 +577,17 @@ public class POSApp {
             return;
         }
 
-        int optionSelected = scanner.nextInt();
+        int optionSelected;
+
+        while(true){
+            optionSelected = scanner.nextInt();
+            if(availableIndex.contains(optionSelected)){
+                break;
+            }else{
+                System.out.println("Please enter a valid choice!");
+            }
+        }
+
         Order relevantOrder = orderOfAllReservationForToday.get(optionSelected);
         relevantOrder.setOrderIsActive(true);
         Restaurant.addActiveOrder(relevantOrder);
@@ -478,22 +625,42 @@ public class POSApp {
             option = sc.nextInt();
             switch (option) {
                 case 1:
-                    for(int j =0;j<MenuList.getmItemList().size();j++){
+                    int innerChosenOption;
+                    int j;
+                    for(j =0;j<MenuList.getmItemList().size();j++){
                         System.out.println(j+ " " + MenuList.getmItemList().get(j));
                     }
-                    int innerChosenOption = sc.nextInt();
+
+                    while(true){
+                        innerChosenOption = sc.nextInt();
+                        if(innerChosenOption <= j-1 && innerChosenOption >= 0){
+                            break;
+                        }else{
+                            System.out.println("Please enter a valid choice!");
+                        }
+                    }
+
                     System.out.println("Enter Quantity: ");
                     int quantity = sc.nextInt();
                     relevantOrder.addMenuItemToOrder(MenuList.getmItemList().get(innerChosenOption),quantity);
                     break;
                 case 2:
                     List<MenuItem> menuItemInOrder = new ArrayList<>(relevantOrder.getItemsOrderedList().keySet());
-                    int j =0;
+                    j =0;
                     for(MenuItem menuItem : menuItemInOrder){
                         System.out.println(j++ +": "+ menuItem +", Quantity: "
                                 + relevantOrder.getItemsOrderedList().get(menuItem));
                     }
-                    innerChosenOption = sc.nextInt();
+
+                    while(true){
+                        innerChosenOption = sc.nextInt();
+                        if(innerChosenOption <= j-1 && innerChosenOption >= 0){
+                            break;
+                        }else{
+                            System.out.println("Please enter a valid choice!");
+                        }
+                    }
+
                     MenuItem chosenMenuItem = menuItemInOrder.get(innerChosenOption);
                     System.out.println("Please enter new quantity: ");
                     quantity = sc.nextInt();
@@ -507,7 +674,14 @@ public class POSApp {
                         System.out.println(j++ +": "+ menuItem +", Quantity: "
                                 + relevantOrder.getItemsOrderedList().get(menuItem));
                     }
-                    innerChosenOption = sc.nextInt();
+                    while(true){
+                        innerChosenOption = sc.nextInt();
+                        if(innerChosenOption <= j-1 && innerChosenOption >= 0){
+                            break;
+                        }else{
+                            System.out.println("Please enter a valid choice!");
+                        }
+                    }
                     chosenMenuItem = menuItemInOrder.get(innerChosenOption);
                     relevantOrder.deleteMenuItem(chosenMenuItem);
                     break;
@@ -534,6 +708,7 @@ public class POSApp {
     private static void checkOutCustomer() {
 
         List<Order> activeOrders = Restaurant.getActiveOrders();
+        int optionChosen;
         if(activeOrders.isEmpty()){
             System.out.println("There are currently no active orders!");
             return;
@@ -544,7 +719,16 @@ public class POSApp {
         for(Order order:activeOrders){
             System.out.println(i++ + ": " + order.getCustomer().getName() + ". Table Number: " + order.getTableNumber());
         }
-        int optionChosen = scanner.nextInt();
+
+        while(true){
+            optionChosen = scanner.nextInt();
+            if(optionChosen <= i-1 && optionChosen >= 0){
+                break;
+            }else{
+                System.out.println("Please enter a valid choice!");
+            }
+        }
+
         Order orderToCheckOut = activeOrders.get(optionChosen);
         orderToCheckOut.setStaff(currentStaffUser);
         Invoice thisOrderInvoice = new Invoice(orderToCheckOut);

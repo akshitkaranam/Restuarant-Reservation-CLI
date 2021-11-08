@@ -47,16 +47,6 @@ public class Invoice implements Comparable<Invoice> {
     }
 
     public void generateReceipt() {
-//        Staff staff;
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.println("Please select your name: ");
-//        List<Staff> currentStaffList = new ArrayList<>(StaffList.getStaffList().values());
-//        int i;
-//        for(i =0;i<currentStaffList.size();i++){
-//            System.out.println(i + ": " + currentStaffList.get(i).getName());
-//        }
-//        int optionChosen = scanner.nextInt();
-//        staff = currentStaffList.get(optionChosen);
 
         invoicePaid = true;
         Map<MenuItem, Integer> orderItemList = order.getItemsOrderedList();
