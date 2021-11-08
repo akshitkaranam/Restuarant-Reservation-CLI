@@ -57,6 +57,7 @@ public class POSApp {
         retrieveMenuInformation();
         retrieveOrderReservationInformation();
         retrieveActiveOrderInformation();
+        retrieveInvoicesInformation();
 
 
 
@@ -65,7 +66,7 @@ public class POSApp {
         int option;
         Scanner scanner = new Scanner(System.in);
         option = 1;
-        while (option != 13) {
+        while (option != 12) {
             System.out.println("Current Staff User is: " + currentStaffUser.getName() + ", "
                     + currentStaffUser.getJobRole());
 
@@ -108,9 +109,6 @@ public class POSApp {
                     break;
                 case 12:
                     System.out.println("Terminating the system");
-                    break;
-                case 13:
-                    Restaurant.testPrint();
                     break;
                 default:
                     System.out.println("Please choose from options 1-4");
@@ -716,7 +714,7 @@ public class POSApp {
         thisOrderInvoice.generateReceipt();
         activeOrders.remove(optionChosen);
         Restaurant.processActiveOrderToCSV();
-        Restaurant.processActiveReservationsToCSV();
+
 
         //Remove Reservation
         LocalTime reservationStartTime = orderToCheckOut.getReservationStartTime();
@@ -729,6 +727,8 @@ public class POSApp {
             todaySlotsForThisTable.getSlots().put(time,null);
             time = time.plusMinutes(30);
         }
+        Restaurant.processActiveReservationsToCSV();
+        InvoiceList.processInvoiceListToCSVFile();
     }
 
     private static void printSalesByTimePeriod() {
@@ -918,6 +918,81 @@ public class POSApp {
                 }
 
                 thisOrder.setOrderIsActive(true);
+            }
+            br.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+    private static void retrieveInvoicesInformation(){
+
+        try {
+            // CSV file delimiter
+            String DELIMITER = ";";
+
+            // create a reader
+            BufferedReader br = Files.newBufferedReader(Paths.get("src/com/company/orderInvoices.csv"));
+
+            // read the file line by line
+            String line;
+            while ((line = br.readLine()) != null) {
+
+                String itemName;
+                int itemQuantity;
+                Customer thisCustomer;
+
+                // convert line into tokens
+                String[] tokens = line.split(DELIMITER);
+                LocalDateTime date = LocalDateTime.parse(tokens[0]);
+
+                //ORDER
+                LocalDate orderDate = LocalDate.parse(tokens[1]);
+                int orderNumber = Integer.parseInt(tokens[2]);
+                String customerName = tokens[3];
+                String customerContactNumber = tokens[4];
+                int groupSize = Integer.parseInt(tokens[5]);
+                LocalTime reservationStartTime = LocalTime.parse(tokens[6]);
+                LocalTime reservationEndTime = LocalTime.parse(tokens[7]);
+                String listOfMenuItems = tokens[8];
+                int tableNumber = Integer.parseInt(tokens[9]);
+                String staffNameString = tokens[10];
+                Staff staffName = null ;
+                for(Staff staff :StaffList.getStaffList()){
+                    if(staff.getName().equals(staffNameString)){
+                        staffName = staff;
+                    }
+                }
+
+                listOfMenuItems = listOfMenuItems.substring(1, listOfMenuItems.length()-1);
+                String[] tokens2 = listOfMenuItems.split(", ");
+
+
+                if(MembershipList.getMembersList().containsKey(customerContactNumber) &&
+                        MembershipList.getMembersList().get(customerContactNumber).getName().equals(customerName)){
+                    thisCustomer = MembershipList.getMembersList().get(customerContactNumber);
+                }else{
+                    thisCustomer = new Customer(customerName,customerContactNumber);
+                }
+
+                Order thisOrder = new Order(thisCustomer,orderNumber,groupSize,tableNumber,orderDate
+                        ,reservationStartTime,reservationEndTime,false,staffName,false);
+
+                for(String token2 : tokens2){
+                    String[] tokens3 = token2.split("=");
+                    itemName = tokens3[0];
+                    itemQuantity = Integer.parseInt(tokens3[1]);
+
+                    for(int i =0;i<MenuList.getmItemList().size();i++){
+                        if(MenuList.getmItemList().get(i).getItemName().equals(itemName)){
+                            thisOrder.addMenuItemToOrder(MenuList.getmItemList().get(i),itemQuantity);
+                            break;
+                        }
+                    }
+                }
+
+                InvoiceList.addInvoice(new Invoice(thisOrder,date));
             }
             br.close();
         } catch (IOException ex) {

@@ -1,12 +1,7 @@
 package com.company.menuItem;
 
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -43,22 +38,22 @@ public class MenuList {
 			case 1:
 				mItemList.get(mItemList.size() - 1).setItemType(MenuItem.MenuItemType.APPETIZER);
 				itemType = "appetizer";
-				updateMenuCSVFile();
+				processMenuListToCSVFile();
 				break;
 			case 2:
 				mItemList.get(mItemList.size() - 1).setItemType(MenuItem.MenuItemType.MAINCOURSE);
 				itemType = "main course";
-				updateMenuCSVFile();
+				processMenuListToCSVFile();
 				break;
 			case 3:
 				mItemList.get(mItemList.size() - 1).setItemType(MenuItem.MenuItemType.DRINKS);
 				itemType = "drinks";
-				updateMenuCSVFile();
+				processMenuListToCSVFile();
 				break;
 			case 4:
 				mItemList.get(mItemList.size() - 1).setItemType(MenuItem.MenuItemType.DESSERT);
 				itemType = "dessert";
-				updateMenuCSVFile();
+				processMenuListToCSVFile();
 				break;
 			default:
 				System.out.println("Please enter a number between 1 and 4");
@@ -103,7 +98,7 @@ public class MenuList {
 			for (int i = 0; i < mItemList.size(); i++) {
 				if (r.equals(mItemList.get(i).getItemName())) {
 					mItemList.remove(i);
-					updateMenuCSVFile();
+					processMenuListToCSVFile();
 					return true;
 				}
 			}
@@ -191,7 +186,7 @@ public class MenuList {
 				}
 			}
 
-			updateMenuCSVFile();
+			processMenuListToCSVFile();
 
 		}
 
@@ -201,7 +196,7 @@ public class MenuList {
 		return mItemList;
 	}
 
-	public static void updateMenuCSVFile(){
+	public static void processMenuListToCSVFile(){
 		try {
 			// create a list of objects
 			List<List<String>> records = new ArrayList<>();

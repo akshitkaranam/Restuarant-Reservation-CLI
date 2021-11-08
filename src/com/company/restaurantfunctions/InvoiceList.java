@@ -3,6 +3,8 @@ package com.company.restaurantfunctions;
 import com.company.menuItem.MenuItem;
 
 import java.awt.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
@@ -127,4 +129,57 @@ public class InvoiceList {
 
         return totalItemQuantity;
     }
+
+
+    public static void processInvoiceListToCSVFile(){
+        try {
+            // create a list of objects
+            List<List<String>> records = new ArrayList<>();
+
+            for(int i =0; i<invoicesList.size();i++){
+                List<String> tempList = new ArrayList<>();
+                tempList.add(invoicesList.get(i).getLocalDateTime().toString());
+
+
+                Order thisOrder = invoicesList.get(i).getOrder();
+                tempList.add(thisOrder.getDate().toString());
+                tempList.add(Integer.toString(thisOrder.getOrderNumber()));
+                tempList.add(thisOrder.getCustomer().getName());
+                tempList.add(thisOrder.getCustomer().getContactNumber());
+                tempList.add(Integer.toString(thisOrder.getGroupSize()));
+                tempList.add(thisOrder.getReservationStartTime().toString());
+                tempList.add(thisOrder.getReservationEndTime().toString());
+                Map<MenuItem,Integer> menuItemList = thisOrder.getItemsOrderedList();
+                Map<String,Integer> menuItemStringList = new HashMap<>();
+                for(var entry : menuItemList.entrySet()){
+                    menuItemStringList.put(entry.getKey().getItemName(),entry.getValue());
+                }
+                tempList.add(menuItemStringList.toString());
+                tempList.add(Integer.toString(thisOrder.getTableNumber()));
+                tempList.add(thisOrder.getStaff().getName());
+                records.add(tempList);
+            }
+
+            // create a writer
+
+            FileWriter writer = new FileWriter("src/com/company/orderInvoices.csv",false);
+
+            // write all records
+            for (List<String> record : records) {
+                writer.write(String.join(";", record));
+                writer.write("\n");
+            }
+
+            //close the writer
+            writer.flush();
+            writer.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+
+
+
 }

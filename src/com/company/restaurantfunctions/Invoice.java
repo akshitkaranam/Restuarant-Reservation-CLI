@@ -17,10 +17,20 @@ public class Invoice implements Comparable<Invoice> {
     private boolean invoicePaid = false;
     private final LocalDateTime localDateTime;
 
+
+
     public Invoice(Order order) {
         this.order = order;
         localDateTime = LocalDateTime.now();
         calculateFinalPrice();
+    }
+
+    public Invoice(Order order,LocalDateTime localDateTime) {
+        this.order = order;
+        this.localDateTime = localDateTime;
+        invoicePaid = true;
+        calculateFinalPrice();
+
     }
 
     private void calculateFinalPrice() {
@@ -77,8 +87,9 @@ public class Invoice implements Comparable<Invoice> {
         InvoiceList.addInvoice(this);
     }
 
-
-
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
 
     @Override
     public int compareTo(Invoice in) {

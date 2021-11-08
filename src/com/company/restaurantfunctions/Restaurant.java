@@ -40,21 +40,7 @@ public class Restaurant {
         return activeOrders;
     }
 
-    public static void testPrint(){
-        for(Table table: tableList.values()){
 
-            String stringRequired = "" + table.getTableNumber() +"'" + table.getNumberOfSeats() + "'"
-                    + "{";
-
-            List<TableDateSlots> tableDateSlotsList = new ArrayList<>(table.getTableDateSlotsList().values());
-
-            for(TableDateSlots slots : tableDateSlotsList){
-                stringRequired = stringRequired + ">" + slots.getDate()  + "=" +  Collections.singletonList(slots.getSlots());
-            }
-            stringRequired = stringRequired + "};";
-            System.out.println(stringRequired);
-        }
-    }
 
     public static void processActiveReservationsToCSV()  {
 

@@ -45,6 +45,22 @@ public class Order {
 
     }
 
+    public Order(Customer customer, int orderNumber, int groupSize, int tableNumber, LocalDate date,
+                 LocalTime reservationStartTime, LocalTime reservationEndTime, boolean reservationIsActive,
+                 Staff staff, boolean orderIsActive) {
+        this.customer = customer;
+        this.orderNumber = orderNumber;
+        this.groupSize = groupSize;
+        this.tableNumber = tableNumber;
+        this.date = date;
+        this.reservationStartTime = reservationStartTime;
+        this.reservationEndTime = reservationEndTime;
+        this.reservationIsActive = reservationIsActive;
+        this.staff = staff;
+        this.orderIsActive = orderIsActive;
+        this.itemsOrderedList = new HashMap<>();
+    }
+
     public void addMenuItemToOrder(MenuItem foodToAdd, int quantity) {
         itemsOrderedList.put(foodToAdd, quantity);
 
@@ -128,11 +144,24 @@ public class Order {
                 '}';
     }
 
-    public void printAddedMenuItems(){
-        for(Map.Entry<MenuItem,Integer> menuItemQuantityEntry : itemsOrderedList.entrySet()){
-            System.out.println(menuItemQuantityEntry.getKey() + ": " + menuItemQuantityEntry.getValue());
-        }
+
+
+    public String orderToString() {
+        return "{" +
+                "customer=" + customer +
+                ", orderNumber=" + orderNumber +
+                ", groupSize=" + groupSize +
+                ", tableNumber=" + tableNumber +
+                ", date=" + date +
+                ", reservationStartTime=" + reservationStartTime +
+                ", reservationEndTime=" + reservationEndTime +
+                ", reservationIsActive=" + reservationIsActive +
+                ", staff=" + staff +
+                ", itemsOrderedList=" + itemsOrderedList +
+                ", orderIsActive=" + orderIsActive +
+                '}';
     }
+
 
     public LocalDate getDate() {
         return date;
