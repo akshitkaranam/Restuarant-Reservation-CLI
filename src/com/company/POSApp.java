@@ -272,14 +272,41 @@ public class POSApp {
             }
 
             Customer thisCustomer;
-            System.out.println("Please enter your name: ");
-            String name = scanner.next();
-            System.out.println("Please enter your contact number");
-            String contactNumber = scanner.next();
-            if(MembershipList.getMembersList().containsKey(contactNumber)){
-                thisCustomer = MembershipList.getMembersList().get(contactNumber);
+            String name;
+            String contactNumber;
+            System.out.println("Are you a member? y/n");
+            String isMemberInput = scanner.next();
+            if(isMemberInput.equalsIgnoreCase("y")){
+                System.out.println("Please enter your contact number");
+                contactNumber = scanner.next();
+
+                if(MembershipList.getMembersList().containsKey(contactNumber)){
+                    name = MembershipList.getMembersList().get(contactNumber).getName();
+                    System.out.println("Confirm your name: "
+                            + name + " y/n" );
+                    String nameIsCorrect = scanner.next();
+                    if(nameIsCorrect.equalsIgnoreCase("y")){
+                        thisCustomer = MembershipList.getMembersList().get(contactNumber);
+                    }else{
+                        System.out.println("Sorry you are not a member!");
+                        System.out.println("Please enter your name: ");
+                        name = scanner.next();
+                        thisCustomer = new Customer(name,contactNumber);
+                    }
+
+                }else{
+                    System.out.println("Sorry you are not a member!");
+                    System.out.println("Please enter your name: ");
+                    name = scanner.next();
+                    thisCustomer = new Customer(name,contactNumber);
+                }
+
             }else{
-                thisCustomer = new Customer(name, contactNumber);
+                System.out.println("Please enter your name: ");
+                name = scanner.next();
+                System.out.println("Please enter your contact number");
+                contactNumber = scanner.next();
+                thisCustomer = new Customer(name,contactNumber);
             }
 
             Order thisOrder = new Order(thisCustomer,groupSize,tableEntry.getValue().getTableNumber()
