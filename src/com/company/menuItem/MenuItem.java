@@ -1,6 +1,10 @@
 package com.company.menuItem;
 
+
+
+
 public class MenuItem {
+
 	private String itemName;
 	private String itemDescription;
 	private double itemPrice;
@@ -73,11 +77,11 @@ public class MenuItem {
 
 	@Override
 	public String toString() {
-		return "MenuItem{" +
+		return  "{" +
 				"itemName='" + itemName + '\'' +
 				", itemDescription='" + itemDescription + '\'' +
 				", itemPrice=" + itemPrice +
 				", itemType=" + itemType +
-				'}';
+				"}";
 	}
 }

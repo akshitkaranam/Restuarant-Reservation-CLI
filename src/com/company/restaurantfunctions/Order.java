@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class Order {
 
-    private static int totalOrderNumber = 0;
+    private static int totalOrderNumber = 1000000;
 
     //Reservation
     private Customer customer;

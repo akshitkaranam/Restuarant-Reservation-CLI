@@ -10,7 +10,6 @@ import com.company.menuItem.PromotionPackageMenu;
 import com.company.restaurantfunctions.*;
 
 import java.io.BufferedReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -57,6 +56,7 @@ public class POSApp {
         //Retrieve Saved Information from CSV Files
         retrieveMenuInformation();
         retrieveOrderReservationInformation();
+        retrieveActiveOrderInformation();
 
 
 
@@ -374,7 +374,7 @@ public class POSApp {
 
             System.out.println("Reservation is confirmed for " + name + " on " + date + " at " + time + " to " + time.plusMinutes(durationInMinutes));
             System.out.println();
-            Restaurant.processToCSV();
+            Restaurant.processActiveReservationsToCSV();
             return;
 
         }
@@ -509,7 +509,7 @@ public class POSApp {
             todaySlotsForThisTable.getSlots().put(time,null);
             time = time.plusMinutes(30);
         }
-        Restaurant.processToCSV();
+        Restaurant.processActiveReservationsToCSV();
         System.out.println("Successfully removed reservation of" + orderToRemove.getCustomer().getName()
                 + " from " + orderToRemove.getReservationStartTime() + " to " + orderToRemove.getReservationEndTime());
     }
@@ -569,7 +569,7 @@ public class POSApp {
         Order relevantOrder = orderOfAllReservationForToday.get(optionSelected);
         relevantOrder.setOrderIsActive(true);
         Restaurant.addActiveOrder(relevantOrder);
-        processActiveOrderToCSV();
+        Restaurant.processActiveOrderToCSV();
         System.out.println("Successfully checked-in " + relevantOrder.getCustomer().getName() + " with group size of "
                 + relevantOrder.getGroupSize() + "! Please escort them to table number: " + relevantOrder.getTableNumber() );
     }
@@ -681,6 +681,8 @@ public class POSApp {
             }
 
         } while (option !=5);
+
+        Restaurant.processActiveOrderToCSV();
     }
 
 
@@ -713,6 +715,8 @@ public class POSApp {
         Invoice thisOrderInvoice = new Invoice(orderToCheckOut);
         thisOrderInvoice.generateReceipt();
         activeOrders.remove(optionChosen);
+        Restaurant.processActiveOrderToCSV();
+        Restaurant.processActiveReservationsToCSV();
 
         //Remove Reservation
         LocalTime reservationStartTime = orderToCheckOut.getReservationStartTime();
@@ -862,35 +866,61 @@ public class POSApp {
         }
     }
 
-    public static void processActiveOrderToCSV(){
+
+    private static void retrieveActiveOrderInformation(){
+
         try {
-            List<Order> activeOrderListCopy = new ArrayList<>((Restaurant.getActiveOrders()));
-            List<List<String>> records = new ArrayList<>();
+            // CSV file delimiter
+            String DELIMITER = ";";
 
-            for(Order or : activeOrderListCopy){
-                String orderNumber = Integer.toString(or.getOrderNumber());
-                Map<MenuItem,Integer> menuItemList = or.getItemsOrderedList();
-                String menuItemListString = menuItemList.toString();
-                List<String> tempList = new ArrayList<>();
-                tempList.add(orderNumber);
-                tempList.add(menuItemListString);
-                records.add(tempList);
+            // create a reader
+            BufferedReader br = Files.newBufferedReader(Paths.get("src/com/company/activeOrders.csv"));
+
+            // read the file line by line
+            String line;
+            while ((line = br.readLine()) != null) {
+                // convert line into tokens
+                String[] tokens = line.split(DELIMITER);
+                String orderID = tokens[0];
+                String listOfMenuItems = tokens[1];
+                Order thisOrder = null;
+                String name;
+                int quantity;
+
+                for(Table table :Restaurant.getTableList().values()){
+                    List<Order> ordersToday = table.getOrderReservationsByDateForTable(LocalDate.now());
+                    for(Order order :ordersToday){
+                        if(order == null){
+                            continue;
+                        }
+                        if(order.getOrderNumber() == Integer.parseInt(orderID)){
+                            thisOrder = order;
+                            break;
+                        }
+                    }
+                }
+                Restaurant.addActiveOrder(thisOrder);
+                listOfMenuItems = listOfMenuItems.substring(1, listOfMenuItems.length()-1);
+                String[] tokens2 = listOfMenuItems.split(", ");
+                System.out.println(Arrays.toString(tokens2));
+
+                for(String token2 : tokens2){
+                    String[] tokens3 = token2.split("=");
+                    name = tokens3[0];
+                    quantity = Integer.parseInt(tokens3[1]);
+
+                    for(int i =0;i<MenuList.getmItemList().size();i++){
+                        if(MenuList.getmItemList().get(i).getItemName().equals(name)){
+                            thisOrder.addMenuItemToOrder(MenuList.getmItemList().get(i),quantity);
+                            break;
+                        }
+                    }
+                }
+
+                thisOrder.setOrderIsActive(true);
             }
-
-            // create a writer
-
-            FileWriter writer = new FileWriter("src/com/company/orderReservation.csv", false);
-
-            // write all records
-            for (List<String> record : records) {
-                writer.write(String.join(";", record));
-                writer.write("\n");
-            }
-
-            //close the writer
-            writer.flush();
-            writer.close();
-        }catch (IOException ex){
+            br.close();
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
