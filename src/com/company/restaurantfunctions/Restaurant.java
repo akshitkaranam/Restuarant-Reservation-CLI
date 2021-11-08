@@ -89,7 +89,7 @@ public class Restaurant {
 
             // create a writer
 
-            FileWriter writer = new FileWriter("src/com/company/orderReservation.csv", false);
+            FileWriter writer = new FileWriter("src/com/company/orderReservations.csv", false);
 
             // write all records
             for (List<String> record : records) {

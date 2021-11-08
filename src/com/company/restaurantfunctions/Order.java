@@ -118,7 +118,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "{" +
                 "customer=" + customer +
                 ", groupSize=" + groupSize +
                 ", tableNumber=" + tableNumber +
@@ -137,4 +137,6 @@ public class Order {
     public LocalDate getDate() {
         return date;
     }
+
+
 }

@@ -10,6 +10,7 @@ import com.company.menuItem.PromotionPackageMenu;
 import com.company.restaurantfunctions.*;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -543,8 +544,9 @@ public class POSApp {
                 if(timeNow.isAfter(reservationStartTime) && timeNow.isBefore(reservationEndTime)) {
                     System.out.println(i + ": " + thisOrder.getCustomer().getName() + " "
                             + thisOrder.getCustomer().getContactNumber());
+                    availableIndex.add(i);
+
                 }
-                availableIndex.add(i);
             }
         }
 
@@ -567,6 +569,7 @@ public class POSApp {
         Order relevantOrder = orderOfAllReservationForToday.get(optionSelected);
         relevantOrder.setOrderIsActive(true);
         Restaurant.addActiveOrder(relevantOrder);
+        processActiveOrderToCSV();
         System.out.println("Successfully checked-in " + relevantOrder.getCustomer().getName() + " with group size of "
                 + relevantOrder.getGroupSize() + "! Please escort them to table number: " + relevantOrder.getTableNumber() );
     }
@@ -859,9 +862,38 @@ public class POSApp {
         }
     }
 
+    public static void processActiveOrderToCSV(){
+        try {
+            List<Order> activeOrderListCopy = new ArrayList<>((Restaurant.getActiveOrders()));
+            List<List<String>> records = new ArrayList<>();
 
+            for(Order or : activeOrderListCopy){
+                String orderNumber = Integer.toString(or.getOrderNumber());
+                Map<MenuItem,Integer> menuItemList = or.getItemsOrderedList();
+                String menuItemListString = menuItemList.toString();
+                List<String> tempList = new ArrayList<>();
+                tempList.add(orderNumber);
+                tempList.add(menuItemListString);
+                records.add(tempList);
+            }
 
+            // create a writer
 
+            FileWriter writer = new FileWriter("src/com/company/orderReservation.csv", false);
+
+            // write all records
+            for (List<String> record : records) {
+                writer.write(String.join(";", record));
+                writer.write("\n");
+            }
+
+            //close the writer
+            writer.flush();
+            writer.close();
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+    }
 
 
 }
