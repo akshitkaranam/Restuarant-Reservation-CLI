@@ -39,6 +39,7 @@ public class Customer extends Person{
         return contactNumber;
     }
 
+
     @Override
     public String toString() {
         return "" + name + ",contact number=" + contactNumber;

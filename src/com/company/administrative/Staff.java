@@ -2,15 +2,14 @@ package com.company.administrative;
 
 import java.util.Objects;
 
-public class Staff extends Person{
+public class Staff extends Person {
 
-    public enum JobRole{
+    public enum JobRole {
         MANAGER,
-        CASHIER
+        WAITER
     }
 
     private String name;
-    private String password;
     private String employeeID;
     private JobRole jobRole;
     private String gender;
@@ -21,10 +20,10 @@ public class Staff extends Person{
         return this.name;
     }
 
-    public Staff(String name, String password, JobRole role) {
+    public Staff(String name, String employeeId, JobRole role) {
         this.name = name;
-        this.password = password;
-       jobRole = role;
+        this.employeeID = employeeId;
+        this.jobRole = role;
     }
 
     public String getName() {
@@ -40,29 +39,7 @@ public class Staff extends Person{
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean checkPassword(String password){
-        return password.equals(this.password);
-    }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Staff staff = (Staff) o;
-        return name.equals(staff.name);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, password);
-    }
 }

@@ -11,16 +11,16 @@ public class StaffList {
         return staffList;
     }
 
-    public boolean addUser(String name, String password, Staff.JobRole jobRole){
+    public static boolean addUser(String name, String employeeId, Staff.JobRole jobRole){
         if(!staffList.containsKey(name)){
-            staffList.put(name,new Staff(name,password,jobRole));
+            staffList.put(name,new Staff(name,employeeId,jobRole));
             return true;
         }else{
             return false;
         }
     }
 
-    public boolean deleteUser(String name){
+    public static boolean deleteUser(String name){
         if(staffList.containsKey(name)){
             staffList.remove(name);
             return true;
