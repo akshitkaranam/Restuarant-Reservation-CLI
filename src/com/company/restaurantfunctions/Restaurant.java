@@ -35,11 +35,7 @@ public class Restaurant {
         return activeOrders;
     }
 
-    //    public static void addToCurrentlyOccupiedTables(int tableNum) {
-//        if (!currentlyOccupiedTables.contains(tableNum)) {
-//            currentlyOccupiedTables.add(tableNum);
-//        }
-//    }
+
 
 
 }

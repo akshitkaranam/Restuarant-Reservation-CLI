@@ -68,7 +68,7 @@ public class Invoice implements Comparable<Invoice> {
         System.out.println("Table Number: " + order.getTableNumber());
         System.out.println(localDateTime);
         System.out.println("Customer: " + order.getCustomer().getName());
-        System.out.println("Served by: "  );
+        System.out.println("Served by: " + order.getStaff().getName() );
         System.out.println("----------------------------------------------");
         for (Map.Entry<MenuItem, Integer> menuItemQuantityEntry : orderItemList.entrySet()) {
             System.out.println(menuItemQuantityEntry.getValue() + " "

@@ -39,7 +39,7 @@ public class Staff extends Person {
         this.name = name;
     }
 
-
-
-
+    public JobRole getJobRole() {
+        return jobRole;
+    }
 }

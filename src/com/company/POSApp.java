@@ -20,8 +20,12 @@ import java.util.*;
 import java.util.List;
 
 public class POSApp {
+    static Staff currentStaffUser;
 
     public static void main(String[] args) {
+
+
+
 
         //Tables
         Restaurant.addTable(1, 2);
@@ -51,6 +55,7 @@ public class POSApp {
         StaffList.addUser("Jessie","000004", Staff.JobRole.WAITER);
         StaffList.addUser("Fred","000005", Staff.JobRole.WAITER);
         StaffList.addUser("Wayne","000006", Staff.JobRole.WAITER);
+        currentStaffUser = StaffList.getStaffList().get(0); //Default is the manager
 
 
 
@@ -86,6 +91,8 @@ public class POSApp {
         Scanner scanner = new Scanner(System.in);
         option = 1;
         while (option != 12) {
+            System.out.println("Current Staff User is: " + currentStaffUser.getName() + ", "
+                    + currentStaffUser.getJobRole());
 
             printMainMenu();
             option = scanner.nextInt();
@@ -122,7 +129,8 @@ public class POSApp {
                     printSalesByTimePeriod();
                     break;
                 case 11:
-                    changeStaff();
+                    changeStaffUser();
+                    break;
                 case 12:
                     System.out.println("Terminating the system");
                     break;
@@ -148,27 +156,29 @@ public class POSApp {
         System.out.println("8: Modify Active Orders");
         System.out.println("9: Check-out Customer");
         System.out.println("10: Print Sales Report by Time Period");
-        System.out.println("11: Quit");
+        System.out.println("11: Change Staff User");
+        System.out.println("12: Quit");
     }
 
 
 
     public static void makeChangesToMenu(){
-        int option =1;
+        int option;
         Scanner sc = new Scanner(System.in);
         MenuList testMenu = new MenuList();
         PromotionPackageMenu testPromoMenu = new PromotionPackageMenu();
 
         do {
             System.out.println("MAKE CHANGES TO MENU");
-            System.out.println("Choose an option:\n"
-                    + "================================\n"
-                    + "|1. Create a new menu item |\n"
-                    + "|2. Update Menu Item|\n"
-                    + "|3. Remove Menu Item |\n"
-                    + "|4. Display Menu|\n"
-                    + "|5. Quit from Menu Changes|\n"
-                    + "==================================");
+            System.out.println("""
+                    Choose an option:
+                    ================================
+                    |1. Create a new menu item |
+                    |2. Update Menu Item|
+                    |3. Remove Menu Item |
+                    |4. Display Menu|
+                    |5. Quit from Menu Changes|
+                    ==================================""");
             option = sc.nextInt();
             switch (option) {
                 case 1:
@@ -375,7 +385,7 @@ public class POSApp {
             }
             System.out.println( i +": "+ listOfAllOrderReservations.get(i));
         }
-        int optionChosen = scanner.nextInt();;
+        int optionChosen = scanner.nextInt();
         Order orderToRemove = listOfAllOrderReservations.get(optionChosen);
         LocalTime reservationStartTime = orderToRemove.getReservationStartTime();
         LocalTime reservationEndTime = orderToRemove.getReservationEndTime();
@@ -453,17 +463,18 @@ public class POSApp {
         }
         int chosenOption = sc.nextInt();
         Order relevantOrder = activeOrders.get(chosenOption);
-        int option = 1;
+        int option ;
         do {
             System.out.println("MAKE CHANGES TO Order to table number: " + relevantOrder.getTableNumber());
-            System.out.println("Choose an option:\n"
-                    + "================================\n"
-                    + "|1. Add MenuItem |\n"
-                    + "|2. Modify Quantity\n"
-                    + "|3. Remove MenuItem |\n"
-                    + "|4. Show Added MenuItems and Quantity|\n"
-                    + "|5. Quit Making Changes to Order\n"
-                    + "==================================");
+            System.out.println("""
+                    Choose an option:
+                    ================================
+                    |1. Add MenuItem |
+                    |2. Modify Quantity
+                    |3. Remove MenuItem |
+                    |4. Show Added MenuItems and Quantity|
+                    |5. Quit Making Changes to Order
+                    ==================================""");
             option = sc.nextInt();
             switch (option) {
                 case 1:
@@ -535,6 +546,7 @@ public class POSApp {
         }
         int optionChosen = scanner.nextInt();
         Order orderToCheckOut = activeOrders.get(optionChosen);
+        orderToCheckOut.setStaff(currentStaffUser);
         Invoice thisOrderInvoice = new Invoice(orderToCheckOut);
         thisOrderInvoice.generateReceipt();
         activeOrders.remove(optionChosen);
@@ -553,16 +565,17 @@ public class POSApp {
     }
 
     private static void printSalesByTimePeriod() {
-        int option =1;
+        int option;
         Scanner sc = new Scanner(System.in);
 
         do {
-            System.out.println("Choose an option:\n"
-                    + "================================\n"
-                    + "|1. Get Report By Day |\n"
-                    + "|2. Get Report By Month|\n"
-                    + "|3. Quit|\n"
-                    + "==================================");
+            System.out.println("""
+                    Choose an option:
+                    ================================
+                    |1. Get Report By Day |
+                    |2. Get Report By Month|
+                    |3. Quit|
+                    ==================================""");
             option = sc.nextInt();
             switch (option) {
                 case 1:
@@ -590,7 +603,17 @@ public class POSApp {
     }
 
 
-    private static void changeStaff() {
-        StaffList.getStaffList().values();
+    private static void changeStaffUser() {
+        List<Staff> staffList = StaffList.getStaffList();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Current Staff User Logged-in: " + currentStaffUser.getName() + ": "
+                +currentStaffUser.getJobRole().name());
+
+        System.out.println("Please choose from the following: ");
+        for(int i =0;i<staffList.size();i++){
+            System.out.println(i +": " + staffList.get(i).getName() + ", " + staffList.get(i).getJobRole());
+        }
+        int chosenOption = scanner.nextInt();
+        currentStaffUser = staffList.get(chosenOption);
     }
 }
