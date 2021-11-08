@@ -133,4 +133,8 @@ public class Order {
             System.out.println(menuItemQuantityEntry.getKey() + ": " + menuItemQuantityEntry.getValue());
         }
     }
+
+    public LocalDate getDate() {
+        return date;
+    }
 }

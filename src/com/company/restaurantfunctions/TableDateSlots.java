@@ -59,4 +59,5 @@ public class TableDateSlots {
             this.slots.put(time.plusMinutes(i),order);
         }
     }
+
 }

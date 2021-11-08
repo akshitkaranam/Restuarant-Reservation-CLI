@@ -13,21 +13,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
+import java.time.*;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.List;
 
 public class POSApp {
+
     static Staff currentStaffUser;
-
     public static void main(String[] args) {
-
-
-
 
         //Tables
         Restaurant.addTable(1, 2);
@@ -59,40 +53,18 @@ public class POSApp {
         StaffList.addUser("Wayne","000006", Staff.JobRole.WAITER);
         currentStaffUser = StaffList.getStaffList().get(0); //Default is the manager
 
+        //Retrieve Saved Information from CSV Files
+        retrieveMenuInformation();
+        retrieveOrderReservationInformation();
 
 
-        try {
-            // CSV file delimiter
-            String DELIMITER = ";";
 
-            // create a reader
-            BufferedReader br = Files.newBufferedReader(Paths.get("src/com/company/menu.csv"));
-
-            // read the file line by line
-            String line;
-            while ((line = br.readLine()) != null) {
-                // convert line into tokens
-                String[] tokens = line.split(DELIMITER);
-                String menuItemName = tokens[0];
-                String menuItemDescription = tokens[1];
-                String menuItemPrice = tokens[2];
-                String courseType = tokens[3];
-
-
-                MenuItem tempMenuItem = new MenuItem(menuItemName, menuItemDescription
-                        ,Double.parseDouble(menuItemPrice),courseType);
-                MenuList.getmItemList().add(tempMenuItem);
-            }
-            br.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
 
 
         int option;
         Scanner scanner = new Scanner(System.in);
         option = 1;
-        while (option != 12) {
+        while (option != 13) {
             System.out.println("Current Staff User is: " + currentStaffUser.getName() + ", "
                     + currentStaffUser.getJobRole());
 
@@ -135,6 +107,9 @@ public class POSApp {
                     break;
                 case 12:
                     System.out.println("Terminating the system");
+                    break;
+                case 13:
+                    Restaurant.testPrint();
                     break;
                 default:
                     System.out.println("Please choose from options 1-4");
@@ -398,6 +373,7 @@ public class POSApp {
 
             System.out.println("Reservation is confirmed for " + name + " on " + date + " at " + time + " to " + time.plusMinutes(durationInMinutes));
             System.out.println();
+            Restaurant.processToCSV();
             return;
 
         }
@@ -532,7 +508,7 @@ public class POSApp {
             todaySlotsForThisTable.getSlots().put(time,null);
             time = time.plusMinutes(30);
         }
-
+        Restaurant.processToCSV();
         System.out.println("Successfully removed reservation of" + orderToRemove.getCustomer().getName()
                 + " from " + orderToRemove.getReservationStartTime() + " to " + orderToRemove.getReservationEndTime());
     }
@@ -800,4 +776,92 @@ public class POSApp {
         int chosenOption = scanner.nextInt();
         currentStaffUser = staffList.get(chosenOption);
     }
+
+    private static void retrieveMenuInformation(){
+
+        try {
+            // CSV file delimiter
+            String DELIMITER = ";";
+
+            // create a reader
+            BufferedReader br = Files.newBufferedReader(Paths.get("src/com/company/menu.csv"));
+
+            // read the file line by line
+            String line;
+            while ((line = br.readLine()) != null) {
+                // convert line into tokens
+                String[] tokens = line.split(DELIMITER);
+                String menuItemName = tokens[0];
+                String menuItemDescription = tokens[1];
+                String menuItemPrice = tokens[2];
+                String courseType = tokens[3];
+
+
+                MenuItem tempMenuItem = new MenuItem(menuItemName, menuItemDescription
+                        ,Double.parseDouble(menuItemPrice),courseType);
+                MenuList.getmItemList().add(tempMenuItem);
+            }
+            br.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+    private static void retrieveOrderReservationInformation(){
+
+        try {
+            // CSV file delimiter
+            String DELIMITER = ";";
+
+            // create a reader
+            BufferedReader br = Files.newBufferedReader(Paths.get("src/com/company/orderReservations.csv"));
+
+            // read the file line by line
+            String line;
+            while ((line = br.readLine()) != null) {
+                // convert line into tokens
+                String[] tokens = line.split(DELIMITER);
+                String customerName = tokens[0];
+                String customerContactNumber = tokens[1];
+                String date = tokens[2];
+                String tableNumber = tokens[3];
+                String groupSize = tokens[4];
+                String reservationStartTime = tokens[5];
+                String reservationEndTime = tokens[6];
+                Customer thisCustomer;
+                Order thisOrder;
+
+                if(MembershipList.getMembersList().containsKey(customerContactNumber) &&
+                        MembershipList.getMembersList().get(customerContactNumber).getName().equals(customerName)){
+                    thisCustomer = MembershipList.getMembersList().get(customerContactNumber);
+                }else{
+                    thisCustomer = new Customer(customerName,customerContactNumber);
+                }
+
+                Table requiredTable = Restaurant.getTableList().get(Integer.parseInt(tableNumber));
+
+                if(!requiredTable.getTableDateSlotsList().containsKey(LocalDate.parse(date))){
+                    requiredTable.getTableDateSlotsList().put(LocalDate.parse(date),new TableDateSlots(LocalDate.parse(date)));
+                }
+
+
+                TableDateSlots requiredDateSlots = requiredTable.getTableDateSlotsList().get(LocalDate.parse(date));
+                thisOrder = new Order(thisCustomer,Integer.parseInt(groupSize),Integer.parseInt(tableNumber)
+                        ,LocalDate.parse(date),LocalTime.parse(reservationStartTime),LocalTime.parse(reservationEndTime));
+                int duration = (int) Duration.between(LocalTime.parse(reservationStartTime),LocalTime.parse(reservationEndTime)).toMinutes();
+                requiredDateSlots.reserveSlot(LocalTime.parse(reservationStartTime),thisOrder,duration);
+            }
+
+            br.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+
+
+
+
 }
