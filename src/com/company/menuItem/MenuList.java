@@ -73,11 +73,11 @@ public class MenuList {
 		} else {
 			// System.out.println("Name \t Description \t Price \t Type");
 			for (int i = 0; i < mItemList.size(); i++) {
-
-				System.out.print(mItemList.get(i).getItemName() + "\t");
-				System.out.print(mItemList.get(i).getItemDescription() + "\t");
-				System.out.print(mItemList.get(i).getItemPrice() + "\t");
-				System.out.print(mItemList.get(i).getItemType() + "\n");
+				System.out.println(mItemList.get(i));
+//				System.out.print(mItemList.get(i).getItemName() + "\t");
+//				System.out.print(mItemList.get(i).getItemDescription() + "\t");
+//				System.out.print(mItemList.get(i).getItemPrice() + "\t");
+//				System.out.print(mItemList.get(i).getItemType() + "\n");
 			}
 
 		}

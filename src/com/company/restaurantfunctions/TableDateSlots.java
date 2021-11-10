@@ -14,6 +14,12 @@ public class TableDateSlots {
     public TableDateSlots(LocalDate date) {
         this.date = date;
         this.slots = new LinkedHashMap<>();
+        this.slots.put(LocalTime.of(0,0),null);
+        this.slots.put(LocalTime.of(0,30),null);
+        this.slots.put(LocalTime.of(1,0),null);
+        this.slots.put(LocalTime.of(1,30),null);
+        this.slots.put(LocalTime.of(2,0),null);
+        this.slots.put(LocalTime.of(2,30),null);
         this.slots.put(LocalTime.of(9,0),null);
         this.slots.put(LocalTime.of(9,30),null);
         this.slots.put(LocalTime.of(10,0),null);
@@ -40,9 +46,11 @@ public class TableDateSlots {
         this.slots.put(LocalTime.of(20,30),null);
         this.slots.put(LocalTime.of(21,0),null);
         this.slots.put(LocalTime.of(21,30),null);
-        this.slots.put(LocalTime.of(22,00),null);
+        this.slots.put(LocalTime.of(22,0),null);
         this.slots.put(LocalTime.of(22,30),null);
-        this.slots.put(LocalTime.of(23,00),null);
+        this.slots.put(LocalTime.of(23,0),null);
+        this.slots.put(LocalTime.of(23,30),null);
+
 
     }
 

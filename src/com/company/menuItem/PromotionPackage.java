@@ -1,5 +1,7 @@
 package com.company.menuItem;
 
+import com.company.restaurantfunctions.Restaurant;
+
 import java.util.*;
 
 
@@ -34,60 +36,6 @@ public class PromotionPackage {
 
 	}
 
-	public void createPackage() {
-
-		System.out.println("Enter Name of Package");
-		String name = sc.nextLine();
-		packageName = name;
-
-		System.out.println("Enter price of package");
-		double price = sc.nextDouble();
-		packagePrice = price;
-
-		System.out.println("How many items in package?");
-		int numInPackage = sc.nextInt();
-		sc.nextLine();
-		for (int i = 0; i < numInPackage; i++) {
-			promotionPackage.add(new MenuItem());
-			System.out.println("Creating Package Item " + (i + 1));
-			System.out.println("Enter Item Name");
-			String itemName = sc.nextLine();
-			promotionPackage.get(i).setItemName(itemName);
-			System.out.println("Enter Item Description");
-			String itemDesc = sc.nextLine();
-			promotionPackage.get(i).setItemDescription(itemDesc);
-
-			int typeNum = 1;
-
-			do {
-				System.out.println("Enter Type of Dish: \n" + "(1) - Appetizer\n" + "(2) - Main Course\n"
-						+ "(3) - Drink\n" + "(4) - Dessert");
-				typeNum = sc.nextInt();
-				switch (typeNum) {
-				case 1:
-					promotionPackage.get(i).setItemType(MenuItem.MenuItemType.APPETIZER);
-					break;
-				case 2:
-					promotionPackage.get(i).setItemType(MenuItem.MenuItemType.MAINCOURSE);
-					break;
-				case 3:
-					promotionPackage.get(i).setItemType(MenuItem.MenuItemType.DRINKS);
-					break;
-				case 4:
-					promotionPackage.get(i).setItemType(MenuItem.MenuItemType.DESSERT);
-					break;
-				default:
-					System.out.println("Please enter a number between 1 and 4");
-					break;
-				}
-
-			} while (typeNum < 1 || typeNum > 4);
-			sc.nextLine();
-
-
-		}
-
-	}
 
 	public void removePackageItem() {
 		
@@ -96,155 +44,7 @@ public class PromotionPackage {
 		promotionPackage.remove(idx-1);
 
 	}
-	
-	public void addPackageItem() {
-		promotionPackage.add(new MenuItem());
-		System.out.println("Enter Item Name");
-		String itemName = sc.nextLine();
-		promotionPackage.get(promotionPackage.size()-1).setItemName(itemName);
-		System.out.println("Enter Item Description");
-		String itemDesc = sc.nextLine();
-		promotionPackage.get(promotionPackage.size()-1).setItemDescription(itemDesc);
 
-		int typeNum = 1;
-
-		do {
-			System.out.println("Enter Type of Dish: \n" + "(1) - Appetizer\n" + "(2) - Main Course\n"
-					+ "(3) - Drink\n" + "(4) - Dessert");
-			typeNum = sc.nextInt();
-			switch (typeNum) {
-			case 1:
-				promotionPackage.get(promotionPackage.size()-1).setItemType(MenuItem.MenuItemType.APPETIZER);
-				break;
-			case 2:
-				promotionPackage.get(promotionPackage.size()-1).setItemType(MenuItem.MenuItemType.MAINCOURSE);
-				break;
-			case 3:
-				promotionPackage.get(promotionPackage.size()-1).setItemType(MenuItem.MenuItemType.DRINKS);
-				break;
-			case 4:
-				promotionPackage.get(promotionPackage.size()-1).setItemType(MenuItem.MenuItemType.DESSERT);
-				break;
-			default:
-				System.out.println("Please enter a number between 1 and 4");
-				break;
-			}
-
-		} while (typeNum < 1 || typeNum > 4);
-		sc.nextLine();
-		
-		
-		
-	}
-
-	public void updatePackageItem() {
-		
-		int update = 1;
-
-		while (update != 4) {
-			System.out.println("Select what you would like to update:\n"
-					+ "================================\n" + "|1. Change Package Name |\n" + "|2. Change Package Price|\n"
-					+"|3. Change Package Description|\n"
-					+ "|4. Change Package Item Details |\n" + "|5. Quit|\n"
-					+ "==================================");
-			update = sc.nextInt();
-
-			switch (update) {
-			case 1:
-				sc.nextLine();
-				System.out.println("Enter new Package Name");
-				String name = sc.nextLine();
-				setPackageName(name);
-				break;
-			case 2:
-				System.out.println("Enter new Package Price");
-				double price = sc.nextDouble();
-				setPackagePrice(price);
-				break;
-				
-			case 3:
-				sc.nextLine();
-				System.out.println("Enter new Package Description");
-				String desc = sc.nextLine();
-				setPackageDescription(desc);
-				break;
-			case 4:
-				System.out.println("Printing Promotion Package");
-				for(int i = 0; i<promotionPackage.size(); i++) {
-					System.out.print(i+1 +": ");
-					promotionPackage.get(i).displayMenuItems();
-				}
-				
-				System.out.println("Select item number to change");
-				int changeidx = sc.nextInt();
-				
-				int choice = 1;
-				do {
-					System.out.println("Select what you would like to update:\n"
-							+ "================================\n" + "|1. New Name |\n" + "|2. New Description|\n"
-							+ "|3. New Type |\n" + "|4. Quit|\n"
-							+ "==================================");
-					choice = sc.nextInt();
-					
-					switch(choice) {
-					
-					case 1:
-						System.out.println("Enter new Item Name");
-						String itemName = sc.nextLine();
-						promotionPackage.get(changeidx).setItemName(itemName);
-						break;
-					case 2:
-						System.out.println("Enter new Item Description");
-						String itemDesc = sc.nextLine();
-						promotionPackage.get(changeidx).setItemName(itemDesc);
-						break;
-					case 3:
-						int typeNum = 1;
-
-						do {
-							System.out.println("Enter Type of Dish: \n" + "(1) - Appetizer\n" + "(2) - Main Course\n"
-									+ "(3) - Drink\n" + "(4) - Dessert");
-							typeNum = sc.nextInt();
-							switch (typeNum) {
-							case 1:
-								promotionPackage.get(changeidx).setItemType(MenuItem.MenuItemType.APPETIZER);
-								break;
-							case 2:
-								promotionPackage.get(changeidx).setItemType(MenuItem.MenuItemType.MAINCOURSE);
-								break;
-							case 3:
-								promotionPackage.get(changeidx).setItemType(MenuItem.MenuItemType.DRINKS);
-								break;
-							case 4:
-								promotionPackage.get(changeidx).setItemType(MenuItem.MenuItemType.DESSERT);
-								break;
-							default:
-								System.out.println("Please enter a number between 1 and 4");
-								break;
-							}
-
-						} while (typeNum < 1 || typeNum > 4);
-						sc.nextLine();
-		
-					}
-					
-				}while(choice !=5);
-
-				break;
-
-
-			case 5:
-				System.out.println("Exiting update Menu");
-				break;
-			default:
-				System.out.println("Enter number between 1-5");
-				break;
-			}
-
-		}
-		
-
-	}
 
 	public void displayPackage() {
 		System.out.println(packageName + "\t" + packagePrice);
@@ -257,6 +57,206 @@ public class PromotionPackage {
 
 	}
 
+	public void updatePackage(){
+		int option = 1;
+		do {
+
+
+			System.out.println("""
+                    Choose an option:
+                    ================================
+                    |1. Change Package Name|
+                    |2. Add MenuItem to Package
+                    |3. Remove MenuItem from Package|
+                    |4. Show Added MenuItems to Package|
+                    |5. Change price of package|
+                    |6. Quit Making Changes to Package|
+                    ==================================""");
+
+			option = sc.nextInt();
+			switch (option) {
+
+				case 1:
+					sc.nextLine();
+					System.out.println("Current package name: " +  this.packageName + ". Enter the new package name: ");
+					this.packageName = sc.nextLine();
+					break;
+
+				case 2:
+					List<MenuItem> menuItemsInMenu = MenuList.getmItemList();
+					int innerChosenOption;
+					int j;
+					for(j =0;j<menuItemsInMenu.size();j++){
+						System.out.println(j+ " " + MenuList.getmItemList().get(j));
+					}
+
+					while(true){
+						innerChosenOption = sc.nextInt();
+						if(innerChosenOption <= j-1 && innerChosenOption >= 0){
+							break;
+						}else{
+							System.out.println("Please enter a valid choice!");
+						}
+					}
+					MenuItem relevantItemToBeAdded = menuItemsInMenu.get(innerChosenOption);
+					if(!this.promotionPackage.contains(relevantItemToBeAdded)){
+						this.promotionPackage.add(relevantItemToBeAdded);
+						System.out.println("Successfully added: " + relevantItemToBeAdded.getItemName());
+					}else{
+						System.out.println(relevantItemToBeAdded.getItemName() + " already exists in this package!");
+					}
+					break;
+
+				case 3:
+					List<MenuItem> addedMenuItemsInPackage = this.promotionPackage;
+					innerChosenOption = 0;
+					j= 0;
+					for(j =0;j<addedMenuItemsInPackage.size();j++){
+						System.out.println(j+ " " + addedMenuItemsInPackage.get(j));
+					}
+
+					while(true){
+						innerChosenOption = sc.nextInt();
+						if(innerChosenOption <= j-1 && innerChosenOption >= 0){
+							System.out.println("Successfully removed: "
+									+ addedMenuItemsInPackage.get(innerChosenOption).getItemName());
+							addedMenuItemsInPackage.remove(innerChosenOption);
+							break;
+						}else{
+							System.out.println("Please enter a valid choice!");
+						}
+					}
+
+					break;
+
+				case 4:
+					addedMenuItemsInPackage = this.promotionPackage;
+					innerChosenOption = 0;
+					j= 0;
+					for(j =0;j<addedMenuItemsInPackage.size();j++){
+						System.out.println(j+ " " + addedMenuItemsInPackage.get(j));
+					}
+					break;
+
+				case 5:
+					System.out.println("Please enter the Price you want to set: ");
+					this.packagePrice = sc.nextInt();
+					break;
+				case 6:
+					System.out.println("Going back to Package Menu");
+					break;
+				default:
+					System.out.println("Please enter options from (1-4)");
+
+			}
+
+		} while (option !=6);
+	}
+
+
+
+
+
+	public void createPackage(){
+		List<MenuItem> menuItemList = MenuList.getmItemList();
+		if(menuItemList.isEmpty()){
+			System.out.println("There are currently no items in the menu, please add items in Menu first!");
+			return;
+		}
+
+		System.out.println("Starting to create a new package");
+
+		int option;
+		System.out.println("Please enter the desired name for the package");
+		this.packageName = sc.nextLine();
+		do {
+
+
+			System.out.println("""
+                    Choose an option:
+                    ================================
+                    |1. Add MenuItem to Package|
+                    |2. Remove MenuItem from Package|
+                    |3. Show Added MenuItems to Package|
+                    |4. Quit Making Changes to Package|
+                    ==================================""");
+
+			option = sc.nextInt();
+			switch (option) {
+
+				case 1:
+					List<MenuItem> menuItemsInMenu = MenuList.getmItemList();
+					int innerChosenOption;
+					int j;
+					for(j =0;j<menuItemsInMenu.size();j++){
+						System.out.println(j+ " " + MenuList.getmItemList().get(j));
+					}
+
+					while(true){
+						innerChosenOption = sc.nextInt();
+						if(innerChosenOption <= j-1 && innerChosenOption >= 0){
+							break;
+						}else{
+							System.out.println("Please enter a valid choice!");
+						}
+					}
+					MenuItem relevantItemToBeAdded = menuItemsInMenu.get(innerChosenOption);
+					if(!this.promotionPackage.contains(relevantItemToBeAdded)){
+						this.promotionPackage.add(relevantItemToBeAdded);
+						System.out.println("Successfully added: " + relevantItemToBeAdded.getItemName());
+					}else{
+						System.out.println(relevantItemToBeAdded.getItemName() + " already exists in this package!");
+					}
+					break;
+
+				case 2:
+					List<MenuItem> addedMenuItemsInPackage = this.promotionPackage;
+					innerChosenOption = 0;
+					j= 0;
+					for(j =0;j<addedMenuItemsInPackage.size();j++){
+						System.out.println(j+ " " + addedMenuItemsInPackage.get(innerChosenOption));
+					}
+
+					while(true){
+						innerChosenOption = sc.nextInt();
+						if(innerChosenOption <= j-1 && innerChosenOption >= 0){
+							break;
+						}else{
+							System.out.println("Please enter a valid choice!");
+						}
+					}
+					System.out.println("Successfully removed: "
+							+ addedMenuItemsInPackage.get(innerChosenOption).getItemName());
+					addedMenuItemsInPackage.remove(innerChosenOption);
+					break;
+
+				case 3:
+					System.out.println(this);
+					addedMenuItemsInPackage = this.promotionPackage;
+					innerChosenOption = 0;
+					for(j =0;j<addedMenuItemsInPackage.size();j++){
+						System.out.println(j + " " + addedMenuItemsInPackage.get(innerChosenOption));
+					}
+					break;
+
+				case 4:
+					this.getPackageName();
+					System.out.println("Please enter the Price you want to set: ");
+					this.packagePrice = sc.nextInt();
+
+
+					System.out.println("Going back to Package Menu");
+					break;
+				default:
+					System.out.println("Please enter options from (1-4)");
+
+			}
+
+		} while (option !=4);
+
+
+
+	}
 	public String getPackageName() {
 		return packageName;
 	}
@@ -264,5 +264,6 @@ public class PromotionPackage {
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
 	}
+
 
 }

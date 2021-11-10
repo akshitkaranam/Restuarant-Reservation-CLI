@@ -59,10 +59,6 @@ public class POSApp {
         retrieveActiveOrderInformation();
         retrieveInvoicesInformation();
 
-
-
-
-
         int option;
         Scanner scanner = new Scanner(System.in);
         option = 1;
@@ -78,7 +74,7 @@ public class POSApp {
                     makeChangesToMenu();
                     break;
                 case 2:
-                    makeChangesToMenu();
+                    makeChangesToPackages();
                     break;
                 case 3:
                     addReservation();
@@ -111,7 +107,7 @@ public class POSApp {
                     System.out.println("Terminating the system");
                     break;
                 default:
-                    System.out.println("Please choose from options 1-4");
+                    System.out.println("Please choose from options 1-12");
                     break;
             }
         }
@@ -184,6 +180,52 @@ public class POSApp {
                     break;
                 case 9:
                     testPromoMenu.updatePromotionPackage();
+                    break;
+                default:
+                    System.out.println("Choose option (1-5):");
+                    break;
+            }
+
+        } while (option !=5);
+
+    }
+
+
+
+    public static void makeChangesToPackages(){
+        int option;
+        Scanner sc = new Scanner(System.in);
+
+        PromotionPackageMenu testPromoMenu = new PromotionPackageMenu();
+
+        do {
+            System.out.println("---------------------------");
+            System.out.println("MAKE CHANGES TO Packages");
+            System.out.println("""
+                    Choose an option:
+                    ================================
+                    |1. Create a Promotion Package |
+                    |2. Update a Promotion Package |
+                    |3. Remove a Promotion Package |
+                    |4. Display Promotion Package Menu|
+                    |5. Quit from Menu Changes|
+                    ==================================""");
+            option = sc.nextInt();
+            switch (option) {
+                case 1:
+                    testPromoMenu.addPromotionPackage();
+                    break;
+                case 2:
+                    testPromoMenu.updatePromotionPackage();
+                    break;
+                case 3:
+                    testPromoMenu.removePromotionPackage();
+                    break;
+                case 4:
+                    testPromoMenu.displayPackageMenu();
+                    break;
+                case 5:
+                    System.out.println("Exiting MenuApp");
                     break;
                 default:
                     System.out.println("Choose option (1-5):");
