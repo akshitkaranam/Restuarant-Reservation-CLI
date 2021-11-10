@@ -3,6 +3,8 @@ package com.company.restaurantfunctions;
 import com.company.administrative.Customer;
 import com.company.administrative.Staff;
 import com.company.menuItem.MenuItem;
+import com.company.menuItem.PromotionPackage;
+import com.company.menuItem.PromotionPackageMenu;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,6 +28,7 @@ public class Order {
     //Order
     private Staff staff;
     private Map<MenuItem, Integer> itemsOrderedList;
+    private Map<PromotionPackage,Integer> promotionPackageOrderedList;
     private boolean orderIsActive;
 
 
@@ -40,6 +43,7 @@ public class Order {
         this.reservationEndTime = reservationEndTime;
         this.reservationIsActive = true;
         this.itemsOrderedList = new HashMap<>();
+        this.promotionPackageOrderedList = new HashMap<>();
         this.orderIsActive = false;
 
     }
@@ -58,7 +62,13 @@ public class Order {
         this.staff = staff;
         this.orderIsActive = orderIsActive;
         this.itemsOrderedList = new HashMap<>();
+        this.promotionPackageOrderedList = new HashMap<>();
     }
+
+
+
+
+
 
     public void addMenuItemToOrder(MenuItem foodToAdd, int quantity) {
         itemsOrderedList.put(foodToAdd, quantity);
@@ -74,9 +84,29 @@ public class Order {
         }
     }
 
+
+
+    public void addPromotionPackageToOrder(PromotionPackage promoToAdd, int quantity) {
+        promotionPackageOrderedList.put(promoToAdd, quantity);
+
+    }
+
+    public void editQuantity(PromotionPackage promotionPackage, int newQuantity) {
+        if (promotionPackageOrderedList.containsKey(promotionPackage)) {
+            if (newQuantity == 0) {
+                deletePromotionPackage(promotionPackage);
+            }
+            promotionPackageOrderedList.put(promotionPackage, newQuantity);
+        }
+    }
+
     public void deleteMenuItem(MenuItem menuItem) {
         itemsOrderedList.remove(menuItem);
     }
+    public void deletePromotionPackage(PromotionPackage promoPack) {
+        itemsOrderedList.remove(promoPack);
+    }
+
 
     public void setStaff(Staff staff) {
         this.staff = staff;
@@ -144,23 +174,9 @@ public class Order {
     }
 
 
-
-    public String orderToString() {
-        return "{" +
-                "customer=" + customer +
-                ", orderNumber=" + orderNumber +
-                ", groupSize=" + groupSize +
-                ", tableNumber=" + tableNumber +
-                ", date=" + date +
-                ", reservationStartTime=" + reservationStartTime +
-                ", reservationEndTime=" + reservationEndTime +
-                ", reservationIsActive=" + reservationIsActive +
-                ", staff=" + staff +
-                ", itemsOrderedList=" + itemsOrderedList +
-                ", orderIsActive=" + orderIsActive +
-                '}';
+    public Map<PromotionPackage, Integer> getPromotionPackageOrderedList() {
+        return promotionPackageOrderedList;
     }
-
 
     public LocalDate getDate() {
         return date;

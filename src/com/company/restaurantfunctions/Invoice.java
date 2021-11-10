@@ -1,6 +1,7 @@
 package com.company.restaurantfunctions;
 
 import com.company.menuItem.MenuItem;
+import com.company.menuItem.PromotionPackage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,10 +37,17 @@ public class Invoice implements Comparable<Invoice> {
     private void calculateFinalPrice() {
         boolean customerIsMember = order.getCustomer().isMember();
         Map<MenuItem, Integer> orderItemList = order.getItemsOrderedList();
+        Map<PromotionPackage, Integer> orderPackageList = order.getPromotionPackageOrderedList();
 
         for (Map.Entry<MenuItem, Integer> menuItemQuantityEntry : orderItemList.entrySet()) {
             priceBeforeTax += (menuItemQuantityEntry.getKey().getItemPrice() * menuItemQuantityEntry.getValue());
         }
+
+        for (Map.Entry<PromotionPackage, Integer> promotionPackageQuantityEntry : orderPackageList.entrySet()) {
+            priceBeforeTax += (promotionPackageQuantityEntry.getKey().getPackagePrice()
+                    * promotionPackageQuantityEntry.getValue());
+        }
+
         if(customerIsMember){
             //5% discount for members
             memberDiscount = priceBeforeTax * 0.05;
@@ -58,6 +66,7 @@ public class Invoice implements Comparable<Invoice> {
 
         invoicePaid = true;
         Map<MenuItem, Integer> orderItemList = order.getItemsOrderedList();
+        Map<PromotionPackage, Integer> orderPackageList = order.getPromotionPackageOrderedList();
         System.out.println();
         System.out.println("----------------------------------------------");
         System.out.println(Restaurant.name);
@@ -68,11 +77,20 @@ public class Invoice implements Comparable<Invoice> {
         System.out.println("Customer: " + order.getCustomer().getName());
         System.out.println("Served by: " + order.getStaff().getName() );
         System.out.println("----------------------------------------------");
+
         for (Map.Entry<MenuItem, Integer> menuItemQuantityEntry : orderItemList.entrySet()) {
             System.out.println(menuItemQuantityEntry.getValue() + " "
                     + menuItemQuantityEntry.getKey().getItemName() + "            "
             +(menuItemQuantityEntry.getKey().getItemPrice()* menuItemQuantityEntry.getValue()));
         }
+
+        for (Map.Entry<PromotionPackage, Integer> promotionPackageQuantityEntry : orderPackageList.entrySet()) {
+            System.out.println(promotionPackageQuantityEntry.getValue() + " "
+                    + promotionPackageQuantityEntry.getKey().getPackageName() + "            "
+                    +(promotionPackageQuantityEntry.getKey().getPackagePrice()* promotionPackageQuantityEntry.getValue()));
+        }
+
+
         System.out.println("----------------------------------------------");
         System.out.println("Subtotal: " + priceBeforeTax);
         if(order.getCustomer().isMember()){

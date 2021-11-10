@@ -1,6 +1,7 @@
 package com.company.restaurantfunctions;
 
 import com.company.menuItem.MenuItem;
+import com.company.menuItem.PromotionPackage;
 
 import java.awt.*;
 import java.io.FileWriter;
@@ -32,7 +33,7 @@ public class InvoiceList {
             System.out.println("Choose an option:\n"
                     + "================================\n"
                     + "|1. Get Total Revenue |\n"
-                    + "|2. Get Sales of Individual Items|\n"
+                    + "|2. Get Sales of Individual Items and Packages|\n"
                     + "|3. Quit|\n"
                     + "==================================");
             option = sc.nextInt();
@@ -82,10 +83,14 @@ public class InvoiceList {
                     break;
                 case 2:
                     Map<MenuItem, Integer> totalItemQuantity = getMenuItemQuantity(relevantInvoices);
+                    Map<PromotionPackage, Integer> totalPromoQuantity = getPromoPackageQuantity(relevantInvoices);
 
-                    System.out.println("Total Item Sales for Month is: ");
+                    System.out.println("Total Item and Package Sales for Month is: ");
                     for (Map.Entry<MenuItem, Integer> menuItemQuantityEntry : totalItemQuantity.entrySet()) {
                         System.out.println(menuItemQuantityEntry.getKey() + ": " + menuItemQuantityEntry.getValue());
+                    }
+                    for (Map.Entry<PromotionPackage, Integer> promoPackageQuantityEntry : totalPromoQuantity.entrySet()) {
+                        System.out.println(promoPackageQuantityEntry.getKey() + ": " + promoPackageQuantityEntry.getValue());
                     }
                     break;
                 case 3:
@@ -130,6 +135,26 @@ public class InvoiceList {
         return totalItemQuantity;
     }
 
+    private static Map<PromotionPackage, Integer> getPromoPackageQuantity(List<Invoice> relevantInvoices) {
+        Map<PromotionPackage, Integer> totalPromoQuantity = new HashMap<>();
+
+        for (Invoice in : relevantInvoices) {
+            Map<PromotionPackage, Integer> rawMap = in.getOrder().getPromotionPackageOrderedList();
+            for (Map.Entry<PromotionPackage, Integer> promoPackQuantityEntry : rawMap.entrySet()) {
+
+                PromotionPackage tempPromo = promoPackQuantityEntry.getKey();
+                int addedQuantity = promoPackQuantityEntry.getValue();
+                if (totalPromoQuantity.containsKey(promoPackQuantityEntry.getKey())) {
+                    int initialQuantity = totalPromoQuantity.get(tempPromo);
+                    addedQuantity = initialQuantity + promoPackQuantityEntry.getValue();
+                }
+                totalPromoQuantity.put(tempPromo, addedQuantity);
+            }
+        }
+
+        return totalPromoQuantity;
+    }
+
 
     public static void processInvoiceListToCSVFile(){
         try {
@@ -154,8 +179,11 @@ public class InvoiceList {
                 for(var entry : menuItemList.entrySet()){
                     menuItemStringList.put(entry.getKey().getItemName(),entry.getValue());
                 }
+
+
                 tempList.add(menuItemStringList.toString());
                 tempList.add(Integer.toString(thisOrder.getTableNumber()));
+
                 tempList.add(thisOrder.getStaff().getName());
                 records.add(tempList);
             }

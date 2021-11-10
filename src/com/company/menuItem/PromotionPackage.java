@@ -265,5 +265,12 @@ public class PromotionPackage {
 		this.packageName = packageName;
 	}
 
-
+	@Override
+	public String toString() {
+		return "{" +
+				"packageName='" + packageName + '\'' +
+				", packageDescription='" + packageDescription + '\'' +
+				", packagePrice=" + packagePrice +
+				'}';
+	}
 }
