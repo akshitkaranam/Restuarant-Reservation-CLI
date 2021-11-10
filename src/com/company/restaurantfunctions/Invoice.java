@@ -88,6 +88,9 @@ public class Invoice implements Comparable<Invoice> {
             System.out.println(promotionPackageQuantityEntry.getValue() + " "
                     + promotionPackageQuantityEntry.getKey().getPackageName() + "            "
                     +(promotionPackageQuantityEntry.getKey().getPackagePrice()* promotionPackageQuantityEntry.getValue()));
+           for(MenuItem mItem : promotionPackageQuantityEntry.getKey().getPromotionPackage()){
+               System.out.println("\n" + mItem.getItemName());
+           }
         }
 
 

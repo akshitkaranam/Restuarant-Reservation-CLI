@@ -211,10 +211,8 @@ public class PromotionPackage {
 
 				case 2:
 					List<MenuItem> addedMenuItemsInPackage = this.promotionPackage;
-					innerChosenOption = 0;
-					j= 0;
 					for(j =0;j<addedMenuItemsInPackage.size();j++){
-						System.out.println(j+ " " + addedMenuItemsInPackage.get(innerChosenOption));
+						System.out.println(j+ " " + addedMenuItemsInPackage.get(j));
 					}
 
 					while(true){
@@ -233,14 +231,12 @@ public class PromotionPackage {
 				case 3:
 					System.out.println(this);
 					addedMenuItemsInPackage = this.promotionPackage;
-					innerChosenOption = 0;
 					for(j =0;j<addedMenuItemsInPackage.size();j++){
-						System.out.println(j + " " + addedMenuItemsInPackage.get(innerChosenOption));
+						System.out.println(j + " " + addedMenuItemsInPackage.get(j));
 					}
 					break;
 
 				case 4:
-					this.getPackageName();
 					System.out.println("Please enter the Price you want to set: ");
 					this.packagePrice = sc.nextInt();
 
@@ -272,5 +268,9 @@ public class PromotionPackage {
 				", packageDescription='" + packageDescription + '\'' +
 				", packagePrice=" + packagePrice +
 				'}';
+	}
+
+	public ArrayList<MenuItem> getPromotionPackage() {
+		return promotionPackage;
 	}
 }

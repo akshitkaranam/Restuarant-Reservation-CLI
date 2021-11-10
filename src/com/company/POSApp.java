@@ -608,14 +608,14 @@ public class POSApp {
             }
         }
         boolean allFull = true;
-        for(Table table: Restaurant.getTableList().values()){
-            if(table.getTableDateSlotsList().get(date).getSlots().get(time) == null) {
+        for (Table table : Restaurant.getTableList().values()) {
+            if (table.getTableDateSlotsList().get(date).getSlots().get(time) == null) {
                 System.out.print(table.getTableNumber() + ", ");
                 allFull = false;
             }
         }
 
-        if(allFull){
+        if (allFull) {
             System.out.println("All the tables are full at this time!");
         }
 
@@ -640,18 +640,37 @@ public class POSApp {
         for (int i = 0; i < orderOfAllReservationForToday.size(); i++) {
             Order thisOrder = orderOfAllReservationForToday.get(i);
 
-            if (thisOrder != null && !thisOrder.isOrderIsActive()) {
-                inactiveAvailable = true;
-                LocalTime reservationStartTime = thisOrder.getReservationStartTime().minusMinutes(20);
-                LocalTime reservationEndTime = thisOrder.getReservationEndTime().minusMinutes(30);
+            if (thisOrder != null) {
+                //Remove Reservation if time now is 30 minutes after the reservation start time
+                if (thisOrder.getReservationStartTime().plusMinutes(30).isBefore(LocalTime.now())) {
 
-                if (timeNow.isAfter(reservationStartTime) && timeNow.isBefore(reservationEndTime)) {
-                    System.out.println(i + ": " + thisOrder.getCustomer().getName() + " "
-                            + thisOrder.getCustomer().getContactNumber());
-                    availableIndex.add(i);
-
+                    LocalTime reservationStartTime = thisOrder.getReservationStartTime();
+                    LocalTime reservationEndTime = thisOrder.getReservationEndTime();
+                    Table tableOfOrder = Restaurant.getTableList().get(thisOrder.getTableNumber());
+                    TableDateSlots todaySlotsForThisTable = tableOfOrder.getTableDateSlotsList().get(LocalDate.now());
+                    LocalTime time = reservationStartTime;
+                    while (time.isBefore(reservationEndTime)) {
+                        todaySlotsForThisTable.getSlots().put(time, null);
+                        time = time.plusMinutes(30);
+                    }
+                    continue;
                 }
+
+                if (!thisOrder.isOrderIsActive()) {
+                    inactiveAvailable = true;
+                    LocalTime reservationStartTime = thisOrder.getReservationStartTime().minusMinutes(20);
+                    LocalTime reservationEndTime = thisOrder.getReservationEndTime().minusMinutes(30);
+
+                    if (timeNow.isAfter(reservationStartTime) && timeNow.isBefore(reservationEndTime)) {
+                        System.out.println(i + ": " + thisOrder.getCustomer().getName() + " "
+                                + thisOrder.getCustomer().getContactNumber());
+                        availableIndex.add(i);
+
+                    }
+                }
+
             }
+
         }
 
         if (!inactiveAvailable) {
@@ -907,7 +926,7 @@ public class POSApp {
         Invoice thisOrderInvoice = new Invoice(orderToCheckOut);
         thisOrderInvoice.generateReceipt();
         activeOrders.remove(optionChosen);
-        Restaurant.processActiveOrderToCSV();
+//        Restaurant.processActiveOrderToCSV();
 
 
         //Remove Reservation
