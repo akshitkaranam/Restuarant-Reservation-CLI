@@ -554,6 +554,71 @@ public class POSApp {
     }
 
     private static void checkTableAvailability() {
+
+        LocalDate date;
+        LocalTime time;
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            try {
+                System.out.println("Enter the date you wish to check thr table availability");
+                String dateEntered = scanner.next();
+                date = LocalDate.parse(dateEntered);
+
+                if (date.isBefore(LocalDate.now())) {
+                    System.out.println("You cannot check for table availability in the past! Please enter a valid date!");
+                    continue;
+                }
+
+                if (date.isAfter(LocalDate.now().plusDays(14))) {
+                    System.out.println("You can only check for available tables for the next 14 days!");
+                    continue;
+                }
+
+                break;
+            } catch (DateTimeParseException e) {
+                System.out.println("INCORRECT ENTRY!");
+                System.out.println("Please enter in the correct format: YYYY-MM-DD");
+                System.out.println();
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.println("Please enter the time you want to check:  e.g 09:30 ");
+                String timeEntered = scanner.next();
+                timeEntered = timeEntered + ":00";
+                time = LocalTime.parse(timeEntered);
+
+                if (time.getMinute() != 0 && time.getMinute() != 30) {
+                    System.out.println("You can only check slots in increments of 30 minutes. Please try again!");
+                    continue;
+                }
+
+                if (LocalDateTime.of(date, time).isBefore(LocalDateTime.now().minusMinutes(15))) {
+                    System.out.println("You cannot check for slots in the past. Please try again!");
+                } else {
+                    break;
+                }
+
+
+            } catch (DateTimeParseException e) {
+                System.out.println("INCORRECT ENTRY!");
+                System.out.println("Please enter in the correct format: hh:mm (i.e. 09:30)");
+            }
+        }
+        boolean allFull = true;
+        for(Table table: Restaurant.getTableList().values()){
+            if(table.getTableDateSlotsList().get(date).getSlots().get(time) == null) {
+                System.out.print(table.getTableNumber() + ", ");
+                allFull = false;
+            }
+        }
+
+        if(allFull){
+            System.out.println("All the tables are full at this time!");
+        }
+
     }
 
     private static void checkInCustomer() {
