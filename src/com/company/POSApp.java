@@ -470,6 +470,7 @@ public class POSApp {
             }
             System.out.println(order);
         }
+        System.out.println();
     }
 
     private static void removeReservation() {
@@ -551,6 +552,7 @@ public class POSApp {
         Restaurant.processActiveReservationsToCSV();
         System.out.println("Successfully removed reservation of" + orderToRemove.getCustomer().getName()
                 + " from " + orderToRemove.getReservationStartTime() + " to " + orderToRemove.getReservationEndTime());
+        System.out.println();
     }
 
     private static void checkTableAvailability() {
@@ -608,16 +610,23 @@ public class POSApp {
             }
         }
         boolean allFull = true;
+        System.out.println("These are the empty tables at this time");
         for (Table table : Restaurant.getTableList().values()) {
+            if(!table.getTableDateSlotsList().containsKey(date)) {
+                table.getTableDateSlotsList().put(date, new TableDateSlots(date));
+            }
+
             if (table.getTableDateSlotsList().get(date).getSlots().get(time) == null) {
                 System.out.print(table.getTableNumber() + ", ");
                 allFull = false;
             }
         }
+        System.out.println();
 
         if (allFull) {
             System.out.println("All the tables are full at this time!");
         }
+        System.out.println();
 
     }
 
@@ -695,6 +704,7 @@ public class POSApp {
         Restaurant.processActiveOrderToCSV();
         System.out.println("Successfully checked-in " + relevantOrder.getCustomer().getName() + " with group size of "
                 + relevantOrder.getGroupSize() + "! Please escort them to table number: " + relevantOrder.getTableNumber());
+        System.out.println();
     }
 
     private static void addItemsToOrder() {
@@ -894,6 +904,7 @@ public class POSApp {
         } while (option != 9);
 
         Restaurant.processActiveOrderToCSV();
+        System.out.println();
     }
 
 
@@ -940,6 +951,7 @@ public class POSApp {
             todaySlotsForThisTable.getSlots().put(time, null);
             time = time.plusMinutes(30);
         }
+        System.out.println();
         Restaurant.processActiveReservationsToCSV();
         InvoiceList.processInvoiceListToCSVFile();
     }
@@ -980,6 +992,7 @@ public class POSApp {
             }
 
         } while (option != 3);
+        System.out.println();
     }
 
 
@@ -995,6 +1008,7 @@ public class POSApp {
         }
         int chosenOption = scanner.nextInt();
         currentStaffUser = staffList.get(chosenOption);
+        System.out.println();
     }
 
     private static void retrieveMenuInformation() {
