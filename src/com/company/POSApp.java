@@ -25,41 +25,18 @@ public class POSApp {
 
     public static void main(String[] args) {
 
-        //Tables
-        Restaurant.addTable(1, 2);
-        Restaurant.addTable(2, 2);
-        Restaurant.addTable(3, 4);
-        Restaurant.addTable(4, 4);
-        Restaurant.addTable(5, 6);
-        Restaurant.addTable(6, 6);
-        Restaurant.addTable(7, 8);
-        Restaurant.addTable(8, 8);
-        Restaurant.addTable(9, 10);
-        Restaurant.addTable(10, 10);
-
-        //Membership List
-        MembershipList.addMember(new Customer("Tom", "12345678"));
-        MembershipList.addMember(new Customer("Bob", "23456789"));
-        MembershipList.addMember(new Customer("David", "34567891"));
-        MembershipList.addMember(new Customer("Donald", "45678901"));
-        MembershipList.addMember(new Customer("Joe", "56789012"));
-        MembershipList.addMember(new Customer("Chris", "67890123"));
-        MembershipList.addMember(new Customer("Sally", "78901234"));
-
-        //StaffList
-        StaffList.addStaff("Christina", "000001", Staff.JobRole.MANAGER,"Female");
-        StaffList.addStaff("Thomas", "000002", Staff.JobRole.WAITER,"Male");
-        StaffList.addStaff("Lisa", "000003", Staff.JobRole.WAITER,"Female");
-        StaffList.addStaff("Jessie", "000004", Staff.JobRole.WAITER,"Female");
-        StaffList.addStaff("Fred", "000005", Staff.JobRole.WAITER,"Male");
-        StaffList.addStaff("Wayne", "000006", Staff.JobRole.WAITER,"Male");
-        currentStaffUser = StaffList.getStaffList().get(0); //Default is the manager
-
         //Retrieve Saved Information from CSV Files
+        retrieveRestaurantInformation();
+        retrieveStaffInformation();
+        retrieveMembershipInformation();
         retrieveMenuInformation();
+        retrievePromotionPackageInformation();
         retrieveOrderReservationInformation();
 //        retrieveActiveOrderInformation();
         retrieveInvoicesInformation();
+
+        currentStaffUser = StaffList.getStaffList().get(0); //Default is index 0
+
 
         int option;
         Scanner scanner = new Scanner(System.in);
@@ -1011,6 +988,102 @@ public class POSApp {
         System.out.println();
     }
 
+    private static void retrieveRestaurantInformation(){
+
+        try {
+            // CSV file delimiter
+            String DELIMITER = ",";
+
+            // create a reader
+            BufferedReader br = Files.newBufferedReader(Paths.get("src/com/company/Restaurant.csv"));
+
+            // read the file line by line
+            String line;
+            int i = 0;
+            while ((line = br.readLine()) != null) {
+
+                if(i ==0){
+                    Restaurant.setName(line);
+                    i++;
+                    continue;
+                }else if(i==1){
+                    Restaurant.setAddress(line);
+                    i++;
+                    continue;
+                }
+                // convert line into tokens
+                String[] tokens = line.split(DELIMITER);
+                String tableNumber = tokens[0];
+                String tableCapacity = tokens[1];
+                Restaurant.addTable(Integer.parseInt(tableNumber),Integer.parseInt(tableCapacity));
+                i++;
+            }
+            br.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private static void retrieveStaffInformation(){
+
+        try {
+            // CSV file delimiter
+            String DELIMITER = ",";
+
+            // create a reader
+            BufferedReader br = Files.newBufferedReader(Paths.get("src/com/company/StaffList.csv"));
+
+            // read the file line by line
+            String line;
+            while ((line = br.readLine()) != null) {
+                // convert line into tokens
+                String[] tokens = line.split(DELIMITER);
+                String employeeName = tokens[0];
+                String employeeID = tokens[1];
+                String jobType = tokens[2];
+                String gender = tokens[3];
+                if(jobType.equalsIgnoreCase(Staff.JobRole.WAITER.name())){
+                    StaffList.addStaff(employeeName,employeeID,Staff.JobRole.WAITER,gender);
+                }else{
+                    StaffList.addStaff(employeeName,employeeID,Staff.JobRole.MANAGER,gender);
+                }
+
+
+            }
+            br.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private static void retrieveMembershipInformation(){
+
+        try {
+            // CSV file delimiter
+            String DELIMITER = ",";
+
+            // create a reader
+            BufferedReader br = Files.newBufferedReader(Paths.get("src/com/company/MembersList.csv"));
+
+            // read the file line by line
+            String line;
+            while ((line = br.readLine()) != null) {
+                // convert line into tokens
+                String[] tokens = line.split(DELIMITER);
+                String memberName = tokens[0];
+                String memberContactNumber = tokens[1];
+
+               MembershipList.addMember(new Customer(memberName,memberContactNumber));
+
+
+            }
+            br.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
     private static void retrieveMenuInformation() {
 
         try {
@@ -1034,6 +1107,37 @@ public class POSApp {
                 MenuItem tempMenuItem = new MenuItem(menuItemName, menuItemDescription
                         , Double.parseDouble(menuItemPrice), courseType);
                 MenuList.getmItemList().add(tempMenuItem);
+            }
+            br.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private static void retrievePromotionPackageInformation(){
+        try {
+            // CSV file delimiter
+            String DELIMITER = ";";
+
+            // create a reader
+            BufferedReader br = Files.newBufferedReader(Paths.get("src/com/company/promotionPackage.csv"));
+
+            // read the file line by line
+            String line;
+            while ((line = br.readLine()) != null) {
+                // convert line into tokens
+                String[] tokens = line.split(DELIMITER);
+                String packageItemName = tokens[0];
+                String packageDescription = tokens[1];
+                String packagePrice = tokens[2];
+                List<MenuItem> menuItemList = new ArrayList<>();
+
+                for(int i =3;i<tokens.length;i++){
+                    menuItemList.add(MenuList.getMenuItemFromList(tokens[i]));
+                }
+                PromotionPackage tempPromoPack = new PromotionPackage(menuItemList,
+                        Double.parseDouble(packagePrice),packageDescription,packageItemName);
+                PromotionPackageMenu.getPackageList().add(tempPromoPack);
             }
             br.close();
         } catch (IOException ex) {

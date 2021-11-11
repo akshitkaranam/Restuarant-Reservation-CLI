@@ -9,11 +9,19 @@ import java.util.*;
 
 public class PromotionPackage {
 
-	private ArrayList<MenuItem> promotionPackage;
+	private List<MenuItem> promotionPackage;
 	private double packagePrice;
 	private String packageDescription;
 	private String packageName;
 	Scanner sc = new Scanner(System.in);
+
+	public PromotionPackage(List<MenuItem> promotionPackage, double packagePrice
+			, String packageDescription, String packageName) {
+		this.promotionPackage = promotionPackage;
+		this.packagePrice = packagePrice;
+		this.packageDescription = packageDescription;
+		this.packageName = packageName;
+	}
 
 	public PromotionPackage() {
 		promotionPackage = new ArrayList<>();
@@ -269,7 +277,7 @@ public class PromotionPackage {
 	 * Returns the list of MenuItems in this PromotionPackage object
 	 * @return
 	 */
-	public ArrayList<MenuItem> getPromotionPackage() {
+	public List<MenuItem> getPromotionPackage() {
 		return promotionPackage;
 	}
 

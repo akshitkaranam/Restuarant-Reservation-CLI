@@ -1,5 +1,6 @@
 package com.company.menuItem;
 
+import java.awt.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -205,6 +206,16 @@ public class MenuList {
 
 		}
 
+	}
+
+	public static MenuItem getMenuItemFromList(String name){
+		for(MenuItem mItem : mItemList){
+			if(mItem.getItemName().equals(name)){
+				return mItem;
+			}
+		}
+
+		return null;
 	}
 
 	/**

@@ -15,8 +15,8 @@ import java.util.*;
  */
 
 public class Restaurant {
-    public static String name = "Mandarin Palace";
-    public static String address = "25 Chinatown Street 21, Singapore 123456";
+    public static String name;
+    public static String address;
     private static Map<Integer, Table> tableList = new HashMap<>();
     private static List<Order> activeOrders = new ArrayList<>();
 
@@ -55,6 +55,22 @@ public class Restaurant {
         return activeOrders;
     }
 
+
+    public static String getName() {
+        return name;
+    }
+
+    public static void setName(String name) {
+        Restaurant.name = name;
+    }
+
+    public static String getAddress() {
+        return address;
+    }
+
+    public static void setAddress(String address) {
+        Restaurant.address = address;
+    }
 
     /**
      * Processes the current active reservations to a CSV File: orderReservations.csv
@@ -108,6 +124,7 @@ public class Restaurant {
             ex.printStackTrace();
         }
     }
+
 
     /**
      * Processes the current active orders to a CSV File: activeOrders.csv

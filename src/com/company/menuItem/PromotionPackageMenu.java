@@ -14,9 +14,7 @@ public class PromotionPackageMenu {
 	Scanner sc = new Scanner(System.in);
 
 	
-	public PromotionPackageMenu(){
-		packageList= new ArrayList<>();
-	}
+	public PromotionPackageMenu(){}
 
 	/**
 	 * add a new Promotion Package to the static list
@@ -105,7 +103,7 @@ public class PromotionPackageMenu {
 
 			// create a writer
 
-			FileWriter writer = new FileWriter("src/com/company/menu.csv",false);
+			FileWriter writer = new FileWriter("src/com/company/promotionPackage.csv",false);
 
 			// write all records
 			for (List<String> record : records) {

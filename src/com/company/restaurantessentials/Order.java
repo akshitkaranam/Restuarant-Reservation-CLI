@@ -3,11 +3,19 @@ package com.company.restaurantessentials;
 import com.company.administrative.Customer;
 import com.company.administrative.Staff;
 import com.company.menuItem.MenuItem;
+import com.company.menuItem.MenuList;
 import com.company.menuItem.PromotionPackage;
 
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,6 +60,20 @@ public class Order {
 
     public Order(Customer customer, int groupSize, int tableNumber,
                  LocalDate date, LocalTime reservationStartTime, LocalTime reservationEndTime) {
+        try {
+
+            // create a reader
+            BufferedReader br = Files.newBufferedReader(Paths.get("src/com/company/orderNumber.csv"));
+
+            // read the file line by line
+            String line;
+            while ((line = br.readLine()) != null) {
+                this.orderNumber = Integer.parseInt(line) + 1;
+            }
+            br.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         this.customer = customer;
         this.orderNumber = totalOrderNumber++;
         this.groupSize = groupSize;
@@ -63,6 +85,27 @@ public class Order {
         this.itemsOrderedList = new HashMap<>();
         this.promotionPackageOrderedList = new HashMap<>();
         this.orderIsActive = false;
+
+        try {
+            // create a list of objects
+            List<List<String>> records = new ArrayList<>();
+            List<String> tempList = new ArrayList<>();
+            tempList.add(Integer.toString(orderNumber));
+            records.add(tempList);
+
+            // create a writer
+            FileWriter writer = new FileWriter("src/com/company/orderNumber.csv",false);
+            // write all records
+            for (List<String> record : records) {
+                writer.write(String.join(";", record));
+                writer.write("\n");
+            }
+            //close the writer
+            writer.flush();
+            writer.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
     }
 
