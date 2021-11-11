@@ -48,46 +48,19 @@ public class POSApp {
             printMainMenu();
             option = scanner.nextInt();
             switch (option) {
-
-                case 1:
-                    makeChangesToMenu();
-                    break;
-                case 2:
-                    makeChangesToPackages();
-                    break;
-                case 3:
-                    addReservation();
-                    break;
-                case 4:
-                    showListOfReservationByDate();
-                    break;
-                case 5:
-                    removeReservation();
-                    break;
-                case 6:
-                    checkTableAvailability();
-                    break;
-                case 7:
-                    checkInCustomer();
-                    break;
-                case 8:
-                    addItemsToOrder();
-                    break;
-                case 9:
-                    checkOutCustomer();
-                    break;
-                case 10:
-                    printSalesByTimePeriod();
-                    break;
-                case 11:
-                    changeStaffUser();
-                    break;
-                case 12:
-                    System.out.println("Terminating the system");
-                    break;
-                default:
-                    System.out.println("Please choose from options 1-12");
-                    break;
+                case 1 -> makeChangesToMenu();
+                case 2 -> makeChangesToPackages();
+                case 3 -> addReservation();
+                case 4 -> showListOfReservationByDate();
+                case 5 -> removeReservation();
+                case 6 -> checkTableAvailability();
+                case 7 -> checkInCustomer();
+                case 8 -> addItemsToOrder();
+                case 9 -> checkOutCustomer();
+                case 10 -> printSalesByTimePeriod();
+                case 11 -> changeStaffUser();
+                case 12 -> System.out.println("Terminating the system");
+                default -> System.out.println("Please choose from options 1-12");
             }
         }
         scanner.close();
@@ -131,37 +104,19 @@ public class POSApp {
                     ==================================""");
             option = sc.nextInt();
             switch (option) {
-                case 1:
+                case 1 -> {
                     testMenu.createMenuItem();
                     System.out.println("A new item has been created");
-                    break;
-                case 2:
-                    testMenu.updateMenuItem();
-                    break;
-                case 3:
-                    testMenu.removeMenuItem();
-                    break;
-                case 4:
-                    testMenu.displayMenu();
-                    break;
-                case 5:
-                    System.out.println("Exiting MenuApp");
-                    break;
-                case 6:
-                    testPromoMenu.addPromotionPackage();
-                    break;
-                case 7:
-                    testPromoMenu.removePromotionPackage();
-                    break;
-                case 8:
-                    testPromoMenu.displayPackageMenu();
-                    break;
-                case 9:
-                    testPromoMenu.updatePromotionPackage();
-                    break;
-                default:
-                    System.out.println("Choose option (1-5):");
-                    break;
+                }
+                case 2 -> testMenu.updateMenuItem();
+                case 3 -> testMenu.removeMenuItem();
+                case 4 -> testMenu.displayMenu();
+                case 5 -> System.out.println("Exiting MenuApp");
+                case 6 -> testPromoMenu.addPromotionPackage();
+                case 7 -> testPromoMenu.removePromotionPackage();
+                case 8 -> testPromoMenu.displayPackageMenu();
+                case 9 -> testPromoMenu.updatePromotionPackage();
+                default -> System.out.println("Choose option (1-5):");
             }
 
         } while (option != 5);
@@ -189,24 +144,12 @@ public class POSApp {
                     ==================================""");
             option = sc.nextInt();
             switch (option) {
-                case 1:
-                    testPromoMenu.addPromotionPackage();
-                    break;
-                case 2:
-                    testPromoMenu.updatePromotionPackage();
-                    break;
-                case 3:
-                    testPromoMenu.removePromotionPackage();
-                    break;
-                case 4:
-                    testPromoMenu.displayPackageMenu();
-                    break;
-                case 5:
-                    System.out.println("Exiting MenuApp");
-                    break;
-                default:
-                    System.out.println("Choose option (1-5):");
-                    break;
+                case 1 -> testPromoMenu.addPromotionPackage();
+                case 2 -> testPromoMenu.updatePromotionPackage();
+                case 3 -> testPromoMenu.removePromotionPackage();
+                case 4 -> testPromoMenu.displayPackageMenu();
+                case 5 -> System.out.println("Exiting MenuApp");
+                default -> System.out.println("Choose option (1-5):");
             }
 
         } while (option != 5);
@@ -792,7 +735,6 @@ public class POSApp {
 
 
                 case 5:
-                    ;
                     for (j = 0; j < PromotionPackageMenu.getPackageList().size(); j++) {
                         System.out.println(j + " " + PromotionPackageMenu.getPackageList().get(j));
                     }
@@ -947,25 +889,20 @@ public class POSApp {
                     ==================================""");
             option = sc.nextInt();
             switch (option) {
-                case 1:
+                case 1 -> {
                     System.out.println("Enter the desired date in the format YYYY-MM-DD");
                     String dateEntered = sc.next();
                     LocalDate date = LocalDate.parse(dateEntered);
                     InvoiceList.salesReportByDay(date);
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     System.out.println("Enter the date month in the format MM (i.e 12) ");
                     int monthEntered = sc.nextInt();
                     Month month = Month.of(monthEntered);
                     InvoiceList.salesReportByMonth(month);
-                    break;
-                case 3:
-                    System.out.println("Quitting, going back to Main Menu!");
-                    break;
-
-                default:
-                    System.out.println("Choose option (1-3):");
-                    break;
+                }
+                case 3 -> System.out.println("Quitting, going back to Main Menu!");
+                default -> System.out.println("Choose option (1-3):");
             }
 
         } while (option != 3);
@@ -1242,12 +1179,14 @@ public class POSApp {
 
                     for (int i = 0; i < MenuList.getmItemList().size(); i++) {
                         if (MenuList.getmItemList().get(i).getItemName().equals(name)) {
+                            assert thisOrder != null;
                             thisOrder.addMenuItemToOrder(MenuList.getmItemList().get(i), quantity);
                             break;
                         }
                     }
                 }
 
+                assert thisOrder != null;
                 thisOrder.setOrderIsActive(true);
             }
             br.close();
