@@ -12,8 +12,8 @@ public class StaffList {
         return staffList;
     }
 
-    public static void addUser(String name, String employeeId, Staff.JobRole jobRole){
-        staffList.add(new Staff(name,employeeId,jobRole));
+    public static void addStaff(String name, String employeeId, Staff.JobRole jobRole, String gender){
+        staffList.add(new Staff(name,employeeId,jobRole,gender));
     }
 
     public static void deleteUser(String name){

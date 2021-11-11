@@ -1,47 +1,80 @@
-package com.company.restaurantfunctions;
+package com.company.restaurantessentials;
 
 import com.company.menuItem.MenuItem;
-import org.w3c.dom.ls.LSOutput;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 
-public class Restaurant {
-    public static String name = "Mandarin Palace";
-    public static String address = "25 Chinatown Street 21, Singapore 123456";
+/**
+ * This class contains details of the Restaurant
+ * 1. Name
+ * 2. Address
+ * 3. List of Table Objects
+ * 4. List of Active Orders
+ */
 
-//    public static List<Integer> currentlyOccupiedTables = new ArrayList<>();
+public class Restaurant {
+    public static String name;
+    public static String address;
     private static Map<Integer, Table> tableList = new HashMap<>();
     private static List<Order> activeOrders = new ArrayList<>();
 
+    /**
+     *
+     * @return Map with the table number as a key and the Table object as the value
+     */
     public static Map<Integer, Table> getTableList() {
         return tableList;
     }
 
+    /**
+     * Add a table given the table number and the number of seats
+     * @param tableNumber the number of the table
+     * @param numberOfSeats thr number of seats the table can accomodate
+     */
     public static void addTable(int tableNumber, int numberOfSeats) {
         if (!tableList.containsKey(tableNumber)) {
             tableList.put(tableNumber, new Table(tableNumber, numberOfSeats));
         }
     }
 
-    public static void changeNumberOfSeats(int tableNumber, int newSeatNumber) {
-        tableList.get(tableNumber).setNumberOfSeats(newSeatNumber);
-    }
-
+    /**
+     * Adds an active order to the Restaurant
+     * @param order the order object that needs to be activated when the Customer Checks-in
+     */
     public static void addActiveOrder(Order order){
         activeOrders.add(order);
     }
 
+    /**
+     *
+     * @return list of active orders
+     */
     public static List<Order> getActiveOrders() {
         return activeOrders;
     }
 
 
+    public static String getName() {
+        return name;
+    }
 
+    public static void setName(String name) {
+        Restaurant.name = name;
+    }
+
+    public static String getAddress() {
+        return address;
+    }
+
+    public static void setAddress(String address) {
+        Restaurant.address = address;
+    }
+
+    /**
+     * Processes the current active reservations to a CSV File: orderReservations.csv
+     */
     public static void processActiveReservationsToCSV()  {
 
         try {
@@ -92,6 +125,10 @@ public class Restaurant {
         }
     }
 
+
+    /**
+     * Processes the current active orders to a CSV File: activeOrders.csv
+     */
     public static void processActiveOrderToCSV(){
         try {
             List<Order> activeOrderListCopy = new ArrayList<>(activeOrders);

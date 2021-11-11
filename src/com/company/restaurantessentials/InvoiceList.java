@@ -1,9 +1,8 @@
-package com.company.restaurantfunctions;
+package com.company.restaurantessentials;
 
 import com.company.menuItem.MenuItem;
 import com.company.menuItem.PromotionPackage;
 
-import java.awt.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -11,10 +10,18 @@ import java.time.Month;
 import java.util.*;
 import java.util.List;
 
+/**
+ * This class is mainly used to generate sales revenues. This contains a static list of Invoices from all time.
+ */
+
 public class InvoiceList {
 
     public static List<Invoice> invoicesList = new ArrayList<>();
 
+    /**
+     *
+     * @param invoice the invoice object needed to be added
+     */
     public static void addInvoice(Invoice invoice) {
         if (invoice.isInvoicePaid()) {
             invoicesList.add(invoice);
@@ -23,6 +30,12 @@ public class InvoiceList {
         }
     }
 
+    /**
+     * Get sales report by a given day
+     * 1. Total Revenue
+     * 2. Quantity of MenuItems/ Promotion Packages Sold
+     * @param date the relevant date that is being queried
+     */
     public static void salesReportByDay(LocalDate date) {
         List<Invoice> relevantInvoices = new ArrayList<>(invoicesList);
         relevantInvoices.removeIf(n -> !n.getDate().equals(date));
@@ -62,6 +75,12 @@ public class InvoiceList {
     }
 
 
+    /**
+     * Get sales report by a given Month
+     * 1. Total Revenue
+     * 2. Quantity of MenuItems/ Promotion Packages Sold
+     * @param month the relevant Month that is being queried
+     */
     public static void salesReportByMonth(Month month) {
         List<Invoice> relevantInvoices = new ArrayList<>(invoicesList);
         relevantInvoices.removeIf(n -> !n.getMonth().equals(month));
@@ -156,6 +175,9 @@ public class InvoiceList {
     }
 
 
+    /**
+     * Process the Invoice Static List to save the information to a CSV File: orderInvoices.csv
+     */
     public static void processInvoiceListToCSVFile(){
         try {
             // create a list of objects
@@ -206,8 +228,6 @@ public class InvoiceList {
         }
 
     }
-
-
 
 
 }
