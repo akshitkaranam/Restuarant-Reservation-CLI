@@ -272,4 +272,10 @@ public class PromotionPackage {
 	public ArrayList<MenuItem> getPromotionPackage() {
 		return promotionPackage;
 	}
+
+	public String getPackageDescription() {
+		return packageDescription;
+	}
+
+
 }

@@ -65,7 +65,6 @@ public class Table {
         if(tableDateSlotsList.containsKey(date)){
             return new ArrayList<>(this.getTableDateSlotsList().get(date).getSlots().values());
         }
-        this.numberOfSeats = numberOfSeats;
         return new ArrayList<>();
     }
 
