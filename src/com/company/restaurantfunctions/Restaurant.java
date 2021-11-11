@@ -1,6 +1,5 @@
 package com.company.restaurantfunctions;
 
-import com.company.menuItem.MenuItem;
 import org.w3c.dom.ls.LSOutput;
 
 import java.io.FileWriter;
@@ -42,7 +41,7 @@ public class Restaurant {
 
 
 
-    public static void processActiveReservationsToCSV()  {
+    public static void processToCSV()  {
 
         try {
             Set<Order> activeReservationOrderSet = new HashSet<>();
@@ -77,43 +76,6 @@ public class Restaurant {
             // create a writer
 
             FileWriter writer = new FileWriter("src/com/company/orderReservations.csv", false);
-
-            // write all records
-            for (List<String> record : records) {
-                writer.write(String.join(";", record));
-                writer.write("\n");
-            }
-
-            //close the writer
-            writer.flush();
-            writer.close();
-        }catch (IOException ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public static void processActiveOrderToCSV(){
-        try {
-            List<Order> activeOrderListCopy = new ArrayList<>(activeOrders);
-            List<List<String>> records = new ArrayList<>();
-
-            for(Order or : activeOrderListCopy){
-                String orderNumber = Integer.toString(or.getOrderNumber());
-                Map<MenuItem,Integer> menuItemList = or.getItemsOrderedList();
-                Map<String,Integer> menuItemStringList = new HashMap<>();
-                for(var entry : menuItemList.entrySet()){
-                    menuItemStringList.put(entry.getKey().getItemName(),entry.getValue());
-                }
-
-                List<String> tempList = new ArrayList<>();
-                tempList.add(orderNumber);
-                tempList.add(menuItemStringList.toString());
-                records.add(tempList);
-            }
-
-            // create a writer
-
-            FileWriter writer = new FileWriter("src/com/company/activeOrders.csv", false);
 
             // write all records
             for (List<String> record : records) {
