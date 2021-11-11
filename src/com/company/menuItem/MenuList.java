@@ -8,12 +8,19 @@ import java.util.Scanner;
 
 import java.util.ArrayList;
 
+/**
+ * This is the class that contains a static list of all the MenuItems that are added
+ */
+
 public class MenuList {
 
 	private static ArrayList<MenuItem> mItemList = new ArrayList<>();
 	Scanner sc = new Scanner(System.in);
 
 
+	/**
+	 * Creates a new MenuItem. The user has to enter inputs accordingly to the prompts given.
+	 */
 	public void createMenuItem() {
 
 		mItemList.add(new MenuItem());
@@ -66,26 +73,25 @@ public class MenuList {
 
 	}
 
-	public static void displayMenu() {
 
+	/**
+	 * Display the current MenuItems that are added
+	 */
+	public static void displayMenu() {
 		if (mItemList.isEmpty()) {
 			System.out.println("No items in Menu!");
 		} else {
-			// System.out.println("Name \t Description \t Price \t Type");
 			for (int i = 0; i < mItemList.size(); i++) {
 				System.out.println(mItemList.get(i));
-//				System.out.print(mItemList.get(i).getItemName() + "\t");
-//				System.out.print(mItemList.get(i).getItemDescription() + "\t");
-//				System.out.print(mItemList.get(i).getItemPrice() + "\t");
-//				System.out.print(mItemList.get(i).getItemType() + "\n");
 			}
-
 		}
-
-		// fix the alignment problem later
-		// have to display by categories
-
 	}
+
+
+	/**
+	 * Removes a MenuItem from the mItemList. User is expected to give inputs based on the prompts provided.
+	 * @return If the item entered is removed successfully a boolean value of true is returned and returns false if unsuccessful.
+	 */
 
 	public boolean removeMenuItem() {
 
@@ -106,6 +112,15 @@ public class MenuList {
 
 		}
 	}
+
+	/**
+	 * Updates a MenuItem from the mItemList. User is expected to give inputs based on the prompts provided.
+	 * This function enables the following attributes of the MenuItem to be changes:
+	 * - Name
+	 * - Price
+	 * - Type
+	 * - Description
+	 */
 
 	public void updateMenuItem() {
 
@@ -192,9 +207,19 @@ public class MenuList {
 
 	}
 
+	/**
+	 * This method returns the List of MenuItemObjects that have been added.
+	 * @return mItemList (List of MenuItem Objects that have been added)
+	 */
+
 	public static ArrayList<MenuItem> getmItemList() {
 		return mItemList;
 	}
+
+	/**
+	 * This method processes the mItemList and writes to a CSV file with the necessary information, so that the
+	 * added MenuItems can be retrieved by reading the generated the CSV File when the application is relaunched.
+	 */
 
 	public static void processMenuListToCSVFile(){
 		try {

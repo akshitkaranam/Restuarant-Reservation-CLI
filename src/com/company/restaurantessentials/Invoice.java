@@ -1,4 +1,4 @@
-package com.company.restaurantfunctions;
+package com.company.restaurantessentials;
 
 import com.company.menuItem.MenuItem;
 import com.company.menuItem.PromotionPackage;
@@ -7,6 +7,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.*;
+
+/**
+ * This is class is the entity that is created when a Customer checks-out from the restaurant.
+ */
 
 public class Invoice implements Comparable<Invoice> {
 
@@ -19,12 +23,24 @@ public class Invoice implements Comparable<Invoice> {
     private final LocalDateTime localDateTime;
 
 
+    /**
+     * This constructor takes in the Order object as a parameter. It also calculates the final price the customer
+     * has to pay based on their order details (added MenuItems/Promotion Packages).
+     * This constructor is useful when the Customer is checking-out from the restaurant
+     * @param order the relevant Order object
+     */
 
     public Invoice(Order order) {
         this.order = order;
         localDateTime = LocalDateTime.now();
         calculateFinalPrice();
     }
+
+    /**
+     * This constructor is useful when the invoice object is being re-created when reading from the CSV-file (orderInvoices.csv)
+     * @param order the relevant Order object
+     * @param localDateTime the time/date this invoice was originally created.
+     */
 
     public Invoice(Order order,LocalDateTime localDateTime) {
         this.order = order;
@@ -33,6 +49,10 @@ public class Invoice implements Comparable<Invoice> {
         calculateFinalPrice();
 
     }
+
+    /**
+     * Calculates the final price of the Order
+     */
 
     private void calculateFinalPrice() {
         boolean customerIsMember = order.getCustomer().isMember();
@@ -54,14 +74,22 @@ public class Invoice implements Comparable<Invoice> {
         }
 
         taxPrice = (priceBeforeTax - memberDiscount) * 0.07;
-        priceAfterTax = priceBeforeTax + taxPrice;
+        priceAfterTax = priceBeforeTax - memberDiscount + taxPrice;
     }
 
+
+    /**
+     * Check if the invoice is paid
+     * @return boolean value of invoice is paid
+     */
 
     public boolean isInvoicePaid() {
         return invoicePaid;
     }
 
+    /**
+     * Sets invoicePaid to true and generates a receipt and adds this invoice object into the static list present in the InvoiceList Class
+     */
     public void generateReceipt() {
 
         invoicePaid = true;
@@ -108,6 +136,10 @@ public class Invoice implements Comparable<Invoice> {
         InvoiceList.addInvoice(this);
     }
 
+    /**
+     *
+     * @return the Time/Date the invoice was generated
+     */
     public LocalDateTime getLocalDateTime() {
         return localDateTime;
     }
@@ -117,17 +149,35 @@ public class Invoice implements Comparable<Invoice> {
         return this.localDateTime.compareTo(in.localDateTime);
     }
 
+    /**
+     *
+     * @return the Order object in the invoice
+     */
     public Order getOrder() {
         return order;
     }
 
+    /**
+     *
+     * @return LocalDate
+     */
     public LocalDate getDate() {
         return localDateTime.toLocalDate();
     }
+
+    /**
+     *
+     * @return Month
+     */
     public Month getMonth() {
         return localDateTime.getMonth();
     }
 
+
+    /**
+     *
+     * @return priceAfterTax;
+     */
     public double getPriceAfterTax() {
         return priceAfterTax;
     }

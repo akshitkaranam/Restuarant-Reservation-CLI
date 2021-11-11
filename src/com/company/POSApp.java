@@ -8,7 +8,7 @@ import com.company.menuItem.MenuItem;
 import com.company.menuItem.MenuList;
 import com.company.menuItem.PromotionPackage;
 import com.company.menuItem.PromotionPackageMenu;
-import com.company.restaurantfunctions.*;
+import com.company.restaurantessentials.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -47,12 +47,12 @@ public class POSApp {
         MembershipList.addMember(new Customer("Sally", "78901234"));
 
         //StaffList
-        StaffList.addUser("Christina", "000001", Staff.JobRole.MANAGER);
-        StaffList.addUser("Thomas", "000002", Staff.JobRole.WAITER);
-        StaffList.addUser("Lisa", "000003", Staff.JobRole.WAITER);
-        StaffList.addUser("Jessie", "000004", Staff.JobRole.WAITER);
-        StaffList.addUser("Fred", "000005", Staff.JobRole.WAITER);
-        StaffList.addUser("Wayne", "000006", Staff.JobRole.WAITER);
+        StaffList.addStaff("Christina", "000001", Staff.JobRole.MANAGER,"Female");
+        StaffList.addStaff("Thomas", "000002", Staff.JobRole.WAITER,"Male");
+        StaffList.addStaff("Lisa", "000003", Staff.JobRole.WAITER,"Female");
+        StaffList.addStaff("Jessie", "000004", Staff.JobRole.WAITER,"Female");
+        StaffList.addStaff("Fred", "000005", Staff.JobRole.WAITER,"Male");
+        StaffList.addStaff("Wayne", "000006", Staff.JobRole.WAITER,"Male");
         currentStaffUser = StaffList.getStaffList().get(0); //Default is the manager
 
         //Retrieve Saved Information from CSV Files
