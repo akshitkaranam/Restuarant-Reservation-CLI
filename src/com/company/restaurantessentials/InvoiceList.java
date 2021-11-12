@@ -196,14 +196,22 @@ public class InvoiceList {
                 tempList.add(Integer.toString(thisOrder.getGroupSize()));
                 tempList.add(thisOrder.getReservationStartTime().toString());
                 tempList.add(thisOrder.getReservationEndTime().toString());
+
                 Map<MenuItem,Integer> menuItemList = thisOrder.getItemsOrderedList();
                 Map<String,Integer> menuItemStringList = new HashMap<>();
                 for(var entry : menuItemList.entrySet()){
                     menuItemStringList.put(entry.getKey().getItemName(),entry.getValue());
                 }
-
-
                 tempList.add(menuItemStringList.toString());
+
+                Map<PromotionPackage,Integer> promoPackList = thisOrder.getPromotionPackageOrderedList();
+                Map<String,Integer> promoPackStringList = new HashMap<>();
+
+                for(var entry: promoPackList.entrySet()){
+                    promoPackStringList.put(entry.getKey().getPackageName(),entry.getValue());
+                }
+                tempList.add(promoPackStringList.toString());
+
                 tempList.add(Integer.toString(thisOrder.getTableNumber()));
 
                 tempList.add(thisOrder.getStaff().getName());
@@ -228,6 +236,5 @@ public class InvoiceList {
         }
 
     }
-
 
 }
