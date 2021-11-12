@@ -84,6 +84,7 @@ public class MenuList {
             for (int j = 0; j < mItemList.size(); j++) {
                 System.out.println("Item " + (j + 1) + ": " + mItemList.get(j).getItemName()
                         + " " + mItemList.get(j).getItemDescription()
+                        + " $" + mItemList.get(j).getItemPrice()
                         + " " + mItemList.get(j).getItemType());
             }
         }

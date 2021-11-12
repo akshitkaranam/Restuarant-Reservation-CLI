@@ -19,7 +19,6 @@ public class InvoiceList {
     public static List<Invoice> invoicesList = new ArrayList<>();
 
     /**
-     *
      * @param invoice the invoice object needed to be added
      */
     public static void addInvoice(Invoice invoice) {
@@ -34,6 +33,7 @@ public class InvoiceList {
      * Get sales report by a given day
      * 1. Total Revenue
      * 2. Quantity of MenuItems/ Promotion Packages Sold
+     *
      * @param date the relevant date that is being queried
      */
     public static void salesReportByDay(LocalDate date) {
@@ -43,32 +43,27 @@ public class InvoiceList {
         Scanner sc = new Scanner(System.in);
 
         do {
-            System.out.println("Choose an option:\n"
-                    + "================================\n"
-                    + "|1. Get Total Revenue |\n"
-                    + "|2. Get Sales of Individual Items and Packages|\n"
-                    + "|3. Quit|\n"
-                    + "==================================");
+            System.out.println("""
+                    Choose an option:
+                    ================================
+                    |1. Get Total Revenue |
+                    |2. Get Sales of Individual Items and Packages|
+                    |3. Quit|
+                    ==================================""");
             option = sc.nextInt();
             switch (option) {
-                case 1:
+                case 1 -> {
                     int totalRevenue = calculateTotalRevenue(relevantInvoices);
                     System.out.println("Total Revenue for Today is: " + totalRevenue);
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     Map<MenuItem, Integer> totalItemQuantity = getMenuItemQuantity(relevantInvoices);
-
                     for (Map.Entry<MenuItem, Integer> menuItemQuantityEntry : totalItemQuantity.entrySet()) {
                         System.out.println(menuItemQuantityEntry.getKey() + ": " + menuItemQuantityEntry.getValue());
                     }
-                    break;
-                case 3:
-                    System.out.println("Quitting, going back to Main Menu!");
-                    break;
-
-                default:
-                    System.out.println("Choose option (1-3):");
-                    break;
+                }
+                case 3 -> System.out.println("Quitting, going back to Main Menu!");
+                default -> System.out.println("Choose option (1-3):");
             }
 
         } while (option != 3);
@@ -79,6 +74,7 @@ public class InvoiceList {
      * Get sales report by a given Month
      * 1. Total Revenue
      * 2. Quantity of MenuItems/ Promotion Packages Sold
+     *
      * @param month the relevant Month that is being queried
      */
     public static void salesReportByMonth(Month month) {
@@ -178,12 +174,12 @@ public class InvoiceList {
     /**
      * Process the Invoice Static List to save the information to a CSV File: orderInvoices.csv
      */
-    public static void processInvoiceListToCSVFile(){
+    public static void processInvoiceListToCSVFile() {
         try {
             // create a list of objects
             List<List<String>> records = new ArrayList<>();
 
-            for(int i =0; i<invoicesList.size();i++){
+            for (int i = 0; i < invoicesList.size(); i++) {
                 List<String> tempList = new ArrayList<>();
                 tempList.add(invoicesList.get(i).getLocalDateTime().toString());
 
@@ -197,18 +193,18 @@ public class InvoiceList {
                 tempList.add(thisOrder.getReservationStartTime().toString());
                 tempList.add(thisOrder.getReservationEndTime().toString());
 
-                Map<MenuItem,Integer> menuItemList = thisOrder.getItemsOrderedList();
-                Map<String,Integer> menuItemStringList = new HashMap<>();
-                for(var entry : menuItemList.entrySet()){
-                    menuItemStringList.put(entry.getKey().getItemName(),entry.getValue());
+                Map<MenuItem, Integer> menuItemList = thisOrder.getItemsOrderedList();
+                Map<String, Integer> menuItemStringList = new HashMap<>();
+                for (var entry : menuItemList.entrySet()) {
+                    menuItemStringList.put(entry.getKey().getItemName(), entry.getValue());
                 }
                 tempList.add(menuItemStringList.toString());
 
-                Map<PromotionPackage,Integer> promoPackList = thisOrder.getPromotionPackageOrderedList();
-                Map<String,Integer> promoPackStringList = new HashMap<>();
+                Map<PromotionPackage, Integer> promoPackList = thisOrder.getPromotionPackageOrderedList();
+                Map<String, Integer> promoPackStringList = new HashMap<>();
 
-                for(var entry: promoPackList.entrySet()){
-                    promoPackStringList.put(entry.getKey().getPackageName(),entry.getValue());
+                for (var entry : promoPackList.entrySet()) {
+                    promoPackStringList.put(entry.getKey().getPackageName(), entry.getValue());
                 }
                 tempList.add(promoPackStringList.toString());
 
@@ -220,7 +216,7 @@ public class InvoiceList {
 
             // create a writer
 
-            FileWriter writer = new FileWriter("src/com/company/orderInvoices.csv",true);
+            FileWriter writer = new FileWriter("src/com/company/orderInvoices.csv", true);
 
             // write all records
             for (List<String> record : records) {
