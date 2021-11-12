@@ -191,11 +191,12 @@ public class PromotionPackage {
                     int innerChosenOption;
                     int j;
                     for (j = 0; j < menuItemsInMenu.size(); j++) {
-                        System.out.println(j + " " + MenuList.getmItemList().get(j));
+                        System.out.println(j + 1 + " " + MenuList.getmItemList().get(j));
                     }
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
+                        innerChosenOption--;
                         if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
                             break;
                         } else {
@@ -213,16 +214,17 @@ public class PromotionPackage {
 
                 case 3:
                     List<MenuItem> addedMenuItemsInPackage = this.promotionPackage;
-                    if(this.promotionPackage.isEmpty()){
+                    if (this.promotionPackage.isEmpty()) {
                         System.out.println("Sorry there are no MenuItems Added in to this package!");
                     }
 
                     for (j = 0; j < addedMenuItemsInPackage.size(); j++) {
-                        System.out.println(j + " " + addedMenuItemsInPackage.get(j));
+                        System.out.println(j + 1 + " " + addedMenuItemsInPackage.get(j));
                     }
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
+                        innerChosenOption--;
                         if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
                             System.out.println("Successfully removed: "
                                     + addedMenuItemsInPackage.get(innerChosenOption).getItemName());
@@ -238,8 +240,12 @@ public class PromotionPackage {
                 case 4:
                     addedMenuItemsInPackage = this.promotionPackage;
                     for (j = 0; j < addedMenuItemsInPackage.size(); j++) {
-                        System.out.println(j + " " + addedMenuItemsInPackage.get(j));
+//                        System.out.println(j+1 + " " + addedMenuItemsInPackage.get(j));
+                        System.out.println("Item " + (j + 1) + ": " + promotionPackage.get(j).getItemName()
+                                + " " + promotionPackage.get(j).getItemDescription()
+                                + " " + promotionPackage.get(j).getItemType());
                     }
+
                     break;
 
                 case 5:
