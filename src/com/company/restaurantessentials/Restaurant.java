@@ -1,6 +1,8 @@
 package com.company.restaurantessentials;
 
 import com.company.menuItem.MenuItem;
+import com.company.menuItem.PromotionPackage;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -136,15 +138,24 @@ public class Restaurant {
 
             for(Order or : activeOrderListCopy){
                 String orderNumber = Integer.toString(or.getOrderNumber());
+
                 Map<MenuItem,Integer> menuItemList = or.getItemsOrderedList();
                 Map<String,Integer> menuItemStringList = new HashMap<>();
                 for(var entry : menuItemList.entrySet()){
                     menuItemStringList.put(entry.getKey().getItemName(),entry.getValue());
                 }
 
+                Map<PromotionPackage,Integer> promoPackList = or.getPromotionPackageOrderedList();
+                Map<String,Integer> promoPackStringList = new HashMap<>();
+
+                for(var entry: promoPackList.entrySet()){
+                    promoPackStringList.put(entry.getKey().getPackageName(),entry.getValue());
+                }
+
                 List<String> tempList = new ArrayList<>();
                 tempList.add(orderNumber);
                 tempList.add(menuItemStringList.toString());
+                tempList.add(promoPackStringList.toString());
                 records.add(tempList);
             }
 
