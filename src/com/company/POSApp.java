@@ -55,7 +55,7 @@ public class POSApp {
                 case 5 -> removeReservation();
                 case 6 -> checkTableAvailability();
                 case 7 -> checkInCustomer();
-                case 8 -> addItemsToOrder();
+                case 8 -> modifyActiveOrder();
                 case 9 -> checkOutCustomer();
                 case 10 -> printSalesByTimePeriod();
                 case 11 -> changeStaffUser();
@@ -658,7 +658,7 @@ public class POSApp {
         System.out.println();
     }
 
-    private static void addItemsToOrder() {
+    private static void modifyActiveOrder() {
         List<Order> activeOrders = Restaurant.getActiveOrders();
         Scanner sc = new Scanner(System.in);
         int i = 0;
@@ -673,6 +673,7 @@ public class POSApp {
         }
         int chosenOption = sc.nextInt();
         Order relevantOrder = activeOrders.get(chosenOption);
+        relevantOrder.setStaff(currentStaffUser);
         int option;
         do {
             System.out.println("MAKE CHANGES TO Order to table number: " + relevantOrder.getTableNumber());
