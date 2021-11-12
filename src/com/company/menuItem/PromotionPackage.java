@@ -86,19 +86,19 @@ public class PromotionPackage {
                     int innerChosenOption;
                     int j;
                     for (j = 0; j < menuItemsInMenu.size(); j++) {
-                        System.out.println((j + 1) + " " + MenuList.getmItemList().get(j));
+                        System.out.println(j + 1 + " " + MenuList.getmItemList().get(j));
                     }
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
                         innerChosenOption--;
-                        if (innerChosenOption <= j && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
                         }
                     }
-                    MenuItem relevantItemToBeAdded = menuItemsInMenu.get(innerChosenOption-1);
+                    MenuItem relevantItemToBeAdded = menuItemsInMenu.get(innerChosenOption);
                     if (!this.promotionPackage.contains(relevantItemToBeAdded)) {
                         this.promotionPackage.add(relevantItemToBeAdded);
                         System.out.println("Successfully added: " + relevantItemToBeAdded.getItemName());
@@ -110,21 +110,21 @@ public class PromotionPackage {
                 case 2:
                     List<MenuItem> addedMenuItemsInPackage = this.promotionPackage;
                     for (j = 0; j < addedMenuItemsInPackage.size(); j++) {
-                        System.out.println((j + 1) + " " + addedMenuItemsInPackage.get(j));
+                        System.out.println(j + 1 + " " + addedMenuItemsInPackage.get(j));
                     }
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
                         innerChosenOption--;
-                        if (innerChosenOption <= j && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
                         }
                     }
                     System.out.println("Successfully removed: "
-                            + addedMenuItemsInPackage.get(innerChosenOption-1).getItemName());
-                    addedMenuItemsInPackage.remove(innerChosenOption-1);
+                            + addedMenuItemsInPackage.get(innerChosenOption).getItemName());
+                    addedMenuItemsInPackage.remove(innerChosenOption);
                     break;
 
                 case 3:
@@ -191,18 +191,18 @@ public class PromotionPackage {
                     int innerChosenOption;
                     int j;
                     for (j = 0; j < menuItemsInMenu.size(); j++) {
-                        System.out.println((j+1) + " " + MenuList.getmItemList().get(j));
+                        System.out.println(j + " " + MenuList.getmItemList().get(j));
                     }
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
                         }
                     }
-                    MenuItem relevantItemToBeAdded = menuItemsInMenu.get(innerChosenOption-1);
+                    MenuItem relevantItemToBeAdded = menuItemsInMenu.get(innerChosenOption);
                     if (!this.promotionPackage.contains(relevantItemToBeAdded)) {
                         this.promotionPackage.add(relevantItemToBeAdded);
                         System.out.println("Successfully added: " + relevantItemToBeAdded.getItemName());
@@ -214,15 +214,15 @@ public class PromotionPackage {
                 case 3:
                     List<MenuItem> addedMenuItemsInPackage = this.promotionPackage;
                     for (j = 0; j < addedMenuItemsInPackage.size(); j++) {
-                        System.out.println((j+1) + " " + addedMenuItemsInPackage.get(j));
+                        System.out.println(j + " " + addedMenuItemsInPackage.get(j));
                     }
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
                             System.out.println("Successfully removed: "
-                                    + addedMenuItemsInPackage.get(innerChosenOption-1).getItemName());
-                            addedMenuItemsInPackage.remove(innerChosenOption-1);
+                                    + addedMenuItemsInPackage.get(innerChosenOption).getItemName());
+                            addedMenuItemsInPackage.remove(innerChosenOption);
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
