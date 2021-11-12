@@ -32,7 +32,7 @@ public class POSApp {
         retrieveMenuInformation();
         retrievePromotionPackageInformation();
         retrieveOrderReservationInformation();
-//        retrieveActiveOrderInformation();
+        retrieveActiveOrderInformation();
         retrieveInvoicesInformation();
 
         currentStaffUser = StaffList.getStaffList().get(0); //Default is index 0
@@ -221,7 +221,7 @@ public class POSApp {
             }
         }
 
-        if (availableSlotsSet.isEmpty()) {
+        if (availableSlotsSet.size() == 0) {
             System.out.println("Sorry there are no tables available on this date: " + date + " for a group size of " + groupSize);
             System.out.println();
             return;
@@ -229,7 +229,7 @@ public class POSApp {
 
         while (true) {
             try {
-                System.out.println("Please enter the time you want to book:  e.g 09:30 ");
+                System.out.println("Please enter the time you want to book in the format hh:mm (e.g. 09:00) : ");
                 String timeEntered = scanner.next();
                 timeEntered = timeEntered + ":00";
                 time = LocalTime.parse(timeEntered);
@@ -254,7 +254,7 @@ public class POSApp {
 
         while (true) {
             try {
-                System.out.println("Please enter the the duration you want to reserve the table in hours (e.g. 1.5 or 2");
+                System.out.println("Please enter the the duration you want to reserve the table in hours (e.g. 1.5/2)");
                 scanner.nextLine();
                 double duration = scanner.nextDouble();
 
@@ -380,14 +380,39 @@ public class POSApp {
         }
 
         List<Order> listOfAllOrderReservations = new ArrayList<>(setOfAllReservation);
-        if (listOfAllOrderReservations.isEmpty()) {
+        if ( listOfAllOrderReservations.size() == 0) {
             System.out.println("There are currently no reservations on this date!");
+            System.out.println();
+            return;
         }
+
+
 
         for (Order order : listOfAllOrderReservations) {
             if (order == null) {
                 continue;
             }
+            LocalDate reservationDate = order.getDate();
+            if (reservationDate.equals(LocalDate.now())
+                    && order.getReservationStartTime().plusMinutes(30).isBefore(LocalTime.now())) {
+
+
+                LocalTime reservationStartTime = order.getReservationStartTime();
+                LocalTime reservationEndTime = order.getReservationEndTime();
+                Table tableOfOrder = Restaurant.getTableList().get(order.getTableNumber());
+
+
+
+                TableDateSlots todaySlotsForThisTable = tableOfOrder.getTableDateSlotsList().get(LocalDate.now());
+                LocalTime time = reservationStartTime;
+                while (time.isBefore(reservationEndTime)) {
+                    todaySlotsForThisTable.getSlots().put(time, null);
+                    time = time.plusMinutes(30);
+                }
+                Restaurant.processActiveReservationsToCSV();
+                continue;
+            }
+
             System.out.println(order);
         }
         System.out.println();
@@ -530,13 +555,16 @@ public class POSApp {
             }
         }
         boolean allFull = true;
-        System.out.println("These are the empty tables at this time");
+        //code changed here
+        System.out.println("These are the empty tables at this time, for a duration of atleast 1.5 hours");
         for (Table table : Restaurant.getTableList().values()) {
             if(!table.getTableDateSlotsList().containsKey(date)) {
                 table.getTableDateSlotsList().put(date, new TableDateSlots(date));
             }
-
-            if (table.getTableDateSlotsList().get(date).getSlots().get(time) == null) {
+            //code changed here
+            if (table.getTableDateSlotsList().get(date).getSlots().get(time) == null &&
+                    table.getTableDateSlotsList().get(date).getSlots().get(time.plusMinutes(30)) == null
+                    && table.getTableDateSlotsList().get(date).getSlots().get(time.plusMinutes(60)) == null) {
                 System.out.print(table.getTableNumber() + ", ");
                 allFull = false;
             }
@@ -571,7 +599,9 @@ public class POSApp {
 
             if (thisOrder != null) {
                 //Remove Reservation if time now is 30 minutes after the reservation start time
-                if (thisOrder.getReservationStartTime().plusMinutes(30).isBefore(LocalTime.now())) {
+                LocalDate reservationDate = thisOrder.getDate();
+                if (reservationDate.equals(LocalDate.now()) && thisOrder.getReservationStartTime().plusMinutes(30).isBefore(LocalTime.now())) {
+
 
                     LocalTime reservationStartTime = thisOrder.getReservationStartTime();
                     LocalTime reservationEndTime = thisOrder.getReservationEndTime();
@@ -582,6 +612,7 @@ public class POSApp {
                         todaySlotsForThisTable.getSlots().put(time, null);
                         time = time.plusMinutes(30);
                     }
+                    Restaurant.processActiveReservationsToCSV();
                     continue;
                 }
 
@@ -1151,6 +1182,7 @@ public class POSApp {
                 String[] tokens = line.split(DELIMITER);
                 String orderID = tokens[0];
                 String listOfMenuItems = tokens[1];
+                String listOfPromoItems = tokens[2];
                 Order thisOrder = null;
                 String name;
                 int quantity;
@@ -1168,9 +1200,10 @@ public class POSApp {
                     }
                 }
                 Restaurant.addActiveOrder(thisOrder);
+
                 listOfMenuItems = listOfMenuItems.substring(1, listOfMenuItems.length() - 1);
                 String[] tokens2 = listOfMenuItems.split(", ");
-                System.out.println(Arrays.toString(tokens2));
+//                System.out.println(Arrays.toString(tokens2));
 
                 for (String token2 : tokens2) {
                     String[] tokens3 = token2.split("=");
@@ -1179,14 +1212,28 @@ public class POSApp {
 
                     for (int i = 0; i < MenuList.getmItemList().size(); i++) {
                         if (MenuList.getmItemList().get(i).getItemName().equals(name)) {
-                            assert thisOrder != null;
                             thisOrder.addMenuItemToOrder(MenuList.getmItemList().get(i), quantity);
                             break;
                         }
                     }
                 }
 
-                assert thisOrder != null;
+                listOfPromoItems = listOfPromoItems.substring(1, listOfPromoItems.length() - 1);
+                String[] tokens3 = listOfPromoItems.split(", ");
+//                System.out.println(Arrays.toString(tokens3));
+
+                for (String token3 : tokens3) {
+                    String[] tokens4 = token3.split("=");
+                    name = tokens4[0];
+                    quantity = Integer.parseInt(tokens4[1]);
+
+                    for (int i = 0; i < PromotionPackageMenu.getPackageList().size(); i++) {
+                        if (PromotionPackageMenu.getPackageList().get(i).getPackageName().equals(name)){
+                            thisOrder.addPromotionPackageToOrder(PromotionPackageMenu.getPackageList().get(i),quantity);
+                        }
+                    }
+                }
+
                 thisOrder.setOrderIsActive(true);
             }
             br.close();
@@ -1211,6 +1258,8 @@ public class POSApp {
 
                 String itemName;
                 int itemQuantity;
+                String packageName;
+                int packageQuantity;
                 Customer thisCustomer;
 
                 // convert line into tokens
@@ -1226,17 +1275,15 @@ public class POSApp {
                 LocalTime reservationStartTime = LocalTime.parse(tokens[6]);
                 LocalTime reservationEndTime = LocalTime.parse(tokens[7]);
                 String listOfMenuItems = tokens[8];
-                int tableNumber = Integer.parseInt(tokens[9]);
-                String staffNameString = tokens[10];
+                String listOfPromoItems = tokens[9];
+                int tableNumber = Integer.parseInt(tokens[10]);
+                String staffNameString = tokens[11];
                 Staff staffName = null;
                 for (Staff staff : StaffList.getStaffList()) {
                     if (staff.getName().equals(staffNameString)) {
                         staffName = staff;
                     }
                 }
-
-                listOfMenuItems = listOfMenuItems.substring(1, listOfMenuItems.length() - 1);
-                String[] tokens2 = listOfMenuItems.split(", ");
 
 
                 if (MembershipList.getMembersList().containsKey(customerContactNumber) &&
@@ -1249,6 +1296,9 @@ public class POSApp {
                 Order thisOrder = new Order(thisCustomer, orderNumber, groupSize, tableNumber, orderDate
                         , reservationStartTime, reservationEndTime, false, staffName, false);
 
+
+                listOfMenuItems = listOfMenuItems.substring(1, listOfMenuItems.length() - 1);
+                String[] tokens2 = listOfMenuItems.split(", ");
                 for (String token2 : tokens2) {
                     String[] tokens3 = token2.split("=");
                     itemName = tokens3[0];
@@ -1258,6 +1308,21 @@ public class POSApp {
                         if (MenuList.getmItemList().get(i).getItemName().equals(itemName)) {
                             thisOrder.addMenuItemToOrder(MenuList.getmItemList().get(i), itemQuantity);
                             break;
+                        }
+                    }
+                }
+
+                listOfPromoItems = listOfPromoItems.substring(1, listOfPromoItems.length() - 1);
+                String[] tokens3 = listOfPromoItems.split(", ");
+//
+                for (String token3 : tokens3) {
+                    String[] tokens4 = token3.split("=");
+                    packageName = tokens4[0];
+                    packageQuantity = Integer.parseInt(tokens4[1]);
+
+                    for (int i = 0; i < PromotionPackageMenu.getPackageList().size(); i++) {
+                        if (PromotionPackageMenu.getPackageList().get(i).getPackageName().equals(packageName)){
+                            thisOrder.addPromotionPackageToOrder(PromotionPackageMenu.getPackageList().get(i),packageQuantity);
                         }
                     }
                 }

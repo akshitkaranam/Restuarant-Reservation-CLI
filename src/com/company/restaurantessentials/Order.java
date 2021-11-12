@@ -75,7 +75,6 @@ public class Order {
             ex.printStackTrace();
         }
         this.customer = customer;
-        this.orderNumber = totalOrderNumber++;
         this.groupSize = groupSize;
         this.tableNumber = tableNumber;
         this.date = date;
