@@ -50,10 +50,10 @@ public class POSApp {
             switch (option) {
                 case 1 -> makeChangesToMenu();
                 case 2 -> makeChangesToPackages();
-                case 3 -> addReservation();
-                case 4 -> showListOfReservationByDate();
-                case 5 -> removeReservation();
-                case 6 -> checkTableAvailability();
+                case 3 -> checkTableAvailability();
+                case 4 -> addReservation();
+                case 5 -> showListOfReservationByDate();
+                case 6 -> removeReservation();
                 case 7 -> checkInCustomer();
                 case 8 -> modifyActiveOrder();
                 case 9 -> checkOutCustomer();
@@ -72,10 +72,10 @@ public class POSApp {
         System.out.println("---------------------------------");
         System.out.println("1: Create/Update/Remove Menu Item");
         System.out.println("2: Create/Update/Remove Promotion Package");
-        System.out.println("3: Create new Reservation");
-        System.out.println("4: Show Active Reservations by Date");
-        System.out.println("5: Remove Reservation Booking");
-        System.out.println("6: Check table availability");
+        System.out.println("3: Check table availability");
+        System.out.println("4: Create new Reservation");
+        System.out.println("5: Show Active Reservations by Date");
+        System.out.println("6: Remove Reservation Booking");
         System.out.println("7: Check-in Customer");
         System.out.println("8: Modify Active Orders");
         System.out.println("9: Check-out Customer");
@@ -397,7 +397,7 @@ public class POSApp {
             //remove if reservation has expired!
             LocalDate reservationDate = order.getDate();
             if (reservationDate.equals(LocalDate.now()) &&
-                    order.getReservationStartTime().plusMinutes(30).isBefore(LocalTime.now())
+                    order.getReservationStartTime().plusMinutes(5).isBefore(LocalTime.now())
                     && !order.isOrderIsActive()) {
                 LocalTime reservationStartTime = order.getReservationStartTime();
                 LocalTime reservationEndTime = order.getReservationEndTime();
@@ -515,7 +515,7 @@ public class POSApp {
 
         while (true) {
             try {
-                System.out.println("Enter the date you wish to check thr table availability");
+                System.out.println("Enter the date you wish to check the table availability");
                 String dateEntered = scanner.next();
                 date = LocalDate.parse(dateEntered);
 
@@ -572,7 +572,7 @@ public class POSApp {
             if (table.getTableDateSlotsList().get(date).getSlots().get(time) == null &&
                     table.getTableDateSlotsList().get(date).getSlots().get(time.plusMinutes(30)) == null
                     && table.getTableDateSlotsList().get(date).getSlots().get(time.plusMinutes(60)) == null) {
-                System.out.print(table.getTableNumber() + ", ");
+                System.out.println("Table Number: " + table.getTableNumber() + ", Number of Seats: " +  table.getNumberOfSeats());
                 allFull = false;
             }
         }
@@ -608,7 +608,7 @@ public class POSApp {
                 //Remove Reservation if time now is 30 minutes after the reservation start time
                 LocalDate reservationDate = thisOrder.getDate();
                 if (reservationDate.equals(LocalDate.now()) &&
-                        thisOrder.getReservationStartTime().plusMinutes(30).isBefore(LocalTime.now())
+                        thisOrder.getReservationStartTime().plusMinutes(5).isBefore(LocalTime.now())
                         && !thisOrder.isOrderIsActive()) {
 
 
