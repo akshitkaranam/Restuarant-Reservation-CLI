@@ -887,6 +887,7 @@ public class POSApp {
 
         Order orderToCheckOut = activeOrders.get(optionChosen-1);
         orderToCheckOut.setStaff(currentStaffUser);
+        orderToCheckOut.setOrderIsActive(false);
         Invoice thisOrderInvoice = new Invoice(orderToCheckOut);
         thisOrderInvoice.generateReceipt();
         activeOrders.remove(optionChosen);
