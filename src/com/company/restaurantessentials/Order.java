@@ -31,31 +31,32 @@ public class Order {
 
 
     //Reservation
-    private Customer customer;
+    private final Customer customer;
     private int orderNumber;
-    private int groupSize;
-    private int tableNumber;
-    private LocalDate date;
-    private LocalTime reservationStartTime;
-    private LocalTime reservationEndTime;
-    private boolean reservationIsActive;
+    private final int groupSize;
+    private final int tableNumber;
+    private final LocalDate date;
+    private final LocalTime reservationStartTime;
+    private final LocalTime reservationEndTime;
+    private final boolean reservationIsActive;
 
     //Order
     private Staff staff;
-    private Map<MenuItem, Integer> itemsOrderedList;
-    private Map<PromotionPackage,Integer> promotionPackageOrderedList;
+    private final Map<MenuItem, Integer> itemsOrderedList;
+    private final Map<PromotionPackage, Integer> promotionPackageOrderedList;
     private boolean orderIsActive;
 
 
     /**
      * This constructor is specifically used when a 'Reservation' is created. This constructor by default \
      * sets 'reservation as active' and 'order as inactive'
-     * @param customer takes in a Customer object.
-     * @param groupSize the size of the group making the reservation
-     * @param tableNumber the table number for the reservation
-     * @param date the date of the reservation
+     *
+     * @param customer             takes in a Customer object.
+     * @param groupSize            the size of the group making the reservation
+     * @param tableNumber          the table number for the reservation
+     * @param date                 the date of the reservation
      * @param reservationStartTime start time of the reservation
-     * @param reservationEndTime end time of the reservation
+     * @param reservationEndTime   end time of the reservation
      */
 
     public Order(Customer customer, int groupSize, int tableNumber,
@@ -88,7 +89,7 @@ public class Order {
         try {
 
             // create a writer
-            FileWriter writer = new FileWriter("src/com/company/orderNumber.csv",false);
+            FileWriter writer = new FileWriter("src/com/company/orderNumber.csv", false);
             // write all records
             System.out.println(this.orderNumber);
             writer.write(Integer.toString(this.orderNumber));
@@ -114,7 +115,7 @@ public class Order {
         this.itemsOrderedList = new HashMap<>();
         this.promotionPackageOrderedList = new HashMap<>();
         this.orderIsActive = false;
-        this.orderNumber =orderNumber;
+        this.orderNumber = orderNumber;
 
 
     }
@@ -122,16 +123,17 @@ public class Order {
     /**
      * This constructor is specifically useful when the Order object is created when retrieving infromation from the
      * orderReservation CSV file.
-     * @param customer takes in a Customer object.
+     *
+     * @param customer             takes in a Customer object.
      * @param orderNumber
-     * @param groupSize the size of the group making the reservation
-     * @param tableNumber the table number for the reservation
-     * @param date the date of the reservation
+     * @param groupSize            the size of the group making the reservation
+     * @param tableNumber          the table number for the reservation
+     * @param date                 the date of the reservation
      * @param reservationStartTime start time of the reservation
-     * @param reservationEndTime end time of the reservation
-     * @param reservationIsActive boolean value if reservation is active
-     * @param staff the staff the has served the customer
-     * @param orderIsActive boolean value if the order is active
+     * @param reservationEndTime   end time of the reservation
+     * @param reservationIsActive  boolean value if reservation is active
+     * @param staff                the staff the has served the customer
+     * @param orderIsActive        boolean value if the order is active
      */
 
     public Order(Customer customer, int orderNumber, int groupSize, int tableNumber, LocalDate date,
@@ -155,8 +157,9 @@ public class Order {
     /**
      * This function allows the staff to add the Customer desired item into the order.
      * i.e. if a customer wants to order 4 Ice Creams Cones
+     *
      * @param menuItemToAdd the MenuItem object that needs to be added to the Order
-     * @param quantity the quantity of the MenuItem object that needs to be added.
+     * @param quantity      the quantity of the MenuItem object that needs to be added.
      */
 
     public void addMenuItemToOrder(MenuItem menuItemToAdd, int quantity) {
@@ -169,7 +172,8 @@ public class Order {
      * The new quantity will override the current quantity.
      * (i.e if the initial Quantity for Ice Cream was '4', and '2' was passed in to this function, then the quantity
      * will be updated to 2
-     * @param item the MenuItem object that needs to be edited
+     *
+     * @param item        the MenuItem object that needs to be edited
      * @param newQuantity the new quantity required.
      */
 
@@ -184,8 +188,9 @@ public class Order {
 
     /**
      * This function allows the staff to add the Customer desired item into the order.
+     *
      * @param promoToAdd the PromotionPackage object that needs to be added to the Order
-     *      * @param quantity the quantity of the MenuItem object that needs to be added.
+     *                   * @param quantity the quantity of the MenuItem object that needs to be added.
      */
 
     public void addPromotionPackageToOrder(PromotionPackage promoToAdd, int quantity) {
@@ -194,13 +199,13 @@ public class Order {
     }
 
     /**
-     *  This functions allows the staff to edit the item that is already added to the order.
-     *      * The new quantity will override the current quantity.
-     *      * (i.e if the initial Quantity for Package 1 was '4', and '2' was passed in to this function, then the quantity
-     *      * will be updated to 2
-     * @param promotionPackage the PromotionPackage object that needs to be edited
-     * @param newQuantity the new quantity required.
+     * This functions allows the staff to edit the item that is already added to the order.
+     * * The new quantity will override the current quantity.
+     * * (i.e if the initial Quantity for Package 1 was '4', and '2' was passed in to this function, then the quantity
+     * * will be updated to 2
      *
+     * @param promotionPackage the PromotionPackage object that needs to be edited
+     * @param newQuantity      the new quantity required.
      */
 
     public void editQuantity(PromotionPackage promotionPackage, int newQuantity) {
@@ -214,6 +219,7 @@ public class Order {
 
     /**
      * Deletes the MenuItem from the Order
+     *
      * @param menuItem the MenuItem object that needs to be removed
      */
 
@@ -223,6 +229,7 @@ public class Order {
 
     /**
      * Deletes the MenuItem from the Order
+     *
      * @param promoPack the PromotionPackage object that needs to be removed
      */
     public void deletePromotionPackage(PromotionPackage promoPack) {
@@ -232,6 +239,7 @@ public class Order {
 
     /**
      * Sets the staff that is managing the order.
+     *
      * @param staff the Staff Object that refers to the staff member that is managing the order
      */
     public void setStaff(Staff staff) {
@@ -240,7 +248,8 @@ public class Order {
 
 
     /**
-     * retuens the Staff Object
+     * returns the Staff Object
+     *
      * @return the Staff object that refers to the staff member that is managing the order
      */
     public Staff getStaff() {
@@ -249,6 +258,7 @@ public class Order {
 
     /**
      * Returns the order number
+     *
      * @return orderNumber
      */
 
@@ -258,6 +268,7 @@ public class Order {
 
     /**
      * This returns the HashMap of the ordered MenuItems and the respective quantities.
+     *
      * @return the HashMap of MenuItem and the quantity of the items the customer has ordered
      */
     public Map<MenuItem, Integer> getItemsOrderedList() {
@@ -266,6 +277,7 @@ public class Order {
 
     /**
      * Returns a boolean value ot check if reservation is active
+     *
      * @return if reservation is active, return true else return false
      */
     public boolean isReservationIsActive() {
@@ -275,6 +287,7 @@ public class Order {
 
     /**
      * Returns a boolean value ot check if order is active
+     *
      * @return if order is active, return true else return false
      */
     public boolean isOrderIsActive() {
@@ -287,6 +300,7 @@ public class Order {
 
     /**
      * Returns an int value of the table number
+     *
      * @return table number
      */
     public int getTableNumber() {
@@ -295,6 +309,7 @@ public class Order {
 
     /**
      * Returns the Customer object
+     *
      * @return Customer
      */
     public Customer getCustomer() {
@@ -303,6 +318,7 @@ public class Order {
 
     /**
      * Returns the start time of the reservation
+     *
      * @return reservationStartTime
      */
     public LocalTime getReservationStartTime() {
@@ -311,6 +327,7 @@ public class Order {
 
     /**
      * Returns the start time of the reservation
+     *
      * @return reservationEndTime
      */
     public LocalTime getReservationEndTime() {
@@ -319,6 +336,7 @@ public class Order {
 
     /**
      * Returns the size of the group.
+     *
      * @return groupSize
      */
     public int getGroupSize() {
@@ -340,6 +358,7 @@ public class Order {
 
     /**
      * This returns the HashMap of the ordered PromotionPackage and the respective quantities.
+     *
      * @return the HashMap of MenuItem and the quantity of the items the customer has ordered
      */
 
@@ -349,6 +368,7 @@ public class Order {
 
     /**
      * Returns the Date of the reservation
+     *
      * @return date
      */
     public LocalDate getDate() {
