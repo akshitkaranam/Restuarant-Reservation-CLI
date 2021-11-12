@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.JarOutputStream;
 
 /**
  * This class is the main entity that processes the Reservation/Orders made by Customers. This class has 2 main function:
@@ -28,7 +29,6 @@ import java.util.Map;
 
 public class Order {
 
-    private static int totalOrderNumber = 1000000;
 
     //Reservation
     private Customer customer;
@@ -86,25 +86,36 @@ public class Order {
         this.orderIsActive = false;
 
         try {
-            // create a list of objects
-            List<List<String>> records = new ArrayList<>();
-            List<String> tempList = new ArrayList<>();
-            tempList.add(Integer.toString(orderNumber));
-            records.add(tempList);
 
             // create a writer
             FileWriter writer = new FileWriter("src/com/company/orderNumber.csv",false);
             // write all records
-            for (List<String> record : records) {
-                writer.write(String.join(";", record));
-                writer.write("\n");
-            }
+            System.out.println(this.orderNumber);
+            writer.write(Integer.toString(this.orderNumber));
             //close the writer
             writer.flush();
             writer.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
+    }
+
+    public Order(Customer customer, int groupSize, int tableNumber,
+                 LocalDate date, LocalTime reservationStartTime, LocalTime reservationEndTime, int orderNumber) {
+
+        this.customer = customer;
+        this.groupSize = groupSize;
+        this.tableNumber = tableNumber;
+        this.date = date;
+        this.reservationStartTime = reservationStartTime;
+        this.reservationEndTime = reservationEndTime;
+        this.reservationIsActive = true;
+        this.itemsOrderedList = new HashMap<>();
+        this.promotionPackageOrderedList = new HashMap<>();
+        this.orderIsActive = false;
+        this.orderNumber =orderNumber;
+
 
     }
 
