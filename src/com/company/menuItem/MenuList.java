@@ -81,12 +81,13 @@ public class MenuList {
         if (mItemList.isEmpty()) {
             System.out.println("No items in Menu!");
         } else {
-            for (MenuItem menuItem : mItemList) {
-                System.out.println(menuItem + "\n");
+            for (int j = 0; j < mItemList.size(); j++) {
+                System.out.println("Item " + (j + 1) + ": " + mItemList.get(j).getItemName()
+                        + " " + mItemList.get(j).getItemDescription()
+                        + " " + mItemList.get(j).getItemType());
             }
         }
     }
-
 
     /**
      * Removes a MenuItem from the mItemList. User is expected to give inputs based on the prompts provided.

@@ -240,7 +240,6 @@ public class PromotionPackage {
                 case 4:
                     addedMenuItemsInPackage = this.promotionPackage;
                     for (j = 0; j < addedMenuItemsInPackage.size(); j++) {
-//                        System.out.println(j+1 + " " + addedMenuItemsInPackage.get(j));
                         System.out.println("Item " + (j + 1) + ": " + promotionPackage.get(j).getItemName()
                                 + " " + promotionPackage.get(j).getItemDescription()
                                 + " " + promotionPackage.get(j).getItemType());
