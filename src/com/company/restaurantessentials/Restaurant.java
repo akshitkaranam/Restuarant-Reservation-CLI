@@ -106,6 +106,7 @@ public class Restaurant {
                 tempList.add(Integer.toString(activeReservationOrderList.get(i).getGroupSize()));
                 tempList.add(activeReservationOrderList.get(i).getReservationStartTime().toString());
                 tempList.add(activeReservationOrderList.get(i).getReservationEndTime().toString());
+                tempList.add(Integer.toString(activeReservationOrderList.get(i).getOrderNumber()));
                 records.add(tempList);
             }
 
