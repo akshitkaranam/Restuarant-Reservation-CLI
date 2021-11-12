@@ -629,11 +629,12 @@ public class POSApp {
                     LocalTime reservationEndTime = thisOrder.getReservationEndTime().minusMinutes(30);
 
                     if (timeNow.isAfter(reservationStartTime) && timeNow.isBefore(reservationEndTime)) {
-                        System.out.println((i + 1) + ": " + thisOrder.getCustomer().getName() + " "
+                        System.out.println((i+1) + ": " + thisOrder.getCustomer().getName() + " "
+
                                 + thisOrder.getCustomer().getContactNumber());
                         availableIndex.add(i + 1);
 
-                    }
+//                    }
                 }
 
             }
