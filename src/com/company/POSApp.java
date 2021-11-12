@@ -59,7 +59,7 @@ public class POSApp {
                 case 9 -> checkOutCustomer();
                 case 10 -> printSalesByTimePeriod();
                 case 11 -> changeStaffUser();
-                case 12 -> System.out.println("Terminating the system");
+                case 12 -> System.out.println("Terminating the system! :)");
                 default -> System.out.println("Please choose from options 1-12");
             }
         }
@@ -333,7 +333,7 @@ public class POSApp {
             tableEntry.getValue().getTableDateSlotsList().get(date).reserveSlot(time, thisOrder, durationInMinutes);
 
             System.out.println("Reservation is confirmed for " + name + " on " + date + " at " + time + " to " + time.plusMinutes(durationInMinutes)
-            + ". Reserved Table Number is: " + thisOrder.getTableNumber());
+                    + ". Reserved Table Number is: " + thisOrder.getTableNumber());
             System.out.println();
             Restaurant.processActiveReservationsToCSV();
             return;
@@ -381,12 +381,11 @@ public class POSApp {
         }
 
         List<Order> listOfAllOrderReservations = new ArrayList<>(setOfAllReservation);
-        if ( listOfAllOrderReservations.size() == 0) {
+        if (listOfAllOrderReservations.size() == 0) {
             System.out.println("There are currently no reservations on this date!");
             System.out.println();
             return;
         }
-
 
 
         for (Order order : listOfAllOrderReservations) {
@@ -397,12 +396,11 @@ public class POSApp {
             //remove if reservation has expired!
             LocalDate reservationDate = order.getDate();
             if (reservationDate.equals(LocalDate.now()) &&
-                    order.getReservationStartTime().plusMinutes(5).isBefore(LocalTime.now())
+                    order.getReservationStartTime().plusMinutes(30).isBefore(LocalTime.now())
                     && !order.isOrderIsActive()) {
                 LocalTime reservationStartTime = order.getReservationStartTime();
                 LocalTime reservationEndTime = order.getReservationEndTime();
                 Table tableOfOrder = Restaurant.getTableList().get(order.getTableNumber());
-
 
 
                 TableDateSlots todaySlotsForThisTable = tableOfOrder.getTableDateSlotsList().get(LocalDate.now());
@@ -486,7 +484,7 @@ public class POSApp {
         }
 
         Order orderToRemove = listOfAllOrderReservations.get(optionChosen);
-        if(orderToRemove.isOrderIsActive()){
+        if (orderToRemove.isOrderIsActive()) {
             System.out.println("Reservation cannot be removed when Order it is active!");
             return;
         }
@@ -565,14 +563,14 @@ public class POSApp {
         //code changed here
         System.out.println("These are the empty tables at this time, for a duration of atleast 1.5 hours");
         for (Table table : Restaurant.getTableList().values()) {
-            if(!table.getTableDateSlotsList().containsKey(date)) {
+            if (!table.getTableDateSlotsList().containsKey(date)) {
                 table.getTableDateSlotsList().put(date, new TableDateSlots(date));
             }
             //code changed here
             if (table.getTableDateSlotsList().get(date).getSlots().get(time) == null &&
                     table.getTableDateSlotsList().get(date).getSlots().get(time.plusMinutes(30)) == null
                     && table.getTableDateSlotsList().get(date).getSlots().get(time.plusMinutes(60)) == null) {
-                System.out.println("Table Number: " + table.getTableNumber() + ", Number of Seats: " +  table.getNumberOfSeats());
+                System.out.println("Table Number: " + table.getTableNumber() + ", Number of Seats: " + table.getNumberOfSeats());
                 allFull = false;
             }
         }
@@ -608,7 +606,7 @@ public class POSApp {
                 //Remove Reservation if time now is 30 minutes after the reservation start time
                 LocalDate reservationDate = thisOrder.getDate();
                 if (reservationDate.equals(LocalDate.now()) &&
-                        thisOrder.getReservationStartTime().plusMinutes(5).isBefore(LocalTime.now())
+                        thisOrder.getReservationStartTime().plusMinutes(30).isBefore(LocalTime.now())
                         && !thisOrder.isOrderIsActive()) {
 
 
@@ -630,10 +628,11 @@ public class POSApp {
                     LocalTime reservationStartTime = thisOrder.getReservationStartTime().minusMinutes(20);
                     LocalTime reservationEndTime = thisOrder.getReservationEndTime().minusMinutes(30);
 
-//                    if (timeNow.isAfter(reservationStartTime) && timeNow.isBefore(reservationEndTime)) {
+                    if (timeNow.isAfter(reservationStartTime) && timeNow.isBefore(reservationEndTime)) {
                         System.out.println((i+1) + ": " + thisOrder.getCustomer().getName() + " "
+
                                 + thisOrder.getCustomer().getContactNumber());
-                        availableIndex.add(i+1);
+                        availableIndex.add(i + 1);
 
 //                    }
                 }
@@ -658,7 +657,7 @@ public class POSApp {
             }
         }
 
-        Order relevantOrder = orderOfAllReservationForToday.get(optionSelected-1);
+        Order relevantOrder = orderOfAllReservationForToday.get(optionSelected - 1);
         relevantOrder.setOrderIsActive(true);
         Restaurant.addActiveOrder(relevantOrder);
         Restaurant.processActiveOrderToCSV();
@@ -681,7 +680,7 @@ public class POSApp {
             System.out.println(++i + ": " + order.getCustomer().getName() + ". Table Number: " + order.getTableNumber());
         }
         int chosenOption = sc.nextInt();
-        Order relevantOrder = activeOrders.get(chosenOption-1);
+        Order relevantOrder = activeOrders.get(chosenOption - 1);
         relevantOrder.setStaff(currentStaffUser);
         int option;
         do {
@@ -705,7 +704,7 @@ public class POSApp {
                     int innerChosenOption;
                     int j;
                     for (j = 0; j < MenuList.getmItemList().size(); j++) {
-                        System.out.println((j+1) + " " + MenuList.getmItemList().get(j));
+                        System.out.println((j + 1) + " " + MenuList.getmItemList().get(j));
                     }
 
                     while (true) {
@@ -719,8 +718,8 @@ public class POSApp {
 
                     System.out.println("Enter Quantity: ");
                     int quantity = sc.nextInt();
-                    relevantOrder.addMenuItemToOrder(MenuList.getmItemList().get(innerChosenOption-1), quantity);
-                    System.out.println("Successfully added: " + MenuList.getmItemList().get(innerChosenOption-1)
+                    relevantOrder.addMenuItemToOrder(MenuList.getmItemList().get(innerChosenOption - 1), quantity);
+                    System.out.println("Successfully added: " + MenuList.getmItemList().get(innerChosenOption - 1)
                             .getItemName() + ", Quantity: " + quantity);
                     break;
 
@@ -741,12 +740,12 @@ public class POSApp {
                         }
                     }
 
-                    MenuItem chosenMenuItem = menuItemInOrder.get(innerChosenOption-1);
+                    MenuItem chosenMenuItem = menuItemInOrder.get(innerChosenOption - 1);
                     System.out.println("Please enter new quantity: ");
                     quantity = sc.nextInt();
                     relevantOrder.editQuantity(chosenMenuItem, quantity);
 
-                    relevantOrder.addMenuItemToOrder(MenuList.getmItemList().get(innerChosenOption-1), quantity);
+                    relevantOrder.addMenuItemToOrder(MenuList.getmItemList().get(innerChosenOption - 1), quantity);
                     System.out.println("Successfully changed quantity of: "
                             + chosenMenuItem.getItemName() +
                             ", Quantity: " + quantity);
@@ -767,7 +766,7 @@ public class POSApp {
                             System.out.println("Please enter a valid choice!");
                         }
                     }
-                    chosenMenuItem = menuItemInOrder.get(innerChosenOption-1);
+                    chosenMenuItem = menuItemInOrder.get(innerChosenOption - 1);
                     relevantOrder.deleteMenuItem(chosenMenuItem);
                     System.out.println("Successfully deleted: "
                             + chosenMenuItem.getItemName() + " from this Order! ");
@@ -785,7 +784,7 @@ public class POSApp {
 
                 case 5:
                     for (j = 0; j < PromotionPackageMenu.getPackageList().size(); j++) {
-                        System.out.println((j+1) + " " + PromotionPackageMenu.getPackageList().get(j));
+                        System.out.println((j + 1) + " " + PromotionPackageMenu.getPackageList().get(j));
                     }
 
                     while (true) {
@@ -800,10 +799,10 @@ public class POSApp {
                     System.out.println("Enter Quantity: ");
                     quantity = sc.nextInt();
                     relevantOrder.addPromotionPackageToOrder(PromotionPackageMenu.
-                            getPackageList().get(innerChosenOption-1), quantity);
+                            getPackageList().get(innerChosenOption - 1), quantity);
 
-                    System.out.println("Successfully added: " +PromotionPackageMenu.
-                            getPackageList().get(innerChosenOption-1)
+                    System.out.println("Successfully added: " + PromotionPackageMenu.
+                            getPackageList().get(innerChosenOption - 1)
                             .getPackageName() + ", Quantity: " + quantity);
                     break;
 
@@ -826,7 +825,7 @@ public class POSApp {
                         }
                     }
 
-                    PromotionPackage chosenPromoPack = promotionPackageList.get(innerChosenOption-1);
+                    PromotionPackage chosenPromoPack = promotionPackageList.get(innerChosenOption - 1);
                     System.out.println("Please enter new quantity: ");
                     quantity = sc.nextInt();
                     relevantOrder.editQuantity(chosenPromoPack, quantity);
@@ -853,7 +852,7 @@ public class POSApp {
                         }
                     }
 
-                    chosenPromoPack = promotionPackageList.get(innerChosenOption-1);
+                    chosenPromoPack = promotionPackageList.get(innerChosenOption - 1);
                     relevantOrder.deletePromotionPackage(chosenPromoPack);
                     System.out.println("Successfully deleted: "
                             + chosenPromoPack.getPackageName() + " from this Order! ");
@@ -897,7 +896,7 @@ public class POSApp {
         Scanner scanner = new Scanner(System.in);
         int i = 0;
         for (Order order : activeOrders) {
-            System.out.println( (++i) +  ": " + order.getCustomer().getName() + ". Table Number: " + order.getTableNumber());
+            System.out.println((++i) + ": " + order.getCustomer().getName() + ". Table Number: " + order.getTableNumber());
         }
 
         while (true) {
@@ -909,11 +908,11 @@ public class POSApp {
             }
         }
 
-        Order orderToCheckOut = activeOrders.get(optionChosen-1);
+        Order orderToCheckOut = activeOrders.get(optionChosen - 1);
         orderToCheckOut.setStaff(currentStaffUser);
         Invoice thisOrderInvoice = new Invoice(orderToCheckOut);
         thisOrderInvoice.generateReceipt();
-        activeOrders.remove(optionChosen-1);
+        activeOrders.remove(optionChosen - 1);
         System.out.println(activeOrders);
         Restaurant.processActiveOrderToCSV();
 
@@ -976,14 +975,14 @@ public class POSApp {
 
         System.out.println("Please choose from the following: ");
         for (int i = 0; i < staffList.size(); i++) {
-            System.out.println((i+1) + ": " + staffList.get(i).getName() + ", " + staffList.get(i).getJobRole());
+            System.out.println((i + 1) + ": " + staffList.get(i).getName() + ", " + staffList.get(i).getJobRole());
         }
         int chosenOption = scanner.nextInt();
-        currentStaffUser = staffList.get(chosenOption-1);
+        currentStaffUser = staffList.get(chosenOption - 1);
         System.out.println();
     }
 
-    private static void retrieveRestaurantInformation(){
+    private static void retrieveRestaurantInformation() {
 
         try {
             // CSV file delimiter
@@ -997,11 +996,11 @@ public class POSApp {
             int i = 0;
             while ((line = br.readLine()) != null) {
 
-                if(i ==0){
+                if (i == 0) {
                     Restaurant.setName(line);
                     i++;
                     continue;
-                }else if(i==1){
+                } else if (i == 1) {
                     Restaurant.setAddress(line);
                     i++;
                     continue;
@@ -1010,7 +1009,7 @@ public class POSApp {
                 String[] tokens = line.split(DELIMITER);
                 String tableNumber = tokens[0];
                 String tableCapacity = tokens[1];
-                Restaurant.addTable(Integer.parseInt(tableNumber),Integer.parseInt(tableCapacity));
+                Restaurant.addTable(Integer.parseInt(tableNumber), Integer.parseInt(tableCapacity));
                 i++;
             }
             br.close();
@@ -1019,7 +1018,7 @@ public class POSApp {
         }
     }
 
-    private static void retrieveStaffInformation(){
+    private static void retrieveStaffInformation() {
 
         try {
             // CSV file delimiter
@@ -1037,10 +1036,10 @@ public class POSApp {
                 String employeeID = tokens[1];
                 String jobType = tokens[2];
                 String gender = tokens[3];
-                if(jobType.equalsIgnoreCase(Staff.JobRole.WAITER.name())){
-                    StaffList.addStaff(employeeName,employeeID,Staff.JobRole.WAITER,gender);
-                }else{
-                    StaffList.addStaff(employeeName,employeeID,Staff.JobRole.MANAGER,gender);
+                if (jobType.equalsIgnoreCase(Staff.JobRole.WAITER.name())) {
+                    StaffList.addStaff(employeeName, employeeID, Staff.JobRole.WAITER, gender);
+                } else {
+                    StaffList.addStaff(employeeName, employeeID, Staff.JobRole.MANAGER, gender);
                 }
 
 
@@ -1051,7 +1050,7 @@ public class POSApp {
         }
     }
 
-    private static void retrieveMembershipInformation(){
+    private static void retrieveMembershipInformation() {
 
         try {
             // CSV file delimiter
@@ -1068,7 +1067,7 @@ public class POSApp {
                 String memberName = tokens[0];
                 String memberContactNumber = tokens[1];
 
-               MembershipList.addMember(new Customer(memberName,memberContactNumber));
+                MembershipList.addMember(new Customer(memberName, memberContactNumber));
 
 
             }
@@ -1109,7 +1108,7 @@ public class POSApp {
         }
     }
 
-    private static void retrievePromotionPackageInformation(){
+    private static void retrievePromotionPackageInformation() {
         try {
             // CSV file delimiter
             String DELIMITER = ";";
@@ -1127,11 +1126,11 @@ public class POSApp {
                 String packagePrice = tokens[2];
                 List<MenuItem> menuItemList = new ArrayList<>();
 
-                for(int i =3;i<tokens.length;i++){
+                for (int i = 3; i < tokens.length; i++) {
                     menuItemList.add(MenuList.getMenuItemFromList(tokens[i]));
                 }
                 PromotionPackage tempPromoPack = new PromotionPackage(menuItemList,
-                        Double.parseDouble(packagePrice),packageDescription,packageItemName);
+                        Double.parseDouble(packagePrice), packageDescription, packageItemName);
                 PromotionPackageMenu.getPackageList().add(tempPromoPack);
             }
             br.close();
@@ -1183,7 +1182,7 @@ public class POSApp {
                 TableDateSlots requiredDateSlots = requiredTable.getTableDateSlotsList().get(LocalDate.parse(date));
                 thisOrder = new Order(thisCustomer, Integer.parseInt(groupSize), Integer.parseInt(tableNumber)
                         , LocalDate.parse(date), LocalTime.parse(reservationStartTime)
-                        , LocalTime.parse(reservationEndTime),Integer.parseInt(orderNumber));
+                        , LocalTime.parse(reservationEndTime), Integer.parseInt(orderNumber));
                 int duration = (int) Duration.between(LocalTime.parse(reservationStartTime), LocalTime.parse(reservationEndTime)).toMinutes();
                 requiredDateSlots.reserveSlot(LocalTime.parse(reservationStartTime), thisOrder, duration);
             }
@@ -1231,7 +1230,7 @@ public class POSApp {
                 Restaurant.addActiveOrder(thisOrder);
 
                 listOfMenuItems = listOfMenuItems.substring(1, listOfMenuItems.length() - 1);
-                if(listOfMenuItems.length() != 0){
+                if (listOfMenuItems.length() != 0) {
                     String[] tokens2 = listOfMenuItems.split(", ");
 //                System.out.println(Arrays.toString(tokens2));
 
@@ -1251,7 +1250,7 @@ public class POSApp {
 
 
                 listOfPromoItems = listOfPromoItems.substring(1, listOfPromoItems.length() - 1);
-                if(listOfPromoItems.length() != 0){
+                if (listOfPromoItems.length() != 0) {
                     String[] tokens3 = listOfPromoItems.split(", ");
 //                System.out.println(Arrays.toString(tokens3));
 
@@ -1261,8 +1260,8 @@ public class POSApp {
                         quantity = Integer.parseInt(tokens4[1]);
 
                         for (int i = 0; i < PromotionPackageMenu.getPackageList().size(); i++) {
-                            if (PromotionPackageMenu.getPackageList().get(i).getPackageName().equals(name)){
-                                thisOrder.addPromotionPackageToOrder(PromotionPackageMenu.getPackageList().get(i),quantity);
+                            if (PromotionPackageMenu.getPackageList().get(i).getPackageName().equals(name)) {
+                                thisOrder.addPromotionPackageToOrder(PromotionPackageMenu.getPackageList().get(i), quantity);
                             }
                         }
                     }
@@ -1333,7 +1332,7 @@ public class POSApp {
 
 
                 listOfMenuItems = listOfMenuItems.substring(1, listOfMenuItems.length() - 1);
-                if(listOfMenuItems.length() != 0){
+                if (listOfMenuItems.length() != 0) {
                     String[] tokens2 = listOfMenuItems.split(", ");
                     for (String token2 : tokens2) {
                         String[] tokens3 = token2.split("=");
@@ -1352,7 +1351,7 @@ public class POSApp {
 
                 listOfPromoItems = listOfPromoItems.substring(1, listOfPromoItems.length() - 1);
 
-                if(listOfPromoItems.length() != 0){
+                if (listOfPromoItems.length() != 0) {
                     String[] tokens3 = listOfPromoItems.split(", ");
                     for (String token3 : tokens3) {
                         String[] tokens4 = token3.split("=");
