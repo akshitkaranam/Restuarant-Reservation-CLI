@@ -705,7 +705,7 @@ public class POSApp {
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
@@ -727,7 +727,7 @@ public class POSApp {
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
@@ -749,7 +749,7 @@ public class POSApp {
                     }
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
@@ -776,7 +776,7 @@ public class POSApp {
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
@@ -801,7 +801,7 @@ public class POSApp {
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
@@ -824,7 +824,7 @@ public class POSApp {
                     }
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
@@ -878,7 +878,7 @@ public class POSApp {
 
         while (true) {
             optionChosen = scanner.nextInt();
-            if (optionChosen <= i - 1 && optionChosen >= 0) {
+            if (optionChosen <= i && optionChosen >= 0) {
                 break;
             } else {
                 System.out.println("Please enter a valid choice!");
