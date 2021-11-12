@@ -57,7 +57,7 @@ public class PromotionPackageMenu {
 
         while (true) {
             int innerChosenOption = sc.nextInt();
-            if (innerChosenOption <= i - 1 && innerChosenOption >= 0) {
+            if (innerChosenOption <= i && innerChosenOption >= 0) {
                 packageList.remove(innerChosenOption);
                 break;
             } else {
@@ -83,7 +83,7 @@ public class PromotionPackageMenu {
         while (true) {
             int innerChosenOption = sc.nextInt();
             innerChosenOption--;
-            if (innerChosenOption <= i - 1 && innerChosenOption >= 0) {
+            if (innerChosenOption <= i && innerChosenOption >= 0) {
                 packageList.get(innerChosenOption).updatePackage();
                 break;
             } else {

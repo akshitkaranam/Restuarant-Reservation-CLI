@@ -140,7 +140,7 @@ public class POSApp {
                     |2. Update a Promotion Package |
                     |3. Remove a Promotion Package |
                     |4. Display Promotion Package Menu|
-                    |5. Quit from Menu Changes|
+                    |5. Quit from Promotion Package Changes|
                     ==================================""");
             option = sc.nextInt();
             switch (option) {
@@ -486,6 +486,11 @@ public class POSApp {
         }
 
         Order orderToRemove = listOfAllOrderReservations.get(optionChosen);
+        if(orderToRemove.isOrderIsActive()){
+            System.out.println("Reservation cannot be removed when Order it is active!");
+            return;
+        }
+
         LocalTime reservationStartTime = orderToRemove.getReservationStartTime();
         LocalTime reservationEndTime = orderToRemove.getReservationEndTime();
         Table tableOfOrder = Restaurant.getTableList().get(orderToRemove.getTableNumber());
@@ -646,7 +651,7 @@ public class POSApp {
 
         while (true) {
             optionSelected = scanner.nextInt();
-            if (availableIndex.contains(optionSelected-1)) {
+            if (availableIndex.contains(optionSelected)) {
                 break;
             } else {
                 System.out.println("Please enter a valid choice!");
@@ -705,7 +710,7 @@ public class POSApp {
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j - 2 && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
@@ -715,6 +720,8 @@ public class POSApp {
                     System.out.println("Enter Quantity: ");
                     int quantity = sc.nextInt();
                     relevantOrder.addMenuItemToOrder(MenuList.getmItemList().get(innerChosenOption-1), quantity);
+                    System.out.println("Successfully added: " + MenuList.getmItemList().get(innerChosenOption-1)
+                            .getItemName() + ", Quantity: " + quantity);
                     break;
 
                 case 2:
@@ -727,7 +734,7 @@ public class POSApp {
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j - 2 && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
@@ -738,6 +745,11 @@ public class POSApp {
                     System.out.println("Please enter new quantity: ");
                     quantity = sc.nextInt();
                     relevantOrder.editQuantity(chosenMenuItem, quantity);
+
+                    relevantOrder.addMenuItemToOrder(MenuList.getmItemList().get(innerChosenOption-1), quantity);
+                    System.out.println("Successfully changed quantity of: "
+                            + chosenMenuItem.getItemName() +
+                            ", Quantity: " + quantity);
                     break;
 
                 case 3:
@@ -749,7 +761,7 @@ public class POSApp {
                     }
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j - 2 && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
@@ -757,6 +769,8 @@ public class POSApp {
                     }
                     chosenMenuItem = menuItemInOrder.get(innerChosenOption-1);
                     relevantOrder.deleteMenuItem(chosenMenuItem);
+                    System.out.println("Successfully deleted: "
+                            + chosenMenuItem.getItemName() + " from this Order! ");
                     break;
 
                 case 4:
@@ -776,7 +790,7 @@ public class POSApp {
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j - 2 && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
@@ -787,6 +801,10 @@ public class POSApp {
                     quantity = sc.nextInt();
                     relevantOrder.addPromotionPackageToOrder(PromotionPackageMenu.
                             getPackageList().get(innerChosenOption-1), quantity);
+
+                    System.out.println("Successfully added: " +PromotionPackageMenu.
+                            getPackageList().get(innerChosenOption-1)
+                            .getPackageName() + ", Quantity: " + quantity);
                     break;
 
 
@@ -801,7 +819,7 @@ public class POSApp {
 
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j - 2 && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
@@ -812,6 +830,10 @@ public class POSApp {
                     System.out.println("Please enter new quantity: ");
                     quantity = sc.nextInt();
                     relevantOrder.editQuantity(chosenPromoPack, quantity);
+
+                    System.out.println("Successfully changed quantity of: "
+                            + chosenPromoPack.getPackageName() +
+                            ", Quantity: " + quantity);
                     break;
 
                 case 7:
@@ -824,7 +846,7 @@ public class POSApp {
                     }
                     while (true) {
                         innerChosenOption = sc.nextInt();
-                        if (innerChosenOption <= j - 2 && innerChosenOption >= 0) {
+                        if (innerChosenOption <= j && innerChosenOption >= 0) {
                             break;
                         } else {
                             System.out.println("Please enter a valid choice!");
@@ -833,6 +855,8 @@ public class POSApp {
 
                     chosenPromoPack = promotionPackageList.get(innerChosenOption-1);
                     relevantOrder.deletePromotionPackage(chosenPromoPack);
+                    System.out.println("Successfully deleted: "
+                            + chosenPromoPack.getPackageName() + " from this Order! ");
                     break;
 
                 case 8:
@@ -846,7 +870,7 @@ public class POSApp {
                     break;
 
                 case 9:
-                    System.out.println("Quitting updating Promotion Package");
+                    System.out.println("Quitting updating active orders");
                     break;
 
                 default:
@@ -878,7 +902,7 @@ public class POSApp {
 
         while (true) {
             optionChosen = scanner.nextInt();
-            if (optionChosen <= i - 2 && optionChosen >= 0) {
+            if (optionChosen <= i && optionChosen >= 0) {
                 break;
             } else {
                 System.out.println("Please enter a valid choice!");
@@ -889,8 +913,9 @@ public class POSApp {
         orderToCheckOut.setStaff(currentStaffUser);
         Invoice thisOrderInvoice = new Invoice(orderToCheckOut);
         thisOrderInvoice.generateReceipt();
-        activeOrders.remove(optionChosen);
-
+        activeOrders.remove(optionChosen-1);
+        System.out.println(activeOrders);
+        Restaurant.processActiveOrderToCSV();
 
         //Remove Reservation
         LocalTime reservationStartTime = orderToCheckOut.getReservationStartTime();
@@ -1308,34 +1333,40 @@ public class POSApp {
 
 
                 listOfMenuItems = listOfMenuItems.substring(1, listOfMenuItems.length() - 1);
-                String[] tokens2 = listOfMenuItems.split(", ");
-                for (String token2 : tokens2) {
-                    String[] tokens3 = token2.split("=");
-                    itemName = tokens3[0];
-                    itemQuantity = Integer.parseInt(tokens3[1]);
+                if(listOfMenuItems.length() != 0){
+                    String[] tokens2 = listOfMenuItems.split(", ");
+                    for (String token2 : tokens2) {
+                        String[] tokens3 = token2.split("=");
+                        itemName = tokens3[0];
+                        itemQuantity = Integer.parseInt(tokens3[1]);
 
-                    for (int i = 0; i < MenuList.getmItemList().size(); i++) {
-                        if (MenuList.getmItemList().get(i).getItemName().equals(itemName)) {
-                            thisOrder.addMenuItemToOrder(MenuList.getmItemList().get(i), itemQuantity);
-                            break;
+                        for (int i = 0; i < MenuList.getmItemList().size(); i++) {
+                            if (MenuList.getmItemList().get(i).getItemName().equals(itemName)) {
+                                thisOrder.addMenuItemToOrder(MenuList.getmItemList().get(i), itemQuantity);
+                                break;
+                            }
                         }
                     }
                 }
+
 
                 listOfPromoItems = listOfPromoItems.substring(1, listOfPromoItems.length() - 1);
-                String[] tokens3 = listOfPromoItems.split(", ");
-//
-                for (String token3 : tokens3) {
-                    String[] tokens4 = token3.split("=");
-                    packageName = tokens4[0];
-                    packageQuantity = Integer.parseInt(tokens4[1]);
 
-                    for (int i = 0; i < PromotionPackageMenu.getPackageList().size(); i++) {
-                        if (PromotionPackageMenu.getPackageList().get(i).getPackageName().equals(packageName)){
-                            thisOrder.addPromotionPackageToOrder(PromotionPackageMenu.getPackageList().get(i),packageQuantity);
+                if(listOfPromoItems.length() != 0){
+                    String[] tokens3 = listOfPromoItems.split(", ");
+                    for (String token3 : tokens3) {
+                        String[] tokens4 = token3.split("=");
+                        packageName = tokens4[0];
+                        packageQuantity = Integer.parseInt(tokens4[1]);
+
+                        for (int i = 0; i < PromotionPackageMenu.getPackageList().size(); i++) {
+                            if (PromotionPackageMenu.getPackageList().get(i).getPackageName().equals(packageName)) {
+                                thisOrder.addPromotionPackageToOrder(PromotionPackageMenu.getPackageList().get(i), packageQuantity);
+                            }
                         }
                     }
                 }
+
 
                 InvoiceList.addInvoice(new Invoice(thisOrder, date));
             }

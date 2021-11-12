@@ -213,6 +213,10 @@ public class PromotionPackage {
 
                 case 3:
                     List<MenuItem> addedMenuItemsInPackage = this.promotionPackage;
+                    if(this.promotionPackage.isEmpty()){
+                        System.out.println("Sorry there are no MenuItems Added in to this package!");
+                    }
+
                     for (j = 0; j < addedMenuItemsInPackage.size(); j++) {
                         System.out.println(j + " " + addedMenuItemsInPackage.get(j));
                     }
