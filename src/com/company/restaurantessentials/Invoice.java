@@ -27,6 +27,7 @@ public class Invoice implements Comparable<Invoice> {
      * This constructor takes in the Order object as a parameter. It also calculates the final price the customer
      * has to pay based on their order details (added MenuItems/Promotion Packages).
      * This constructor is useful when the Customer is checking-out from the restaurant
+     *
      * @param order the relevant Order object
      */
 
@@ -38,11 +39,12 @@ public class Invoice implements Comparable<Invoice> {
 
     /**
      * This constructor is useful when the invoice object is being re-created when reading from the CSV-file (orderInvoices.csv)
-     * @param order the relevant Order object
+     *
+     * @param order         the relevant Order object
      * @param localDateTime the time/date this invoice was originally created.
      */
 
-    public Invoice(Order order,LocalDateTime localDateTime) {
+    public Invoice(Order order, LocalDateTime localDateTime) {
         this.order = order;
         this.localDateTime = localDateTime;
         invoicePaid = true;
@@ -53,7 +55,6 @@ public class Invoice implements Comparable<Invoice> {
     /**
      * Calculates the final price of the Order
      */
-
     private void calculateFinalPrice() {
         boolean customerIsMember = order.getCustomer().isMember();
         Map<MenuItem, Integer> orderItemList = order.getItemsOrderedList();
@@ -68,7 +69,7 @@ public class Invoice implements Comparable<Invoice> {
                     * promotionPackageQuantityEntry.getValue());
         }
 
-        if(customerIsMember){
+        if (customerIsMember) {
             //5% discount for members
             memberDiscount = priceBeforeTax * 0.05;
         }
@@ -80,9 +81,9 @@ public class Invoice implements Comparable<Invoice> {
 
     /**
      * Check if the invoice is paid
+     *
      * @return boolean value of invoice is paid
      */
-
     public boolean isInvoicePaid() {
         return invoicePaid;
     }
@@ -103,28 +104,28 @@ public class Invoice implements Comparable<Invoice> {
         System.out.println("Table Number: " + order.getTableNumber());
         System.out.println(localDateTime);
         System.out.println("Customer: " + order.getCustomer().getName());
-        System.out.println("Served by: " + order.getStaff().getName() );
+        System.out.println("Served by: " + order.getStaff().getName());
         System.out.println("----------------------------------------------");
 
         for (Map.Entry<MenuItem, Integer> menuItemQuantityEntry : orderItemList.entrySet()) {
             System.out.println(menuItemQuantityEntry.getValue() + " "
-                    + menuItemQuantityEntry.getKey().getItemName() + "            "
-            +(menuItemQuantityEntry.getKey().getItemPrice()* menuItemQuantityEntry.getValue()));
+                    + menuItemQuantityEntry.getKey().getItemName() + "\t\t\t\t\t"
+                    + (menuItemQuantityEntry.getKey().getItemPrice() * menuItemQuantityEntry.getValue()));
         }
 
         for (Map.Entry<PromotionPackage, Integer> promotionPackageQuantityEntry : orderPackageList.entrySet()) {
             System.out.println(promotionPackageQuantityEntry.getValue() + " "
-                    + promotionPackageQuantityEntry.getKey().getPackageName() + "            "
-                    +(promotionPackageQuantityEntry.getKey().getPackagePrice()* promotionPackageQuantityEntry.getValue()));
-           for(MenuItem mItem : promotionPackageQuantityEntry.getKey().getPromotionPackage()){
-               System.out.println("\n" + mItem.getItemName());
-           }
+                    + promotionPackageQuantityEntry.getKey().getPackageName() + "\t\t\t\t\t"
+                    + (promotionPackageQuantityEntry.getKey().getPackagePrice() * promotionPackageQuantityEntry.getValue()));
+            for (MenuItem mItem : promotionPackageQuantityEntry.getKey().getPromotionPackage()) {
+                System.out.println("\n" + mItem.getItemName());
+            }
         }
 
 
         System.out.println("----------------------------------------------");
         System.out.println("Subtotal: " + priceBeforeTax);
-        if(order.getCustomer().isMember()){
+        if (order.getCustomer().isMember()) {
             System.out.println("Member's Discount: -" + memberDiscount);
         }
         System.out.println("Taxes: " + taxPrice);
@@ -137,7 +138,6 @@ public class Invoice implements Comparable<Invoice> {
     }
 
     /**
-     *
      * @return the Time/Date the invoice was generated
      */
     public LocalDateTime getLocalDateTime() {
@@ -150,7 +150,6 @@ public class Invoice implements Comparable<Invoice> {
     }
 
     /**
-     *
      * @return the Order object in the invoice
      */
     public Order getOrder() {
@@ -158,7 +157,6 @@ public class Invoice implements Comparable<Invoice> {
     }
 
     /**
-     *
      * @return LocalDate
      */
     public LocalDate getDate() {
@@ -166,7 +164,6 @@ public class Invoice implements Comparable<Invoice> {
     }
 
     /**
-     *
      * @return Month
      */
     public Month getMonth() {
@@ -175,7 +172,6 @@ public class Invoice implements Comparable<Invoice> {
 
 
     /**
-     *
      * @return priceAfterTax;
      */
     public double getPriceAfterTax() {

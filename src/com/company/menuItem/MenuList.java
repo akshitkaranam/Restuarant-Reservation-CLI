@@ -20,15 +20,17 @@ public class MenuList {
     public void createMenuItem() {
 
         mItemList.add(new MenuItem());
+
         System.out.println("Enter Name of dish: ");
         String name = sc.nextLine();
         mItemList.get(mItemList.size() - 1).setItemName(name);
+
         System.out.println("Enter Description of Dish: ");
         String desc = sc.nextLine();
         mItemList.get(mItemList.size() - 1).setItemDescription(desc);
+
         System.out.println("Enter Price of Dish: ");
         double price = sc.nextDouble();
-        String itemType = "";
         mItemList.get(mItemList.size() - 1).setItemPrice(price);
 
         int typeNum = 1;
@@ -46,22 +48,18 @@ public class MenuList {
             switch (typeNum) {
                 case 1 -> {
                     mItemList.get(mItemList.size() - 1).setItemType(MenuItem.MenuItemType.APPETIZER);
-                    itemType = "appetizer";
                     processMenuListToCSVFile();
                 }
                 case 2 -> {
                     mItemList.get(mItemList.size() - 1).setItemType(MenuItem.MenuItemType.MAINCOURSE);
-                    itemType = "main course";
                     processMenuListToCSVFile();
                 }
                 case 3 -> {
                     mItemList.get(mItemList.size() - 1).setItemType(MenuItem.MenuItemType.DRINKS);
-                    itemType = "drinks";
                     processMenuListToCSVFile();
                 }
                 case 4 -> {
                     mItemList.get(mItemList.size() - 1).setItemType(MenuItem.MenuItemType.DESSERT);
-                    itemType = "dessert";
                     processMenuListToCSVFile();
                 }
                 default -> System.out.println("Please enter a number between 1 and 4");
@@ -115,10 +113,10 @@ public class MenuList {
     /**
      * Updates a MenuItem from the mItemList. User is expected to give inputs based on the prompts provided.
      * This function enables the following attributes of the MenuItem to be changes:
-     * - Name
-     * - Price
-     * - Type
-     * - Description
+     * <li> Name
+     * <li> Price
+     * <li> Type
+     * <li> Description
      */
 
     public void updateMenuItem() {

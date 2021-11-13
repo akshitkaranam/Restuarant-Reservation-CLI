@@ -16,10 +16,14 @@ import java.util.Map;
 
 /**
  * This class is the main entity that processes the Reservation/Orders made by Customers. This class has 2 main function:
- * 1. Reservation
- * -> Upon Successful reservation, a new Order object is created with an 'active reservation' and 'inactive order'.
- * 2. Ordering
- * -> When the Customer successfully checks-in, the order becomes 'active' and the relevant MenuItems and PromotionPackages can then be added accordingly.
+ * <ol>
+ *     <li> Reservation
+ *     <ul><li>Upon Successful reservation, a new Order object is created with an 'active reservation' and 'inactive order'.
+ *     </ul>
+ *     <li> Ordering
+ *     <ul><li> When the Customer successfully checks-in, the order becomes 'active' and the relevant MenuItems and PromotionPackages can then be added accordingly.
+ *     </ul>
+ * </ol>
  */
 
 public class Order {
@@ -116,11 +120,11 @@ public class Order {
     }
 
     /**
-     * This constructor is specifically useful when the Order object is created when retrieving infromation from the
+     * This constructor is specifically useful when the Order object is created when retrieving information from the
      * orderReservation CSV file.
      *
      * @param customer             takes in a Customer object.
-     * @param orderNumber
+     * @param orderNumber          the order number of the order
      * @param groupSize            the size of the group making the reservation
      * @param tableNumber          the table number for the reservation
      * @param date                 the date of the reservation
@@ -248,6 +252,7 @@ public class Order {
      * @return the Staff object that refers to the staff member that is managing the order
      */
     public Staff getStaff() {
+        assert staff != null;
         return staff;
     }
 

@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.administrative.StaffList;
 import com.company.restaurantessentials.*;
+
 import java.util.*;
 
 public class POSApp {
@@ -31,6 +32,7 @@ public class POSApp {
 
             printMainMenu();
             option = scanner.nextInt();
+
             switch (option) {
                 case 1 -> RestaurantFunctions.makeChangesToMenu();
                 case 2 -> RestaurantFunctions.makeChangesToPackages();

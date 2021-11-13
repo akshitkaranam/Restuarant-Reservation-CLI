@@ -84,22 +84,22 @@ public class InvoiceList {
         Scanner sc = new Scanner(System.in);
 
         do {
-            System.out.println("Choose an option:\n"
-                    + "================================\n"
-                    + "|1. Get Total Revenue |\n"
-                    + "|2. Get Sales of Individual Items|\n"
-                    + "|3. Quit|\n"
-                    + "==================================");
+            System.out.println("""
+                    Choose an option:
+                    ================================
+                    |1. Get Total Revenue |
+                    |2. Get Sales of Individual Items|
+                    |3. Quit|
+                    ==================================""");
             option = sc.nextInt();
             switch (option) {
-                case 1:
+                case 1 -> {
                     int totalRevenue = calculateTotalRevenue(relevantInvoices);
                     System.out.println("Total Revenue for Month is: " + totalRevenue);
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     Map<MenuItem, Integer> totalItemQuantity = getMenuItemQuantity(relevantInvoices);
                     Map<PromotionPackage, Integer> totalPromoQuantity = getPromoPackageQuantity(relevantInvoices);
-
                     System.out.println("Total Item and Package Sales for Month is: ");
                     for (Map.Entry<MenuItem, Integer> menuItemQuantityEntry : totalItemQuantity.entrySet()) {
                         System.out.println(menuItemQuantityEntry.getKey() + ": " + menuItemQuantityEntry.getValue());
@@ -107,14 +107,9 @@ public class InvoiceList {
                     for (Map.Entry<PromotionPackage, Integer> promoPackageQuantityEntry : totalPromoQuantity.entrySet()) {
                         System.out.println(promoPackageQuantityEntry.getKey() + ": " + promoPackageQuantityEntry.getValue());
                     }
-                    break;
-                case 3:
-                    System.out.println("Quitting, going back to Main Menu!");
-                    break;
-
-                default:
-                    System.out.println("Choose option (1-3):");
-                    break;
+                }
+                case 3 -> System.out.println("Quitting, going back to Main Menu!");
+                default -> System.out.println("Choose option (1-3):");
             }
 
         } while (option != 3);
@@ -179,12 +174,12 @@ public class InvoiceList {
             // create a list of objects
             List<List<String>> records = new ArrayList<>();
 
-            for (int i = 0; i < invoicesList.size(); i++) {
+            for (Invoice invoice : invoicesList) {
                 List<String> tempList = new ArrayList<>();
-                tempList.add(invoicesList.get(i).getLocalDateTime().toString());
+                tempList.add(invoice.getLocalDateTime().toString());
 
 
-                Order thisOrder = invoicesList.get(i).getOrder();
+                Order thisOrder = invoice.getOrder();
                 tempList.add(thisOrder.getDate().toString());
                 tempList.add(Integer.toString(thisOrder.getOrderNumber()));
                 tempList.add(thisOrder.getCustomer().getName());
@@ -209,7 +204,7 @@ public class InvoiceList {
                 tempList.add(promoPackStringList.toString());
 
                 tempList.add(Integer.toString(thisOrder.getTableNumber()));
-
+//                assert thisOrder.getStaff() != null;
                 tempList.add(thisOrder.getStaff().getName());
                 records.add(tempList);
             }

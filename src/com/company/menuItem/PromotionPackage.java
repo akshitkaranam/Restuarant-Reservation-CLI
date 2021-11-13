@@ -5,8 +5,6 @@ import java.util.*;
 /**
  * This is the basic entity that is used in PromotionPackageMenu
  */
-
-
 public class PromotionPackage {
 
     private final List<MenuItem> promotionPackage;
@@ -169,10 +167,10 @@ public class PromotionPackage {
     /**
      * Updates a MenuItem from the mItemList. User is expected to give inputs based on the prompts provided.
      * This function enables the following attributes of the MenuItem to be changes:
-     * - Name
-     * - Add MenuItem
-     * - Remove MenuItem
-     * - Change Price
+     * <li> Name
+     * <li> Add MenuItem
+     * <li> Remove MenuItem
+     * <li> Change Price
      */
 
     public void updatePackage() {
@@ -289,8 +287,6 @@ public class PromotionPackage {
 
 
     /**
-     * Returns the name of this package.
-     *
      * @return the name of this package
      */
 
@@ -308,8 +304,6 @@ public class PromotionPackage {
     }
 
     /**
-     * Returns the list of MenuItems in this PromotionPackage object
-     *
      * @return the list of MenuItems in this PromotionPackage object
      */
     public List<MenuItem> getPromotionPackage() {

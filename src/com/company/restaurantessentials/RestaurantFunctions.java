@@ -30,7 +30,6 @@ public class RestaurantFunctions {
     }
 
 
-
     public static void makeChangesToMenu() {
         int option;
         Scanner sc = new Scanner(System.in);
@@ -628,11 +627,11 @@ public class RestaurantFunctions {
             System.out.println(++i + ": " + order.getCustomer().getName() + ". Table Number: " + order.getTableNumber());
         }
         int chosenOption;
-        while(true){
+        while (true) {
             try {
                 chosenOption = sc.nextInt();
                 break;
-            }catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 e.printStackTrace();
             }
         }
@@ -666,14 +665,14 @@ public class RestaurantFunctions {
 
                     while (true) {
 
-                        try{
+                        try {
                             innerChosenOption = sc.nextInt();
                             if (innerChosenOption <= j && innerChosenOption >= 0) {
                                 break;
                             } else {
                                 System.out.println("Please enter a valid choice!");
                             }
-                        }catch (InputMismatchException e){
+                        } catch (InputMismatchException e) {
                             e.printStackTrace();
                         }
 
@@ -696,14 +695,14 @@ public class RestaurantFunctions {
 
                     while (true) {
 
-                        try{
+                        try {
                             innerChosenOption = sc.nextInt();
                             if (innerChosenOption <= j && innerChosenOption >= 0) {
                                 break;
                             } else {
                                 System.out.println("Please enter a valid choice!");
                             }
-                        }catch (InputMismatchException e){
+                        } catch (InputMismatchException e) {
                             e.printStackTrace();
                         }
 
@@ -729,14 +728,14 @@ public class RestaurantFunctions {
                     }
                     while (true) {
 
-                        try{
+                        try {
                             innerChosenOption = sc.nextInt();
                             if (innerChosenOption <= j && innerChosenOption >= 0) {
                                 break;
                             } else {
                                 System.out.println("Please enter a valid choice!");
                             }
-                        }catch (InputMismatchException e){
+                        } catch (InputMismatchException e) {
                             e.printStackTrace();
                         }
 
@@ -770,7 +769,7 @@ public class RestaurantFunctions {
                             } else {
                                 System.out.println("Please enter a valid choice!");
                             }
-                        }catch (InputMismatchException e){
+                        } catch (InputMismatchException e) {
                             e.printStackTrace();
                         }
 
@@ -797,14 +796,14 @@ public class RestaurantFunctions {
                     }
 
                     while (true) {
-                        try{
+                        try {
                             innerChosenOption = sc.nextInt();
                             if (innerChosenOption <= j && innerChosenOption >= 0) {
                                 break;
                             } else {
                                 System.out.println("Please enter a valid choice!");
                             }
-                        }catch (InputMismatchException e){
+                        } catch (InputMismatchException e) {
                             e.printStackTrace();
                         }
 
@@ -836,7 +835,7 @@ public class RestaurantFunctions {
                             } else {
                                 System.out.println("Please enter a valid choice!");
                             }
-                        }catch (InputMismatchException e){
+                        } catch (InputMismatchException e) {
                             e.printStackTrace();
                         }
 
@@ -969,11 +968,11 @@ public class RestaurantFunctions {
         }
         int chosenOption;
 
-        while (true){
-            try{
+        while (true) {
+            try {
                 chosenOption = scanner.nextInt();
                 break;
-            }catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 e.printStackTrace();
 
             }
@@ -1376,9 +1375,6 @@ public class RestaurantFunctions {
             ex.printStackTrace();
         }
     }
-
-
-
 
 
 }

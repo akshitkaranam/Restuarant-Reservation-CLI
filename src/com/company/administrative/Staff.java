@@ -4,10 +4,10 @@ import java.util.Objects;
 
 /**
  * This is the Staff class. The Staff has a few basic attributes:
- * - Emp ID
- * - name
- * - Job Role
- * - Gender
+ * <li> Emp ID
+ * <li> name
+ * <li> Job Role
+ * <li> Gender
  */
 
 public class Staff extends Person {
@@ -17,10 +17,9 @@ public class Staff extends Person {
         WAITER
     }
 
-    private String name;
-    private String employeeID;
-    private JobRole jobRole;
-    private String gender;
+    private final String name;
+    private final JobRole jobRole;
+    private final String gender;
 
 
     @Override
@@ -29,21 +28,18 @@ public class Staff extends Person {
     }
 
     /**
-     *
-     * @param name name of the staff
+     * @param name       name of the staff
      * @param employeeId employeeId of the staff
-     * @param role JobRole of the staff
-     * @param gender gender of the staff
+     * @param role       JobRole of the staff
+     * @param gender     gender of the staff
      */
-    public Staff(String name, String employeeId, JobRole role , String gender) {
+    public Staff(String name, String employeeId, JobRole role, String gender) {
         this.name = name;
-        this.employeeID = employeeId;
         this.jobRole = role;
         this.gender = gender;
     }
 
     /**
-     *
      * @return name of the staff
      */
 
@@ -52,7 +48,6 @@ public class Staff extends Person {
     }
 
     /**
-     *
      * @return gender of the staff
      */
     public String getGender() {
@@ -60,7 +55,6 @@ public class Staff extends Person {
     }
 
     /**
-     *
      * @return JobRole of the staff
      */
     public JobRole getJobRole() {
