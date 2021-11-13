@@ -3,9 +3,7 @@ package com.company.restaurantessentials;
 import com.company.administrative.Customer;
 import com.company.administrative.Staff;
 import com.company.menuItem.MenuItem;
-import com.company.menuItem.MenuList;
 import com.company.menuItem.PromotionPackage;
-
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,11 +11,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.jar.JarOutputStream;
 
 /**
  * This class is the main entity that processes the Reservation/Orders made by Customers. This class has 2 main function:
@@ -64,7 +59,7 @@ public class Order {
         try {
 
             // create a reader
-            BufferedReader br = Files.newBufferedReader(Paths.get("src/com/company/orderNumber.csv"));
+            BufferedReader br = Files.newBufferedReader(Paths.get("src/com/company/storeddata/orderNumber.csv"));
 
             // read the file line by line
             String line;
@@ -89,7 +84,7 @@ public class Order {
         try {
 
             // create a writer
-            FileWriter writer = new FileWriter("src/com/company/orderNumber.csv", false);
+            FileWriter writer = new FileWriter("src/com/company/storeddata/orderNumber.csv", false);
             // write all records
             System.out.println(this.orderNumber);
             writer.write(Integer.toString(this.orderNumber));

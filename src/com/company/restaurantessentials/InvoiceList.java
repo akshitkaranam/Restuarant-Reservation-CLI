@@ -216,7 +216,7 @@ public class InvoiceList {
 
             // create a writer
 
-            FileWriter writer = new FileWriter("src/com/company/orderInvoices.csv", true);
+            FileWriter writer = new FileWriter("src/com/company/storeddata/orderInvoices.csv", true);
 
             // write all records
             for (List<String> record : records) {

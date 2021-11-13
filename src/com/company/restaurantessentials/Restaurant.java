@@ -112,7 +112,7 @@ public class Restaurant {
 
             // create a writer
 
-            FileWriter writer = new FileWriter("src/com/company/orderReservations.csv", false);
+            FileWriter writer = new FileWriter("src/com/company/storeddata/orderReservations.csv", false);
 
             // write all records
             for (List<String> record : records) {
@@ -162,7 +162,7 @@ public class Restaurant {
 
             // create a writer
 
-            FileWriter writer = new FileWriter("src/com/company/activeOrders.csv", false);
+            FileWriter writer = new FileWriter("src/com/company/storeddata/activeOrders.csv", false);
 
             // write all records
             for (List<String> record : records) {
