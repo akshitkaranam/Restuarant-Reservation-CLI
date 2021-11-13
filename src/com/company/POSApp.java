@@ -629,41 +629,42 @@ public class POSApp {
                     LocalTime reservationEndTime = thisOrder.getReservationEndTime().minusMinutes(30);
 
                     if (timeNow.isAfter(reservationStartTime) && timeNow.isBefore(reservationEndTime)) {
-                        System.out.println((i+1) + ": " + thisOrder.getCustomer().getName() + " "
+                        System.out.println((i + 1) + ": " + thisOrder.getCustomer().getName() + " "
 
                                 + thisOrder.getCustomer().getContactNumber());
                         availableIndex.add(i + 1);
 
 //                    }
+                    }
+
                 }
 
             }
 
-        }
-
-        if (!inactiveAvailable) {
-            System.out.println("There are no reservations to currently check-in at this time!");
-            return;
-        }
-        System.out.println("Choose the from the following reservation to check-in: ");
-        int optionSelected;
-
-        while (true) {
-            optionSelected = scanner.nextInt();
-            if (availableIndex.contains(optionSelected)) {
-                break;
-            } else {
-                System.out.println("Please enter a valid choice!");
+            if (!inactiveAvailable) {
+                System.out.println("There are no reservations to currently check-in at this time!");
+                return;
             }
-        }
+            System.out.println("Choose the from the following reservation to check-in: ");
+            int optionSelected;
 
-        Order relevantOrder = orderOfAllReservationForToday.get(optionSelected - 1);
-        relevantOrder.setOrderIsActive(true);
-        Restaurant.addActiveOrder(relevantOrder);
-        Restaurant.processActiveOrderToCSV();
-        System.out.println("Successfully checked-in " + relevantOrder.getCustomer().getName() + " with group size of "
-                + relevantOrder.getGroupSize() + "! Please escort them to table number: " + relevantOrder.getTableNumber());
-        System.out.println();
+            while (true) {
+                optionSelected = scanner.nextInt();
+                if (availableIndex.contains(optionSelected)) {
+                    break;
+                } else {
+                    System.out.println("Please enter a valid choice!");
+                }
+            }
+
+            Order relevantOrder = orderOfAllReservationForToday.get(optionSelected - 1);
+            relevantOrder.setOrderIsActive(true);
+            Restaurant.addActiveOrder(relevantOrder);
+            Restaurant.processActiveOrderToCSV();
+            System.out.println("Successfully checked-in " + relevantOrder.getCustomer().getName() + " with group size of "
+                    + relevantOrder.getGroupSize() + "! Please escort them to table number: " + relevantOrder.getTableNumber());
+            System.out.println();
+        }
     }
 
     private static void modifyActiveOrder() {
