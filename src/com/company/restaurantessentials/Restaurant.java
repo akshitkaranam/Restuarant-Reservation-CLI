@@ -19,11 +19,10 @@ import java.util.*;
 public class Restaurant {
     public static String name;
     public static String address;
-    private static Map<Integer, Table> tableList = new HashMap<>();
-    private static List<Order> activeOrders = new ArrayList<>();
+    private static final Map<Integer, Table> tableList = new HashMap<>();
+    private static final List<Order> activeOrders = new ArrayList<>();
 
     /**
-     *
      * @return Map with the table number as a key and the Table object as the value
      */
     public static Map<Integer, Table> getTableList() {
@@ -32,8 +31,9 @@ public class Restaurant {
 
     /**
      * Add a table given the table number and the number of seats
-     * @param tableNumber the number of the table
-     * @param numberOfSeats thr number of seats the table can accomodate
+     *
+     * @param tableNumber   the number of the table
+     * @param numberOfSeats thr number of seats the table can accommodate
      */
     public static void addTable(int tableNumber, int numberOfSeats) {
         if (!tableList.containsKey(tableNumber)) {
@@ -43,14 +43,14 @@ public class Restaurant {
 
     /**
      * Adds an active order to the Restaurant
+     *
      * @param order the order object that needs to be activated when the Customer Checks-in
      */
-    public static void addActiveOrder(Order order){
+    public static void addActiveOrder(Order order) {
         activeOrders.add(order);
     }
 
     /**
-     *
      * @return list of active orders
      */
     public static List<Order> getActiveOrders() {
@@ -77,7 +77,7 @@ public class Restaurant {
     /**
      * Processes the current active reservations to a CSV File: orderReservations.csv
      */
-    public static void processActiveReservationsToCSV()  {
+    public static void processActiveReservationsToCSV() {
 
         try {
             Set<Order> activeReservationOrderSet = new HashSet<>();
@@ -93,20 +93,19 @@ public class Restaurant {
 
             List<List<String>> records = new ArrayList<>();
 
-            for (int i = 0; i < activeReservationOrderList.size(); i++) {
-
-                if(activeReservationOrderList.get(i) == null){
+            for (Order order : activeReservationOrderList) {
+                if (order == null) {
                     continue;
                 }
                 List<String> tempList = new ArrayList<>();
-                tempList.add(activeReservationOrderList.get(i).getCustomer().getName());
-                tempList.add(activeReservationOrderList.get(i).getCustomer().getContactNumber());
-                tempList.add(activeReservationOrderList.get(i).getDate().toString());
-                tempList.add(Integer.toString(activeReservationOrderList.get(i).getTableNumber()));
-                tempList.add(Integer.toString(activeReservationOrderList.get(i).getGroupSize()));
-                tempList.add(activeReservationOrderList.get(i).getReservationStartTime().toString());
-                tempList.add(activeReservationOrderList.get(i).getReservationEndTime().toString());
-                tempList.add(Integer.toString(activeReservationOrderList.get(i).getOrderNumber()));
+                tempList.add(order.getCustomer().getName());
+                tempList.add(order.getCustomer().getContactNumber());
+                tempList.add(order.getDate().toString());
+                tempList.add(Integer.toString(order.getTableNumber()));
+                tempList.add(Integer.toString(order.getGroupSize()));
+                tempList.add(order.getReservationStartTime().toString());
+                tempList.add(order.getReservationEndTime().toString());
+                tempList.add(Integer.toString(order.getOrderNumber()));
                 records.add(tempList);
             }
 
@@ -123,7 +122,7 @@ public class Restaurant {
             //close the writer
             writer.flush();
             writer.close();
-        }catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
@@ -132,25 +131,25 @@ public class Restaurant {
     /**
      * Processes the current active orders to a CSV File: activeOrders.csv
      */
-    public static void processActiveOrderToCSV(){
+    public static void processActiveOrderToCSV() {
         try {
             List<Order> activeOrderListCopy = new ArrayList<>(activeOrders);
             List<List<String>> records = new ArrayList<>();
 
-            for(Order or : activeOrderListCopy){
+            for (Order or : activeOrderListCopy) {
                 String orderNumber = Integer.toString(or.getOrderNumber());
 
-                Map<MenuItem,Integer> menuItemList = or.getItemsOrderedList();
-                Map<String,Integer> menuItemStringList = new HashMap<>();
-                for(var entry : menuItemList.entrySet()){
-                    menuItemStringList.put(entry.getKey().getItemName(),entry.getValue());
+                Map<MenuItem, Integer> menuItemList = or.getItemsOrderedList();
+                Map<String, Integer> menuItemStringList = new HashMap<>();
+                for (var entry : menuItemList.entrySet()) {
+                    menuItemStringList.put(entry.getKey().getItemName(), entry.getValue());
                 }
 
-                Map<PromotionPackage,Integer> promoPackList = or.getPromotionPackageOrderedList();
-                Map<String,Integer> promoPackStringList = new HashMap<>();
+                Map<PromotionPackage, Integer> promoPackList = or.getPromotionPackageOrderedList();
+                Map<String, Integer> promoPackStringList = new HashMap<>();
 
-                for(var entry: promoPackList.entrySet()){
-                    promoPackStringList.put(entry.getKey().getPackageName(),entry.getValue());
+                for (var entry : promoPackList.entrySet()) {
+                    promoPackStringList.put(entry.getKey().getPackageName(), entry.getValue());
                 }
 
                 List<String> tempList = new ArrayList<>();
@@ -173,7 +172,7 @@ public class Restaurant {
             //close the writer
             writer.flush();
             writer.close();
-        }catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
