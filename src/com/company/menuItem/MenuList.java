@@ -241,7 +241,7 @@ public class MenuList {
 
             // create a writer
 
-            FileWriter writer = new FileWriter("src/com/company/menu.csv", false);
+            FileWriter writer = new FileWriter("src/com/company/storeddata/menu.csv", false);
 
             // write all records
             for (List<String> record : records) {

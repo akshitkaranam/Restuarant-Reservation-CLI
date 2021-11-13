@@ -23,8 +23,13 @@ public class PromotionPackageMenu {
     public void addPromotionPackage() {
 
         packageList.add(new PromotionPackage());
-        packageList.get(packageList.size() - 1).createPackage();
-        processMenuListToCSVFile();
+        boolean success = packageList.get(packageList.size() - 1).createPackage();
+        if(success){
+            processMenuListToCSVFile();
+        }else{
+            packageList.remove(packageList.size()-1);
+        }
+
     }
 
     /**
@@ -56,13 +61,18 @@ public class PromotionPackageMenu {
         }
 
         while (true) {
-            int innerChosenOption = sc.nextInt();
-            if (innerChosenOption <= i && innerChosenOption >= 0) {
-                packageList.remove(innerChosenOption);
-                break;
-            } else {
-                System.out.println("Please enter a valid choice!");
+            try{
+                int innerChosenOption = sc.nextInt();
+                if (innerChosenOption <= i && innerChosenOption >= 0) {
+                    packageList.remove(innerChosenOption);
+                    break;
+                } else {
+                    System.out.println("Please enter a valid choice!");
+                }
+            }catch (InputMismatchException e){
+                e.printStackTrace();
             }
+
         }
         processMenuListToCSVFile();
     }
@@ -81,14 +91,19 @@ public class PromotionPackageMenu {
         }
 
         while (true) {
-            int innerChosenOption = sc.nextInt();
-            innerChosenOption--;
-            if (innerChosenOption <= i && innerChosenOption >= 0) {
-                packageList.get(innerChosenOption).updatePackage();
-                break;
-            } else {
-                System.out.println("Please enter a valid choice!");
+            try{
+                int innerChosenOption = sc.nextInt();
+                innerChosenOption--;
+                if (innerChosenOption <= i && innerChosenOption >= 0) {
+                    packageList.get(innerChosenOption).updatePackage();
+                    break;
+                } else {
+                    System.out.println("Please enter a valid choice!");
+                }
+            }catch (InputMismatchException e){
+                e.printStackTrace();
             }
+
         }
         processMenuListToCSVFile();
 
@@ -118,7 +133,7 @@ public class PromotionPackageMenu {
 
             // create a writer
 
-            FileWriter writer = new FileWriter("src/com/company/promotionPackage.csv", false);
+            FileWriter writer = new FileWriter("src/com/company/storeddata/promotionPackage.csv", false);
 
             // write all records
             for (List<String> record : records) {

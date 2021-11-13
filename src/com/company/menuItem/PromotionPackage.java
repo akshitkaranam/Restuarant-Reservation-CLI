@@ -52,11 +52,11 @@ public class PromotionPackage {
     /**
      * Creates a new PromotionPackage. The user has to enter inputs accordingly to the prompts given.
      */
-    public void createPackage() {
+    public boolean createPackage() {
         List<MenuItem> menuItemList = MenuList.getmItemList();
         if (menuItemList.isEmpty()) {
             System.out.println("There are currently no items in the menu, please add items in Menu first!");
-            return;
+            return false;
         }
 
         System.out.println("Starting to create a new package...");
@@ -90,13 +90,19 @@ public class PromotionPackage {
                     }
 
                     while (true) {
-                        innerChosenOption = sc.nextInt();
-                        innerChosenOption--;
-                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
-                            break;
-                        } else {
-                            System.out.println("Please enter a valid choice!");
+                        try{
+                            innerChosenOption = sc.nextInt();
+                            innerChosenOption--;
+                            if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
+                                break;
+                            } else {
+                                System.out.println("Please enter a valid choice!");
+
+                            }
+                        }catch (InputMismatchException e){
+                            e.printStackTrace();
                         }
+
                     }
                     MenuItem relevantItemToBeAdded = menuItemsInMenu.get(innerChosenOption);
                     if (!this.promotionPackage.contains(relevantItemToBeAdded)) {
@@ -114,13 +120,19 @@ public class PromotionPackage {
                     }
 
                     while (true) {
-                        innerChosenOption = sc.nextInt();
-                        innerChosenOption--;
-                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
-                            break;
-                        } else {
-                            System.out.println("Please enter a valid choice!");
+                        try{
+                            innerChosenOption = sc.nextInt();
+                            innerChosenOption--;
+                            if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
+                                break;
+                            } else {
+                                System.out.println("Please enter a valid choice!");
+
+                            }
+                        }catch (InputMismatchException e){
+                            e.printStackTrace();
                         }
+
                     }
                     System.out.println("Successfully removed: "
                             + addedMenuItemsInPackage.get(innerChosenOption).getItemName());
@@ -148,6 +160,8 @@ public class PromotionPackage {
             }
 
         } while (option != 4);
+
+        return true;
 
 
     }
@@ -188,21 +202,25 @@ public class PromotionPackage {
 
                 case 2:
                     List<MenuItem> menuItemsInMenu = MenuList.getmItemList();
-                    int innerChosenOption;
+                    int innerChosenOption = 0;
                     int j;
                     for (j = 0; j < menuItemsInMenu.size(); j++) {
                         System.out.println(j + 1 + " " + MenuList.getmItemList().get(j));
                     }
-
-                    while (true) {
-                        innerChosenOption = sc.nextInt();
-                        innerChosenOption--;
-                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
-                            break;
-                        } else {
-                            System.out.println("Please enter a valid choice!");
+                    try{
+                        while (true) {
+                            innerChosenOption = sc.nextInt();
+                            innerChosenOption--;
+                            if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
+                                break;
+                            } else {
+                                System.out.println("Please enter a valid choice!");
+                            }
                         }
+                    }catch (InputMismatchException e){
+                        e.printStackTrace();
                     }
+
                     MenuItem relevantItemToBeAdded = menuItemsInMenu.get(innerChosenOption);
                     if (!this.promotionPackage.contains(relevantItemToBeAdded)) {
                         this.promotionPackage.add(relevantItemToBeAdded);
@@ -225,14 +243,21 @@ public class PromotionPackage {
                     while (true) {
                         innerChosenOption = sc.nextInt();
                         innerChosenOption--;
-                        if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
-                            System.out.println("Successfully removed: "
-                                    + addedMenuItemsInPackage.get(innerChosenOption).getItemName());
-                            addedMenuItemsInPackage.remove(innerChosenOption);
-                            break;
-                        } else {
-                            System.out.println("Please enter a valid choice!");
+
+                        try{
+                            if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
+                                System.out.println("Successfully removed: "
+                                        + addedMenuItemsInPackage.get(innerChosenOption).getItemName());
+                                addedMenuItemsInPackage.remove(innerChosenOption);
+                                break;
+                            } else {
+                                System.out.println("Please enter a valid choice!");
+
+                            }
+                        }catch (InputMismatchException e){
+                            e.printStackTrace();
                         }
+
                     }
 
                     break;
