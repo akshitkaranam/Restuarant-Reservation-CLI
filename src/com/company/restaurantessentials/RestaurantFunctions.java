@@ -32,7 +32,7 @@ public class RestaurantFunctions {
 
 
     public static void makeChangesToMenu() {
-        int option;
+        int option = 0;
         Scanner sc = new Scanner(System.in);
         MenuList testMenu = new MenuList();
         PromotionPackageMenu testPromoMenu = new PromotionPackageMenu();
