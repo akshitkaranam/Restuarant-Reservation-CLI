@@ -2,13 +2,15 @@ package com.company.administrative;
 
 /**
  * This is the Customer class. The Customer has a few basic attributes:
- * - customer ID
- * - name
- * - contact Member
- * - whether he is a member or not
+ * <ul>
+ * <li> customer ID
+ * <li> name
+ * <li> contact Member
+ * <li> membership status
+ * <ul>
  */
 
-public class Customer extends Person{
+public class Customer extends Person {
 
     String customerID;
     String name;
@@ -17,7 +19,8 @@ public class Customer extends Person{
 
     /**
      * Constructor that creates the Customer Object. The customer is not a member by default.
-     * @param name name of the Customer
+     *
+     * @param name          name of the Customer
      * @param contactNumber contact number of the Customer
      */
     public Customer(String name, String contactNumber) {
@@ -28,7 +31,6 @@ public class Customer extends Person{
     }
 
     /**
-     *
      * @return customer name
      */
     public String getName() {
@@ -41,15 +43,13 @@ public class Customer extends Person{
     }
 
     /**
-     *
-     * @return if customer is a member
+     * @return membership status (bool)
      */
     public boolean isMember() {
         return isMember;
     }
 
     /**
-     *
      * @param member boolean value if customer is a member or not
      */
     public void setMember(boolean member) {
@@ -57,7 +57,6 @@ public class Customer extends Person{
     }
 
     /**
-     *
      * @return contact number of the Customer
      */
     public String getContactNumber() {
