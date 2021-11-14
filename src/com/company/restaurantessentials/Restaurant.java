@@ -20,7 +20,7 @@ import java.util.*;
 public class Restaurant {
     private static String name;
     private static String address;
-    private static LocalTime openingTime;
+    private static LocalTime openingTime ;
     private static LocalTime closingTime;
     private static Map<Integer, Table> tableList = new HashMap<>();
     private static List<Order> activeOrders = new ArrayList<>();
