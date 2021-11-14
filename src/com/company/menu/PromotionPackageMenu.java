@@ -1,4 +1,4 @@
-package com.company.menuItem;
+package com.company.menu;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,6 +14,10 @@ public class PromotionPackageMenu {
     Scanner sc = new Scanner(System.in);
 
 
+    /**
+     * This constructor is the default constructor, and has no parameters.
+     */
+
     public PromotionPackageMenu() {
     }
 
@@ -25,7 +29,7 @@ public class PromotionPackageMenu {
         packageList.add(new PromotionPackage());
         boolean success = packageList.get(packageList.size() - 1).createPackage();
         if(success){
-            processMenuListToCSVFile();
+            processPromotionPackageListToCSVFile();
         }else{
             packageList.remove(packageList.size()-1);
         }
@@ -74,7 +78,7 @@ public class PromotionPackageMenu {
             }
 
         }
-        processMenuListToCSVFile();
+        processPromotionPackageListToCSVFile();
     }
 
     /**
@@ -105,16 +109,24 @@ public class PromotionPackageMenu {
             }
 
         }
-        processMenuListToCSVFile();
+        processPromotionPackageListToCSVFile();
 
     }
 
+    /**
+     * Returns the list of PromotionPackage objects
+     * @return List of PromotionPackage objects
+     */
     public static ArrayList<PromotionPackage> getPackageList() {
         return packageList;
     }
 
 
-    public static void processMenuListToCSVFile() {
+    /**
+     * Writes the information of the each PromotionPackage in the packageList to promotionPackage.csv
+     */
+
+    public static void processPromotionPackageListToCSVFile() {
         try {
             // create a list of objects
             List<List<String>> records = new ArrayList<>();

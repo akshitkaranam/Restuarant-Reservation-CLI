@@ -5,9 +5,16 @@ import com.company.restaurantessentials.*;
 
 import java.util.*;
 
+/**
+ * This the class where the Main methods is present.
+ */
 public class POSApp {
 
 
+    /**
+     * Main method for the app to function
+     * @param args args
+     */
     public static void main(String[] args) {
 
         //Retrieve Saved Information from CSV Files
@@ -38,7 +45,7 @@ public class POSApp {
                 case 2 -> RestaurantFunctions.makeChangesToPackages();
                 case 3 -> RestaurantFunctions.checkTableAvailability();
                 case 4 -> RestaurantFunctions.addReservation();
-                case 5 -> RestaurantFunctions.showListOfReservationByDate();
+                case 5 -> RestaurantFunctions.showListOfActiveReservationByDate();
                 case 6 -> RestaurantFunctions.removeReservation();
                 case 7 -> RestaurantFunctions.checkInCustomer();
                 case 8 -> RestaurantFunctions.modifyActiveOrder();
@@ -51,6 +58,7 @@ public class POSApp {
         }
         scanner.close();
     }
+
 
     private static void printMainMenu() {
         System.out.println("Please select one of the options");

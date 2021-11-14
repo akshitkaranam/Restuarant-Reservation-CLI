@@ -1,7 +1,14 @@
-package com.company.menuItem;
+package com.company.menu;
 
 /**
- * This is the basic MenuItem entity that is used in MenuList and PromotionPackage
+ * This is the basic MenuItem entity that is used in MenuList and PromotionPackage.
+ * The MenuItem object contains the following attributes:
+ * <ol>
+ *    <li>itemName
+ *    <li>itemDescription
+ *    <li>itemPrice
+ *    <li>itemType of enum MenuItemType
+ * </ol>
  */
 
 
@@ -11,13 +18,32 @@ public class MenuItem {
     private double itemPrice;
     private MenuItemType itemType;
 
+    /**
+     * The Types of MenuItemTypes
+     */
     enum MenuItemType {
-        APPETIZER, MAINCOURSE, DRINKS, DESSERT
+        /**
+         * Appetizer
+         */
+        APPETIZER,
+        /**
+         * Main Course
+         */
+        MAINCOURSE,
+        /**
+         * Drinks
+         */
+        DRINKS,
+        /**
+         * Dessert
+         */
+        DESSERT
 
     }
 
     /**
-     * This constructor is used when reading from the csv file.
+     * This constructor is used when reading from the menu.csv file
+     * This constructor is not used when the MenuItem as MenuItem is expected to be empty when created.
      *
      * @param itemName           menu item name
      * @param itemDescription    description of the menu item
@@ -45,8 +71,9 @@ public class MenuItem {
     }
 
     /**
-     * <li>This constructor is used to initialise MenuItem with empty values in the attributes.
-     * <li>This is specially useful when initialising for the first time
+     * This constructor is used to initialise MenuItem with empty values in the attributes.
+     * This is specially useful when initialising for the first time. Setter methods are used to update
+     * the attribute values.
      */
 
     public MenuItem() {
@@ -94,7 +121,7 @@ public class MenuItem {
     /**
      * Sets the price of the MenuItem object.
      *
-     * @param itemPrice
+     * @param itemPrice price of the item
      */
 
     public void setItemPrice(double itemPrice) {
@@ -102,6 +129,7 @@ public class MenuItem {
     }
 
     /**
+     * Retuens the price of the MenuItem object
      * @return price of MenuItem
      */
 
@@ -119,6 +147,7 @@ public class MenuItem {
     }
 
     /**
+     * Returns the MenuItemType of the MenuItem object.
      * @return MenuItemType
      */
 

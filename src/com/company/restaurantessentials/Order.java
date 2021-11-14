@@ -2,8 +2,8 @@ package com.company.restaurantessentials;
 
 import com.company.administrative.Customer;
 import com.company.administrative.Staff;
-import com.company.menuItem.MenuItem;
-import com.company.menuItem.PromotionPackage;
+import com.company.menu.MenuItem;
+import com.company.menu.PromotionPackage;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,13 +15,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class is the main entity that processes the Reservation/Orders made by Customers. This class has 2 main function:
+ * This class is the main entity that processes the Reservation/Orders made by Customers.
+ * This class has the following attributes:
+ * <ol>
+ *     <li>Customer object
+ *     <li>orderNumber
+ *     <li>groupSize
+ *     <li>tableNumber
+ *     <li>date
+ *     <li>reservationStartTime
+ *     <li>reservationEndTime
+ *     <li>reservationIsActive (boolean value)
+ *     <li>Staff object
+ *     <li> Map of MenuItem as Key and Quantity as value (i.e Laksa,2)
+ *     <li>Map of PromotionPackage as Key and Quantity as value
+ *     <li>orderIsActive (boolean value)
+ *
+ * </ol>
+
+ * This class has 2 main function:
  * <ol>
  *     <li> Reservation
  *     <ul><li>Upon Successful reservation, a new Order object is created with an 'active reservation' and 'inactive order'.
  *     </ul>
  *     <li> Ordering
- *     <ul><li> When the Customer successfully checks-in, the order becomes 'active' and the relevant MenuItems and PromotionPackages can then be added accordingly.
+ *     <ul><li>When the Customer successfully checks-in, the order becomes 'active' and the relevant MenuItems and PromotionPackages can then be added accordingly.
  *     </ul>
  * </ol>
  */
@@ -48,7 +66,8 @@ public class Order {
 
     /**
      * This constructor is specifically used when a 'Reservation' is created. This constructor by default \
-     * sets 'reservation as active' and 'order as inactive'
+     * sets 'reservation as active' and 'order as inactive'. This constructor also reads from the orderNumber.csv
+     * and creates a new order number accordingly.
      *
      * @param customer             takes in a Customer object.
      * @param groupSize            the size of the group making the reservation
@@ -100,6 +119,16 @@ public class Order {
 
     }
 
+    /**
+     * This constructor is used when reading from the activeOrder.csv file when re-establishing the order object.
+     * @param customer  takes in a Customer object.
+     * @param groupSize  the size of the group making the reservation
+     * @param tableNumber the table number for the reservation
+     * @param date the date of the reservation
+     * @param reservationStartTime start time of the reservation
+     * @param reservationEndTime end time of the reservation
+     * @param orderNumber order number of the order/reservation
+     */
     public Order(Customer customer, int groupSize, int tableNumber,
                  LocalDate date, LocalTime reservationStartTime, LocalTime reservationEndTime, int orderNumber) {
 
@@ -120,7 +149,7 @@ public class Order {
 
     /**
      * This constructor is specifically useful when the Order object is created when retrieving information from the
-     * orderReservation CSV file.
+     * orderInvoices.csv file.
      *
      * @param customer             takes in a Customer object.
      * @param orderNumber          the order number of the order
@@ -191,6 +220,11 @@ public class Order {
      *                   * @param quantity the quantity of the MenuItem object that needs to be added.
      */
 
+    /**
+     * Adds a PromotionPackage object to the promotionPackageOrderedList
+     * @param promoToAdd the promotionPackage object to add
+     * @param quantity the quantity needed to add
+     */
     public void addPromotionPackageToOrder(PromotionPackage promoToAdd, int quantity) {
         promotionPackageOrderedList.put(promoToAdd, quantity);
 
@@ -216,8 +250,7 @@ public class Order {
     }
 
     /**
-     * Deletes the MenuItem from the Order
-     *
+     * Deletes the passed MenuItem from the Order
      * @param menuItem the MenuItem object that needs to be removed
      */
 
@@ -226,7 +259,7 @@ public class Order {
     }
 
     /**
-     * Deletes the MenuItem from the Order
+     * Deletes the passed PromotionPackage from the Order
      *
      * @param promoPack the PromotionPackage object that needs to be removed
      */
@@ -293,6 +326,10 @@ public class Order {
         return orderIsActive;
     }
 
+    /**
+     * Sets the boolean variable orderIsActive
+     * @param orderIsActive boolean value if order is active
+     */
     public void setOrderIsActive(boolean orderIsActive) {
         this.orderIsActive = orderIsActive;
     }
@@ -351,6 +388,7 @@ public class Order {
                 ", date=" + date +
                 ", reservationStartTime=" + reservationStartTime +
                 ", reservationEndTime=" + reservationEndTime +
+                ", activeOrder=" + orderIsActive +
                 '}';
     }
 

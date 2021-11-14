@@ -2,12 +2,14 @@ package com.company.administrative;
 
 /**
  * This is the Customer class. The Customer has a few basic attributes:
- * <ul>
- * <li> customer ID
- * <li> name
- * <li> contact Member
- * <li> membership status
- * <ul>
+ * <ol>
+ *  <li>customer ID
+ *  <li>name
+ *  <li>contact Member
+ *  <li>membership status
+ * </ol>
+ *
+ *
  */
 
 public class Customer extends Person {
@@ -30,8 +32,8 @@ public class Customer extends Person {
         this.isMember = false;
     }
 
-    /**
-     * @return customer name
+    /** Returns the name od the customer
+     * @return name
      */
     public String getName() {
         return this.name;
@@ -43,21 +45,23 @@ public class Customer extends Person {
     }
 
     /**
-     * @return membership status (bool)
+     * Returns a boolean value indicating if this Person object is a member
+     * @return gender
      */
     public boolean isMember() {
         return isMember;
     }
 
     /**
+     *Sets a boolean value indicating whether this Person object is a member
      * @param member boolean value if customer is a member or not
      */
     public void setMember(boolean member) {
         isMember = member;
     }
 
-    /**
-     * @return contact number of the Customer
+    /** Returns contact number of this Person object
+     * @return contactNumber
      */
     public String getContactNumber() {
         return contactNumber;

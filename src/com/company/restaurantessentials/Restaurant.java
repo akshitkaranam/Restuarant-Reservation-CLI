@@ -1,7 +1,7 @@
 package com.company.restaurantessentials;
 
-import com.company.menuItem.MenuItem;
-import com.company.menuItem.PromotionPackage;
+import com.company.menu.MenuItem;
+import com.company.menu.PromotionPackage;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,10 +11,14 @@ import java.util.*;
 
 /**
  * This class contains details of the Restaurant
- * 1. Name
- * 2. Address
- * 3. List of Table Objects
- * 4. List of Active Orders
+ * <ol>
+ *     <li>Name
+ *     <li>Address
+ *     <li>Opening Time
+ *     <li>Closing Time
+ *     <li>List of Table Objects
+ *     <li>List of Active Orders
+ * </ol>
  */
 
 public class Restaurant {
@@ -54,41 +58,73 @@ public class Restaurant {
     }
 
     /**
+     * Returns the list of Order Objects that have status 'active order'.
      * @return list of active orders
      */
     public static List<Order> getActiveOrders() {
         return activeOrders;
     }
 
-
+    /**
+     * Returns the name of the restaurant
+     * @return the name of the restaurant
+     */
     public static String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the restaurant
+     * @param name name of the restaurant
+     */
     public static void setName(String name) {
         Restaurant.name = name;
     }
 
+    /**
+     * Returns the address of the restaurant
+     * @return address of the restaurant
+     */
     public static String getAddress() {
         return address;
     }
 
+    /**
+     * Sets the address of the restaurant
+     * @param address address of the restaurant
+     */
     public static void setAddress(String address) {
         Restaurant.address = address;
     }
 
+    /**
+     * Returns the restaurants opening time
+     * @return restaurant opening time
+     */
     public static LocalTime getOpeningTime() {
         return openingTime;
     }
 
+    /**
+     * Sets the restaurant opening time
+     * @param openingTime restaurantOpeningTime
+     */
     public static void setOpeningTime(LocalTime openingTime) {
         Restaurant.openingTime = openingTime;
     }
 
+    /**
+     * Returns the closing time of the restaurant
+     * @return closing time of the restaurant
+     */
     public static LocalTime getClosingTime() {
         return closingTime;
     }
 
+    /**
+     * Sets the closing time of the restaurant
+     * @param closingTime closing time of the restaurant
+     */
     public static void setClosingTime(LocalTime closingTime) {
         Restaurant.closingTime = closingTime;
     }

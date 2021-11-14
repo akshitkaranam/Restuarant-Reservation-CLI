@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class contains a static map that contains the information of the Customers who are members
+ * This class is entity that contains information of the Customer Objects who are members.
  */
 
 public class MembershipList {
@@ -22,8 +22,8 @@ public class MembershipList {
     }
 
 
-    /**
-     * @return Map of Customer's Name:Customer Objects
+    /** Returns HashMap with Key being the customer's name (String) and the value being the Customer Object
+     * @return Map of Customer's Name (String), Person Object
      */
     public static Map<String, Customer> getMembersList() {
         return membersList;

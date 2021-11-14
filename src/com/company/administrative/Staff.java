@@ -4,16 +4,28 @@ import java.util.Objects;
 
 /**
  * This is the Staff class. The Staff has a few basic attributes:
- * <li> Emp ID
- * <li> name
- * <li> Job Role
- * <li> Gender
+ * <ol>
+ *    <li>Emp ID
+ *    <li>name
+ *    <li>Job Role
+ *    <li>Gender
+ * </ol>
  */
 
 public class Staff extends Person {
 
+
+    /**
+     * JobRole
+     */
     public enum JobRole {
+        /**
+         * Manager
+         */
         MANAGER,
+        /**
+         * Waiter
+         */
         WAITER
     }
 

@@ -1,11 +1,11 @@
-package com.company.menuItem;
+package com.company.menu;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
 /**
- * This is the class that contains a static list of all the MenuItems that are added
+ * This is the class that contains a static list of all the MenuItems (mItemList) that are added by the program.
  */
 
 public class MenuList {
@@ -73,7 +73,7 @@ public class MenuList {
 
 
     /**
-     * Display the current MenuItems that are added
+     * Display the MenuItems that have already been added.
      */
     public static void displayMenu() {
         if (mItemList.isEmpty()) {
@@ -113,10 +113,12 @@ public class MenuList {
     /**
      * Updates a MenuItem from the mItemList. User is expected to give inputs based on the prompts provided.
      * This function enables the following attributes of the MenuItem to be changes:
-     * <li> Name
-     * <li> Price
-     * <li> Type
-     * <li> Description
+     * <ol>
+     *     <li>Name
+     *     <li>Price
+     *     <li>Type
+     *     <li>Description
+     * </ol>
      */
 
     public void updateMenuItem() {
@@ -198,6 +200,12 @@ public class MenuList {
 
     }
 
+    /**
+     * Returns a MenuItem object given the name of the MenuItem object
+     * @param name the name of the menu item (String).
+     * @return MenuItem given the name (String).
+     */
+
     public static MenuItem getMenuItemFromList(String name) {
         for (MenuItem mItem : mItemList) {
             if (mItem.getItemName().equals(name)) {
@@ -210,7 +218,6 @@ public class MenuList {
 
     /**
      * This method returns the List of MenuItemObjects that have been added.
-     *
      * @return mItemList (List of MenuItem Objects that have been added)
      */
 

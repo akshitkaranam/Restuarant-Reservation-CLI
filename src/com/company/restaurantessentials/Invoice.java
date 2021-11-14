@@ -1,7 +1,7 @@
 package com.company.restaurantessentials;
 
-import com.company.menuItem.MenuItem;
-import com.company.menuItem.PromotionPackage;
+import com.company.menu.MenuItem;
+import com.company.menu.PromotionPackage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,6 +10,14 @@ import java.util.*;
 
 /**
  * This is class is the entity that is created when a Customer checks-out from the restaurant.
+ * These are the attributes present in the Invoice class:
+ * <ol>
+ *     <li>Order object
+ *     <li>priceBeforeTax
+ *     <li>priceAfterTax
+ *     <li>memberDiscount
+ *     <li>invoicePoid (boolean)
+ * </ol>
  */
 
 public class Invoice implements Comparable<Invoice> {
@@ -138,6 +146,7 @@ public class Invoice implements Comparable<Invoice> {
     }
 
     /**
+     * returns the Time/Date the invoice was generated.
      * @return the Time/Date the invoice was generated
      */
     public LocalDateTime getLocalDateTime() {
@@ -150,6 +159,7 @@ public class Invoice implements Comparable<Invoice> {
     }
 
     /**
+     * returns the order object in the invoice
      * @return the Order object in the invoice
      */
     public Order getOrder() {
@@ -157,6 +167,7 @@ public class Invoice implements Comparable<Invoice> {
     }
 
     /**
+     * returns the date the invoice was created
      * @return LocalDate
      */
     public LocalDate getDate() {
@@ -164,6 +175,7 @@ public class Invoice implements Comparable<Invoice> {
     }
 
     /**
+     * returns the month the invoice was created
      * @return Month
      */
     public Month getMonth() {
@@ -172,6 +184,7 @@ public class Invoice implements Comparable<Invoice> {
 
 
     /**
+     * returns the priceAfterTax;
      * @return priceAfterTax;
      */
     public double getPriceAfterTax() {

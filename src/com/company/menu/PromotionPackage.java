@@ -1,9 +1,15 @@
-package com.company.menuItem;
+package com.company.menu;
 
 import java.util.*;
 
 /**
- * This is the basic entity that is used in PromotionPackageMenu
+ * This is the basic entity that is used in PromotionPackageMenu. The PromotionPackage has the following attributes:
+ * <ol>
+ *     <li>List of MenuItem objects that are in the promotion package
+ *     <li>packagePrice
+ *     <li>packageDescription
+ *     <li>packageName
+ * </ol>
  */
 public class PromotionPackage {
 
@@ -13,22 +19,32 @@ public class PromotionPackage {
     private String packageName;
     Scanner sc = new Scanner(System.in);
 
-    public PromotionPackage(List<MenuItem> promotionPackage, double packagePrice
-            , String packageDescription, String packageName) {
+    /**
+     * This constructor is specifically used when reading from the promotionPackage.csv
+     * @param promotionPackage List of MenuItems that are included in the promotion package
+     * @param packagePrice The price of the promotion package
+     * @param packageDescription description of the promotion package
+     * @param packageName The name of the promotion package
+     */
+    public PromotionPackage(List<MenuItem> promotionPackage, double packagePrice, String packageDescription
+            ,String packageName) {
         this.promotionPackage = promotionPackage;
         this.packagePrice = packagePrice;
         this.packageDescription = packageDescription;
         this.packageName = packageName;
     }
 
+    /**
+     * This constructor is used when creating a new promotion package. An empty MenuItem list is initialised, and the
+     * attrtibutes are later populated by the setter methods below.
+     */
     public PromotionPackage() {
         promotionPackage = new ArrayList<>();
 
     }
 
     /**
-     * returns the package price
-     *
+     * Returns the package price
      * @return package price
      */
     public double getPackagePrice() {
@@ -49,6 +65,7 @@ public class PromotionPackage {
 
     /**
      * Creates a new PromotionPackage. The user has to enter inputs accordingly to the prompts given.
+     * @return returns a boolean value if the creation has been successful
      */
     public boolean createPackage() {
         List<MenuItem> menuItemList = MenuList.getmItemList();
@@ -166,11 +183,15 @@ public class PromotionPackage {
 
     /**
      * Updates a MenuItem from the mItemList. User is expected to give inputs based on the prompts provided.
-     * This function enables the following attributes of the MenuItem to be changes:
-     * <li> Name
-     * <li> Add MenuItem
-     * <li> Remove MenuItem
-     * <li> Change Price
+     * This function enables the following attributes of the MenuItem to be changed:
+     * <ol>
+     *      <li> Name
+     *      <li> Add MenuItem
+     *      <li> Remove MenuItem
+     *      <li> Change Price
+     * </ol>
+     *
+     *
      */
 
     public void updatePackage() {
@@ -287,6 +308,7 @@ public class PromotionPackage {
 
 
     /**
+     * Returns the name of this PromotionPackage object
      * @return the name of this package
      */
 
@@ -304,12 +326,17 @@ public class PromotionPackage {
     }
 
     /**
-     * @return the list of MenuItems in this PromotionPackage object
+     * Returns the List of MenuItems that have been added into the promotion package
+     * @return the List of MenuItems that have been added into the promotion package
      */
     public List<MenuItem> getPromotionPackage() {
         return promotionPackage;
     }
 
+    /**
+     * Returns this PromotionPackage description.
+     * @return this PromotionPackage object description
+     */
     public String getPackageDescription() {
         return packageDescription;
     }

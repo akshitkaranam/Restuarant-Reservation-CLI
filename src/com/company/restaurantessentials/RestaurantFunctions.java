@@ -4,10 +4,10 @@ import com.company.administrative.Customer;
 import com.company.administrative.MembershipList;
 import com.company.administrative.Staff;
 import com.company.administrative.StaffList;
-import com.company.menuItem.MenuItem;
-import com.company.menuItem.MenuList;
-import com.company.menuItem.PromotionPackage;
-import com.company.menuItem.PromotionPackageMenu;
+import com.company.menu.MenuItem;
+import com.company.menu.MenuList;
+import com.company.menu.PromotionPackage;
+import com.company.menu.PromotionPackageMenu;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,19 +17,38 @@ import java.time.*;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
+/**
+ * This is the class that contains all important restaurant functions.
+ * There is only one attribute in this class: currentStaffUser, that tracks which staffUser is currently operating the
+ * system.
+ */
+
 public class RestaurantFunctions {
 
-    public static Staff currentStaffUser;
 
+    private static Staff currentStaffUser;
+
+    /**
+     * Sets the staff who is using the system
+     * @param currentStaff Staff object that is using this system
+     */
     public static void setCurrentStaff(Staff currentStaff) {
         RestaurantFunctions.currentStaffUser = currentStaff;
     }
 
+
+    /**
+     * Returns the current staff user who is using the system
+     * @return current staff user
+     */
     public static Staff getCurrentStaffUser() {
         return currentStaffUser;
     }
 
 
+    /**
+     * This function creates/updates/display's the menu. It gives full access to control the items in the menu.
+     */
     public static void makeChangesToMenu() {
         int option;
         Scanner sc = new Scanner(System.in);
@@ -69,6 +88,11 @@ public class RestaurantFunctions {
     }
 
 
+    /**
+     * This function creates/updates/display's the PromotionPackages.
+     * It gives full access to control the items in the PromotionPackages.
+     */
+
     public static void makeChangesToPackages() {
         int option;
         Scanner sc = new Scanner(System.in);
@@ -101,6 +125,17 @@ public class RestaurantFunctions {
 
     }
 
+    /**
+     * This function adds a reservation based on the user inputs.
+     * <ol>
+     *     <li> Reservation can only be added for the next 14 days
+     *     <li> Reservation cannot be made in the past
+     *     <li> Reservation cannot be made if there are no empty tables at the specified date/time/groupSize
+     *     <li> Slots can only be reserved in slots of 30 minutes
+     *     <li> Reservations cannot be made beyond the restaurant's opening hours
+     *     <li> Member authentication is also done here
+     * </ol>
+     */
     public static void addReservation() {
         Scanner scanner = new Scanner(System.in);
         Set<LocalTime> availableSlotsSet = new LinkedHashSet<>();
@@ -292,7 +327,19 @@ public class RestaurantFunctions {
         System.out.println();
     }
 
-    public static void showListOfReservationByDate() {
+    /**
+     * This function displays the list of reservation when the user enters the relevant date.
+     *
+     * <ol>
+     *     <li> Can only access reervations for the next 14 days.
+     *     <li> Past Reservations cannot be accessed, since they are either deleted when the user checks-out or when
+     *          the customer doesn't check in within 30 minutes
+     *     <li> In this function, if the customer doesn't reach within 30 minutes of the reservation start time, the
+     *          reservation is automatically deleted after 30 minutes.
+     * </ol>
+     */
+
+    public static void showListOfActiveReservationByDate() {
         LocalDate date;
         Scanner scanner = new Scanner(System.in);
 
@@ -367,6 +414,14 @@ public class RestaurantFunctions {
         System.out.println();
     }
 
+
+    /**
+     * This function deletes the reservation given the date.
+     * <ol>
+     *     <li>Reservations with active order cannot be removed
+     *     <li>Reservation can be only removed for the next 14 days
+     * </ol>
+     */
     public static void removeReservation() {
 
 
@@ -386,7 +441,7 @@ public class RestaurantFunctions {
                 }
 
                 if (date.isAfter(LocalDate.now().plusDays(14))) {
-                    System.out.println("You can only add reservations for the next 14 days!");
+                    System.out.println("You can only remove reservations for the next 14 days!");
                     continue;
                 }
 
@@ -454,6 +509,11 @@ public class RestaurantFunctions {
         System.out.println();
     }
 
+
+    /**
+     * This checks the availability of the tables given the date and time. It gives a result of the tables that are free
+     * for the next 1.5h starting from the time given.
+     */
     public static void checkTableAvailability() {
 
         LocalDate date;
@@ -538,6 +598,18 @@ public class RestaurantFunctions {
 
     }
 
+
+    /**
+     * This function checks-in the customer
+     * <ol>
+     *     <li>Customers can only check in 15 minutes before the reservation start time (and date as well).
+     *     <li>In this function, if the customer doesn't reach within 30 minutes of the reservation start time, the
+     *         reservation is automatically deleted after 30 minutes.
+     *     <li>Once the customer is checked in, his orderReservation becomes 'active' and is added to the activeOrderList
+     *         in the restaurant class.
+     *     <li> Once the check-in is done, the activeOrder.csv is ammended to reflect the changes
+     * </ol>
+     */
     public static void checkInCustomer() {
         LocalDate dateNow = LocalDate.now();
         LocalTime timeNow = LocalTime.now();
@@ -584,10 +656,10 @@ public class RestaurantFunctions {
                     LocalTime reservationEndTime = thisOrder.getReservationEndTime().minusMinutes(30);
 
                     if (timeNow.isAfter(reservationStartTime) && timeNow.isBefore(reservationEndTime)) {
-                        System.out.println((i + 1) + ": " + thisOrder.getCustomer().getName() + " "
+                        System.out.println((i) + ": " + thisOrder.getCustomer().getName() + " "
 
                                 + thisOrder.getCustomer().getContactNumber());
-                        availableIndex.add(i + 1);
+                        availableIndex.add(i);
 
                     }
 
@@ -612,7 +684,7 @@ public class RestaurantFunctions {
             }
         }
 
-        Order relevantOrder = orderOfAllReservationForToday.get(optionSelected - 1);
+        Order relevantOrder = orderOfAllReservationForToday.get(optionSelected);
 
         for(Order activeOrder : Restaurant.getActiveOrders()){
             if(relevantOrder.getTableNumber() == activeOrder.getTableNumber()){
@@ -633,6 +705,18 @@ public class RestaurantFunctions {
 
     }
 
+    /**
+     * This accesses the activeOrderList in the Restaurant class. The active orders can be amended based on the user input:
+     * <ol>
+     *     <li>Add MenuItem
+     *     <li>Add Remove MenuItem
+     *     <li>Add Change quantity of MenuItem
+     *     <li>Add PromotionPackage
+     *     <li>Add Remove PromotionPackage
+     *     <li>Add Change quantity of PromotionPackage
+     * </ol>
+     * Any changes to any of the above would amend the activeOrder.csv file
+     */
     public static void modifyActiveOrder() {
         List<Order> activeOrders = Restaurant.getActiveOrders();
         Scanner sc = new Scanner(System.in);
@@ -893,6 +977,14 @@ public class RestaurantFunctions {
     }
 
 
+    /**
+     * This function checks out the customer.
+     * <ol>
+     *     <li>The invoice is then added into the InvoiceList.
+     *     <li>The information from this invoice object is then written to the orderInvoice.csv file
+     *    <li>Once the customer is checked-out, the final invoice is generated, and is assumed that he has made the payment
+     * </ol>
+     */
     public static void checkOutCustomer() {
 
         List<Order> activeOrders = Restaurant.getActiveOrders();
@@ -922,7 +1014,6 @@ public class RestaurantFunctions {
         Invoice thisOrderInvoice = new Invoice(orderToCheckOut);
         thisOrderInvoice.generateReceipt();
         activeOrders.remove(optionChosen - 1);
-        System.out.println(activeOrders);
         Restaurant.processActiveOrderToCSV();
 
         //Remove Reservation
@@ -941,6 +1032,14 @@ public class RestaurantFunctions {
         InvoiceList.processInvoiceListToCSVFile();
     }
 
+    /**
+     * This function access the InvoiceList and generates revenue report based on the user input
+     * <ol>
+     *     <li>generates report by revenue
+     *     <li>generates report by quantity sold
+     *     <li>generated report on 2 different time periods - by day and by month
+     * </ol>
+     */
     public static void printSalesByTimePeriod() {
         int option;
         Scanner sc = new Scanner(System.in);
@@ -976,6 +1075,10 @@ public class RestaurantFunctions {
     }
 
 
+    /**
+     * This function allows the change of StaffUser that is currently controlling the system.
+     * The staff name is prominently used in the invoice and order objects.
+     */
     public static void changeStaffUser() {
         List<Staff> staffList = StaffList.getStaffList();
         Scanner scanner = new Scanner(System.in);
@@ -1002,6 +1105,17 @@ public class RestaurantFunctions {
         currentStaffUser = staffList.get(chosenOption - 1);
         System.out.println();
     }
+
+    /**
+     * This retrieves the Restaurant information such as:
+     * <ol>
+     *     <li>restaurant name
+     *     <li>restaurant address
+     *     <li>restaurant opening time
+     *     <li>restaurant closing time
+     *     <li>initialise the tables based on the Table Number and its capacity.
+     * </ol>
+     */
 
     public static void retrieveRestaurantInformation() {
 
@@ -1049,6 +1163,10 @@ public class RestaurantFunctions {
         }
     }
 
+    /**
+     * This function reads the StaffList.csv information and creates appropriate Staff objects and adds them to
+     * the StaffList class.
+     */
     public static void retrieveStaffInformation() {
 
         try {
@@ -1081,6 +1199,10 @@ public class RestaurantFunctions {
         }
     }
 
+    /**
+     * This function reads the MembershipList.csv information and creates appropriate Customer objects and adds them to
+     * the MembershipList class.
+     */
     public static void retrieveMembershipInformation() {
 
         try {
@@ -1109,6 +1231,10 @@ public class RestaurantFunctions {
     }
 
 
+    /**
+     * This function reads the menu.csv information and creates appropriate MenuItem objects and adds them to
+     * the MenuList
+     */
     public static void retrieveMenuInformation() {
 
         try {
@@ -1139,6 +1265,11 @@ public class RestaurantFunctions {
         }
     }
 
+
+    /**
+     * This function reads the promotionPackage.csv information and creates appropriate PromotionPackage objects and adds them to
+     * the PromotionPackageMenu
+     */
     public static void retrievePromotionPackageInformation() {
         try {
             // CSV file delimiter
@@ -1170,6 +1301,11 @@ public class RestaurantFunctions {
         }
     }
 
+
+    /**
+     * This function reads the orderReservation.csv information and creates appropriate
+     * Order objects and adds them the appropriate TableDateSlots.
+     */
 
     public static void retrieveOrderReservationInformation() {
 
@@ -1224,6 +1360,10 @@ public class RestaurantFunctions {
         }
     }
 
+    /**
+     * This function reads the activeOrder.csv information and creates appropriate
+     * Order objects and adds them the appropriate ActiveOrders list in the Restauarnt class.
+     */
 
     public static void retrieveActiveOrderInformation() {
 
@@ -1306,6 +1446,11 @@ public class RestaurantFunctions {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * This function reads the orderInvoices.csv information and creates appropriate
+     * Invoice objects and adds them the InvoiceList class.
+     */
 
 
     public static void retrieveInvoicesInformation() {

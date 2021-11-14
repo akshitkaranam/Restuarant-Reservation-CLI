@@ -1,7 +1,7 @@
 package com.company.restaurantessentials;
 
-import com.company.menuItem.MenuItem;
-import com.company.menuItem.PromotionPackage;
+import com.company.menu.MenuItem;
+import com.company.menu.PromotionPackage;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,12 +11,13 @@ import java.util.*;
 import java.util.List;
 
 /**
- * This class is mainly used to generate sales revenues. This contains a static list of Invoices from all time.
+ * This class is mainly used to generate sales reports. This contains a static list of Invoices from all time.
  */
 
 public class InvoiceList {
 
-    public static List<Invoice> invoicesList = new ArrayList<>();
+
+    private static List<Invoice> invoicesList = new ArrayList<>();
 
     /**
      * @param invoice the invoice object needed to be added
@@ -31,9 +32,11 @@ public class InvoiceList {
 
     /**
      * Get sales report by a given day
-     * 1. Total Revenue
-     * 2. Quantity of MenuItems/ Promotion Packages Sold
+     * <ol>
+     *     <li>Total Revenue
+     *     <li>Quantity of MenuItems/ Promotion Packages Sold
      *
+     * </ol>
      * @param date the relevant date that is being queried
      */
     public static void salesReportByDay(LocalDate date) {
@@ -72,9 +75,10 @@ public class InvoiceList {
 
     /**
      * Get sales report by a given Month
-     * 1. Total Revenue
-     * 2. Quantity of MenuItems/ Promotion Packages Sold
-     *
+     * <ol>
+     *     <li>Total Revenue
+     *     <li> Quantity of MenuItems/ Promotion Packages Sold
+     * </ol>
      * @param month the relevant Month that is being queried
      */
     public static void salesReportByMonth(Month month) {
@@ -115,7 +119,11 @@ public class InvoiceList {
         } while (option != 3);
     }
 
-
+    /**
+     * Calculates the total revenue given the list of Relevant Invoices
+     * @param relevantInvoices List of invoices objects that need to be calculated
+     * @return
+     */
     private static int calculateTotalRevenue(List<Invoice> relevantInvoices) {
         int totalRevenue = 0;
         for (Invoice in : relevantInvoices) {
@@ -124,6 +132,12 @@ public class InvoiceList {
 
         return totalRevenue;
     }
+
+    /**
+     * This calculates the total quantity for each MenuItem
+     * @param relevantInvoices List of Invoice of objects that need to be calculated
+     * @return
+     */
 
     private static Map<MenuItem, Integer> getMenuItemQuantity(List<Invoice> relevantInvoices) {
         Map<MenuItem, Integer> totalItemQuantity = new HashMap<>();
@@ -145,6 +159,11 @@ public class InvoiceList {
         return totalItemQuantity;
     }
 
+    /**
+     * This calculates the total quantity for each PromotionPackage
+     * @param relevantInvoices List of Invoice of objects that need to be calculated
+     * @return
+     */
     private static Map<PromotionPackage, Integer> getPromoPackageQuantity(List<Invoice> relevantInvoices) {
         Map<PromotionPackage, Integer> totalPromoQuantity = new HashMap<>();
 
@@ -167,7 +186,7 @@ public class InvoiceList {
 
 
     /**
-     * Process the Invoice Static List to save the information to a CSV File: orderInvoices.csv
+     * Writes the information from the invoices list to a CSV File: orderInvoices.csv
      */
     public static void processInvoiceListToCSVFile() {
         try {
