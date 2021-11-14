@@ -16,7 +16,7 @@ import java.util.*;
  *     <li>priceBeforeTax
  *     <li>priceAfterTax
  *     <li>memberDiscount
- *     <li>invoicePoid (boolean)
+ *     <li>invoicePaid (boolean)
  * </ol>
  */
 
@@ -147,6 +147,7 @@ public class Invoice implements Comparable<Invoice> {
 
     /**
      * returns the Time/Date the invoice was generated.
+     *
      * @return the Time/Date the invoice was generated
      */
     public LocalDateTime getLocalDateTime() {
@@ -160,6 +161,7 @@ public class Invoice implements Comparable<Invoice> {
 
     /**
      * returns the order object in the invoice
+     *
      * @return the Order object in the invoice
      */
     public Order getOrder() {
@@ -168,6 +170,7 @@ public class Invoice implements Comparable<Invoice> {
 
     /**
      * returns the date the invoice was created
+     *
      * @return LocalDate
      */
     public LocalDate getDate() {
@@ -176,6 +179,7 @@ public class Invoice implements Comparable<Invoice> {
 
     /**
      * returns the month the invoice was created
+     *
      * @return Month
      */
     public Month getMonth() {
@@ -185,6 +189,7 @@ public class Invoice implements Comparable<Invoice> {
 
     /**
      * returns the priceAfterTax;
+     *
      * @return priceAfterTax;
      */
     public double getPriceAfterTax() {

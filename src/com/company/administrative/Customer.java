@@ -8,8 +8,6 @@ package com.company.administrative;
  *  <li>contact Member
  *  <li>membership status
  * </ol>
- *
- *
  */
 
 public class Customer extends Person {
@@ -32,7 +30,9 @@ public class Customer extends Person {
         this.isMember = false;
     }
 
-    /** Returns the name od the customer
+    /**
+     * Returns the name of the customer
+     *
      * @return name
      */
     public String getName() {
@@ -46,6 +46,7 @@ public class Customer extends Person {
 
     /**
      * Returns a boolean value indicating if this Person object is a member
+     *
      * @return gender
      */
     public boolean isMember() {
@@ -53,14 +54,17 @@ public class Customer extends Person {
     }
 
     /**
-     *Sets a boolean value indicating whether this Person object is a member
+     * Sets a boolean value indicating whether this Person object is a member
+     *
      * @param member boolean value if customer is a member or not
      */
     public void setMember(boolean member) {
         isMember = member;
     }
 
-    /** Returns contact number of this Person object
+    /**
+     * Returns contact number of this Person object
+     *
      * @return contactNumber
      */
     public String getContactNumber() {

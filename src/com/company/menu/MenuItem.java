@@ -48,7 +48,7 @@ public class MenuItem {
      * @param itemName           menu item name
      * @param itemDescription    description of the menu item
      * @param itemPrice          price of the menu item
-     * @param menuItemTypeString String of the MenuItemType (i.e Appetizer)
+     * @param menuItemTypeString String of the MenuItemType (i.e. Appetizer)
      */
 
     public MenuItem(String itemName, String itemDescription, double itemPrice, String menuItemTypeString) {
@@ -129,7 +129,8 @@ public class MenuItem {
     }
 
     /**
-     * Retuens the price of the MenuItem object
+     * Returns the price of the MenuItem object
+     *
      * @return price of MenuItem
      */
 
@@ -148,6 +149,7 @@ public class MenuItem {
 
     /**
      * Returns the MenuItemType of the MenuItem object.
+     *
      * @return MenuItemType
      */
 

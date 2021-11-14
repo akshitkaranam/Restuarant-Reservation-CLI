@@ -17,7 +17,7 @@ import java.util.List;
 public class InvoiceList {
 
 
-    private static List<Invoice> invoicesList = new ArrayList<>();
+    private static final List<Invoice> invoicesList = new ArrayList<>();
 
     /**
      * @param invoice the invoice object needed to be added
@@ -37,6 +37,7 @@ public class InvoiceList {
      *     <li>Quantity of MenuItems/ Promotion Packages Sold
      *
      * </ol>
+     *
      * @param date the relevant date that is being queried
      */
     public static void salesReportByDay(LocalDate date) {
@@ -79,6 +80,7 @@ public class InvoiceList {
      *     <li>Total Revenue
      *     <li> Quantity of MenuItems/ Promotion Packages Sold
      * </ol>
+     *
      * @param month the relevant Month that is being queried
      */
     public static void salesReportByMonth(Month month) {
@@ -121,8 +123,9 @@ public class InvoiceList {
 
     /**
      * Calculates the total revenue given the list of Relevant Invoices
+     *
      * @param relevantInvoices List of invoices objects that need to be calculated
-     * @return
+     * @return total revenue
      */
     private static int calculateTotalRevenue(List<Invoice> relevantInvoices) {
         int totalRevenue = 0;
@@ -135,8 +138,9 @@ public class InvoiceList {
 
     /**
      * This calculates the total quantity for each MenuItem
+     *
      * @param relevantInvoices List of Invoice of objects that need to be calculated
-     * @return
+     * @return total quantity of MenuItems
      */
 
     private static Map<MenuItem, Integer> getMenuItemQuantity(List<Invoice> relevantInvoices) {
@@ -161,6 +165,7 @@ public class InvoiceList {
 
     /**
      * This calculates the total quantity for each PromotionPackage
+     *
      * @param relevantInvoices List of Invoice of objects that need to be calculated
      * @return
      */

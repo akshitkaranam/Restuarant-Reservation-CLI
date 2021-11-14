@@ -3,42 +3,14 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="/src/com/company/MembersList.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/src/com/company/Restaurant.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/src/com/company/StaffList.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/src/com/company/orderInvoices.csv">
+        <entry key="/src/com/company/storedData/menu.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />
             </Attribute>
           </value>
         </entry>
-        <entry key="/src/com/company/orderNumber.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/src/com/company/orderReservations.csv">
+        <entry key="/src/com/company/storedData/promotionPackage.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />
@@ -73,6 +45,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/src/com/company/storeddata/menu.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/src/com/company/storeddata/orderInvoices.csv">
           <value>
             <Attribute>
@@ -91,6 +70,13 @@
           <value>
             <Attribute>
               <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/src/com/company/storeddata/promotionPackage.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
             </Attribute>
           </value>
         </entry>

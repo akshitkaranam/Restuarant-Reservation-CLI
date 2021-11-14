@@ -21,13 +21,14 @@ public class PromotionPackage {
 
     /**
      * This constructor is specifically used when reading from the promotionPackage.csv
-     * @param promotionPackage List of MenuItems that are included in the promotion package
-     * @param packagePrice The price of the promotion package
+     *
+     * @param promotionPackage   List of MenuItems that are included in the promotion package
+     * @param packagePrice       The price of the promotion package
      * @param packageDescription description of the promotion package
-     * @param packageName The name of the promotion package
+     * @param packageName        The name of the promotion package
      */
     public PromotionPackage(List<MenuItem> promotionPackage, double packagePrice, String packageDescription
-            ,String packageName) {
+            , String packageName) {
         this.promotionPackage = promotionPackage;
         this.packagePrice = packagePrice;
         this.packageDescription = packageDescription;
@@ -36,7 +37,7 @@ public class PromotionPackage {
 
     /**
      * This constructor is used when creating a new promotion package. An empty MenuItem list is initialised, and the
-     * attrtibutes are later populated by the setter methods below.
+     * attributes are later populated by the setter methods below.
      */
     public PromotionPackage() {
         promotionPackage = new ArrayList<>();
@@ -45,6 +46,7 @@ public class PromotionPackage {
 
     /**
      * Returns the package price
+     *
      * @return package price
      */
     public double getPackagePrice() {
@@ -65,6 +67,7 @@ public class PromotionPackage {
 
     /**
      * Creates a new PromotionPackage. The user has to enter inputs accordingly to the prompts given.
+     *
      * @return returns a boolean value if the creation has been successful
      */
     public boolean createPackage() {
@@ -93,7 +96,15 @@ public class PromotionPackage {
                     |4. Quit Making Changes to Package|
                     ==================================""");
 
-            option = sc.nextInt();
+            while (true) {
+                try {
+                    option = sc.nextInt();
+                    break;
+                } catch (InputMismatchException ex) {
+                    System.out.println("Please only enter a number from 1-4!");
+                    sc.next(); // Read and discard whatever string the user has entered
+                }
+            }
             switch (option) {
 
                 case 1:
@@ -105,7 +116,7 @@ public class PromotionPackage {
                     }
 
                     while (true) {
-                        try{
+                        try {
                             innerChosenOption = sc.nextInt();
                             innerChosenOption--;
                             if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
@@ -114,8 +125,9 @@ public class PromotionPackage {
                                 System.out.println("Please enter a valid choice!");
 
                             }
-                        }catch (InputMismatchException e){
-                            e.printStackTrace();
+                        } catch (InputMismatchException e) {
+                            System.out.println("Please enter a valid choice!");
+                            sc.next();
                         }
 
                     }
@@ -135,7 +147,7 @@ public class PromotionPackage {
                     }
 
                     while (true) {
-                        try{
+                        try {
                             innerChosenOption = sc.nextInt();
                             innerChosenOption--;
                             if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
@@ -144,7 +156,7 @@ public class PromotionPackage {
                                 System.out.println("Please enter a valid choice!");
 
                             }
-                        }catch (InputMismatchException e){
+                        } catch (InputMismatchException e) {
                             e.printStackTrace();
                         }
 
@@ -190,8 +202,6 @@ public class PromotionPackage {
      *      <li> Remove MenuItem
      *      <li> Change Price
      * </ol>
-     *
-     *
      */
 
     public void updatePackage() {
@@ -210,7 +220,15 @@ public class PromotionPackage {
                     |6. Quit Making Changes to Package|
                     ==================================""");
 
-            option = sc.nextInt();
+            while (true) {
+                try {
+                    option = sc.nextInt();
+                    break;
+                } catch (InputMismatchException ex) {
+                    System.out.println("Please only enter a number from 1-6!");
+                    sc.next(); // Read and discard whatever string the user has entered
+                }
+            }
             switch (option) {
 
                 case 1:
@@ -226,7 +244,7 @@ public class PromotionPackage {
                     for (j = 0; j < menuItemsInMenu.size(); j++) {
                         System.out.println(j + 1 + " " + MenuList.getmItemList().get(j));
                     }
-                    try{
+                    try {
                         while (true) {
                             innerChosenOption = sc.nextInt();
                             innerChosenOption--;
@@ -235,9 +253,11 @@ public class PromotionPackage {
                             } else {
                                 System.out.println("Please enter a valid choice!");
                             }
+                            
                         }
-                    }catch (InputMismatchException e){
-                        e.printStackTrace();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Please enter a valid choice!");
+                        sc.next();
                     }
 
                     MenuItem relevantItemToBeAdded = menuItemsInMenu.get(innerChosenOption);
@@ -263,7 +283,7 @@ public class PromotionPackage {
                         innerChosenOption = sc.nextInt();
                         innerChosenOption--;
 
-                        try{
+                        try {
                             if (innerChosenOption <= j - 1 && innerChosenOption >= 0) {
                                 System.out.println("Successfully removed: "
                                         + addedMenuItemsInPackage.get(innerChosenOption).getItemName());
@@ -273,8 +293,9 @@ public class PromotionPackage {
                                 System.out.println("Please enter a valid choice!");
 
                             }
-                        }catch (InputMismatchException e){
-                            e.printStackTrace();
+                        } catch (InputMismatchException e) {
+                            System.out.println("Please enter a valid choice!");
+                            sc.next();
                         }
 
                     }
@@ -299,7 +320,7 @@ public class PromotionPackage {
                     System.out.println("Going back to Package Menu");
                     break;
                 default:
-                    System.out.println("Please enter options from (1-4)");
+                    System.out.println("Please enter options from (1-6)");
 
             }
 
@@ -309,6 +330,7 @@ public class PromotionPackage {
 
     /**
      * Returns the name of this PromotionPackage object
+     *
      * @return the name of this package
      */
 
@@ -327,6 +349,7 @@ public class PromotionPackage {
 
     /**
      * Returns the List of MenuItems that have been added into the promotion package
+     *
      * @return the List of MenuItems that have been added into the promotion package
      */
     public List<MenuItem> getPromotionPackage() {
@@ -335,6 +358,7 @@ public class PromotionPackage {
 
     /**
      * Returns this PromotionPackage description.
+     *
      * @return this PromotionPackage object description
      */
     public String getPackageDescription() {

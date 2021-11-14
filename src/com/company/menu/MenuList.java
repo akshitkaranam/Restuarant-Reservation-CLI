@@ -13,7 +13,6 @@ public class MenuList {
     private static final ArrayList<MenuItem> mItemList = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
-
     /**
      * Creates a new MenuItem. The user has to enter inputs accordingly to the prompts given.
      */
@@ -43,7 +42,15 @@ public class MenuList {
                     (3) - Drink
                     (4) - Dessert""");
 
-            typeNum = sc.nextInt();
+            while (true) {
+                try {
+                    typeNum = sc.nextInt();
+                    break;
+                } catch (InputMismatchException ex) {
+                    System.out.println("Please only enter a number from 1-4!");
+                    sc.next(); // Read and discard whatever string the user has entered
+                }
+            }
 
             switch (typeNum) {
                 case 1 -> {
@@ -62,7 +69,7 @@ public class MenuList {
                     mItemList.get(mItemList.size() - 1).setItemType(MenuItem.MenuItemType.DESSERT);
                     processMenuListToCSVFile();
                 }
-                default -> System.out.println("Please enter a number between 1 and 4");
+                default -> System.out.println("Please only enter a number from 1-4!");
             }
 
 
@@ -75,7 +82,7 @@ public class MenuList {
     /**
      * Display the MenuItems that have already been added.
      */
-    public static void displayMenu() {
+    public void displayMenu() {
         if (mItemList.isEmpty()) {
             System.out.println("No items in Menu!");
         } else {
@@ -106,6 +113,8 @@ public class MenuList {
                     return;
                 }
             }
+            System.out.println("Item not found!");
+
 
         }
     }
@@ -131,10 +140,11 @@ public class MenuList {
             displayMenu();
             System.out.println("Select name of item to update");
             String r = sc.nextLine().toLowerCase();
+            boolean found = false;
             for (MenuItem menuItem : mItemList) {
                 if (r.equals(menuItem.getItemName().toLowerCase())) {
                     int update = 1;
-
+                    found = true;
                     while (update != 5) {
                         System.out.println("""
                                 Select what you would like to update:
@@ -145,8 +155,16 @@ public class MenuList {
                                 |4. New Description|
                                 |5. Quit|
                                 ==================================""");
-                        update = sc.nextInt();
 
+                        while (true) {
+                            try {
+                                update = sc.nextInt();
+                                break;
+                            } catch (InputMismatchException ex) {
+                                System.out.println("Please only enter a number from 1-5!");
+                                sc.next(); // Read and discard whatever string the user has entered
+                            }
+                        }
                         switch (update) {
                             case 1 -> {
                                 sc.nextLine();
@@ -193,7 +211,9 @@ public class MenuList {
 
                 }
             }
-
+            if (!found) {
+                System.out.println("Item not found!");
+            }
             processMenuListToCSVFile();
 
         }
@@ -202,6 +222,7 @@ public class MenuList {
 
     /**
      * Returns a MenuItem object given the name of the MenuItem object
+     *
      * @param name the name of the menu item (String).
      * @return MenuItem given the name (String).
      */
@@ -218,6 +239,7 @@ public class MenuList {
 
     /**
      * This method returns the List of MenuItemObjects that have been added.
+     *
      * @return mItemList (List of MenuItem Objects that have been added)
      */
 

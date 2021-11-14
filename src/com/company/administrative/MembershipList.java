@@ -22,7 +22,9 @@ public class MembershipList {
     }
 
 
-    /** Returns HashMap with Key being the customer's name (String) and the value being the Customer Object
+    /**
+     * Returns HashMap with Key being the customer's name (String) and the value being the Customer Object
+     *
      * @return Map of Customer's Name (String), Person Object
      */
     public static Map<String, Customer> getMembersList() {

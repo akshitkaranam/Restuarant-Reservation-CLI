@@ -1,7 +1,5 @@
 package com.company.administrative;
 
-import java.util.Objects;
-
 /**
  * This is the Staff class. The Staff has a few basic attributes:
  * <ol>
@@ -32,6 +30,7 @@ public class Staff extends Person {
     private final String name;
     private final JobRole jobRole;
     private final String gender;
+    private final String employeeId;
 
 
     @Override
@@ -49,6 +48,8 @@ public class Staff extends Person {
         this.name = name;
         this.jobRole = role;
         this.gender = gender;
+        this.employeeId = employeeId;
+
     }
 
     /**
@@ -71,5 +72,12 @@ public class Staff extends Person {
      */
     public JobRole getJobRole() {
         return jobRole;
+    }
+
+    /**
+     * @return Employee ID of the staff
+     */
+    public String getEmployeeId() {
+        return employeeId;
     }
 }

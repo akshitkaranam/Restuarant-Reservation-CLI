@@ -30,6 +30,7 @@ public class RestaurantFunctions {
 
     /**
      * Sets the staff who is using the system
+     *
      * @param currentStaff Staff object that is using this system
      */
     public static void setCurrentStaff(Staff currentStaff) {
@@ -39,6 +40,7 @@ public class RestaurantFunctions {
 
     /**
      * Returns the current staff user who is using the system
+     *
      * @return current staff user
      */
     public static Staff getCurrentStaffUser() {
@@ -66,7 +68,15 @@ public class RestaurantFunctions {
                     |4. Display Menu|
                     |5. Quit from Menu Changes|
                     ==================================""");
-            option = sc.nextInt();
+            while (true) {
+                try {
+                    option = sc.nextInt();
+                    break;
+                } catch (InputMismatchException ex) {
+                    System.out.println("Please only enter a number from 1-5!");
+                    sc.next(); // Read and discard whatever string the user has entered
+                }
+            }
             switch (option) {
                 case 1 -> {
                     testMenu.createMenuItem();
@@ -111,7 +121,15 @@ public class RestaurantFunctions {
                     |4. Display Promotion Package Menu|
                     |5. Quit from Promotion Package Changes|
                     ==================================""");
-            option = sc.nextInt();
+            while (true) {
+                try {
+                    option = sc.nextInt();
+                    break;
+                } catch (InputMismatchException ex) {
+                    System.out.println("Please only enter a number from 1-5!");
+                    sc.next(); // Read and discard whatever string the user has entered
+                }
+            }
             switch (option) {
                 case 1 -> testPromoMenu.addPromotionPackage();
                 case 2 -> testPromoMenu.updatePromotionPackage();
@@ -214,7 +232,7 @@ public class RestaurantFunctions {
                 timeEntered = timeEntered + ":00";
                 time = LocalTime.parse(timeEntered);
 
-                if(time.isBefore(Restaurant.getOpeningTime()) || time.isAfter(Restaurant.getClosingTime())){
+                if (time.isBefore(Restaurant.getOpeningTime()) || time.isAfter(Restaurant.getClosingTime())) {
                     System.out.println("You cannot reserve slots beyond the restaurant's operating hours");
                     continue;
                 }
@@ -224,7 +242,7 @@ public class RestaurantFunctions {
                     continue;
                 }
 
-                if (LocalDateTime.of(date, time).isBefore(LocalDateTime.now().minusMinutes(10))) {
+                if (LocalDateTime.of(date, time).isBefore(LocalDateTime.now())) {
                     System.out.println("You cannot reserve slots in the past. Please try again!");
                 } else {
                     break;
@@ -331,7 +349,7 @@ public class RestaurantFunctions {
      * This function displays the list of reservation when the user enters the relevant date.
      *
      * <ol>
-     *     <li> Can only access reervations for the next 14 days.
+     *     <li> Can only access reservations for the next 14 days.
      *     <li> Past Reservations cannot be accessed, since they are either deleted when the user checks-out or when
      *          the customer doesn't check in within 30 minutes
      *     <li> In this function, if the customer doesn't reach within 30 minutes of the reservation start time, the
@@ -555,7 +573,7 @@ public class RestaurantFunctions {
                     System.out.println("You can only check slots in increments of 30 minutes. Please try again!");
                     continue;
                 }
-                if(time.isBefore(Restaurant.getOpeningTime()) || time.isAfter(Restaurant.getClosingTime())){
+                if (time.isBefore(Restaurant.getOpeningTime()) || time.isAfter(Restaurant.getClosingTime())) {
                     System.out.println("You cannot check for slots beyond the restaurant's operating hours");
                     continue;
                 }
@@ -565,8 +583,6 @@ public class RestaurantFunctions {
                 } else {
                     break;
                 }
-
-
 
 
             } catch (DateTimeParseException e) {
@@ -607,7 +623,7 @@ public class RestaurantFunctions {
      *         reservation is automatically deleted after 30 minutes.
      *     <li>Once the customer is checked in, his orderReservation becomes 'active' and is added to the activeOrderList
      *         in the restaurant class.
-     *     <li> Once the check-in is done, the activeOrder.csv is ammended to reflect the changes
+     *     <li> Once the check-in is done, the activeOrder.csv is amended to reflect the changes
      * </ol>
      */
     public static void checkInCustomer() {
@@ -626,7 +642,7 @@ public class RestaurantFunctions {
         List<Order> orderOfAllReservationForToday = new ArrayList<>(setOfAllReservation);
         boolean inactiveAvailable = false;
         List<Integer> availableIndex = new ArrayList<>();
-        outer: for (int i = 0; i < orderOfAllReservationForToday.size(); i++) {
+        for (int i = 0; i < orderOfAllReservationForToday.size(); i++) {
             Order thisOrder = orderOfAllReservationForToday.get(i);
 
             if (thisOrder != null) {
@@ -686,11 +702,11 @@ public class RestaurantFunctions {
 
         Order relevantOrder = orderOfAllReservationForToday.get(optionSelected);
 
-        for(Order activeOrder : Restaurant.getActiveOrders()){
-            if(relevantOrder.getTableNumber() == activeOrder.getTableNumber()){
+        for (Order activeOrder : Restaurant.getActiveOrders()) {
+            if (relevantOrder.getTableNumber() == activeOrder.getTableNumber()) {
                 System.out.println("Sorry, check-in is not possible as previous customer: " +
                         activeOrder.getCustomer().getName() + " is still dining at table number: "
-                        +activeOrder.getTableNumber());
+                        + activeOrder.getTableNumber());
                 return;
             }
         }
@@ -736,7 +752,8 @@ public class RestaurantFunctions {
                 chosenOption = sc.nextInt();
                 break;
             } catch (InputMismatchException e) {
-                e.printStackTrace();
+                System.out.println("Please enter a valid choice!");
+                sc.next();
             }
         }
 
@@ -758,7 +775,15 @@ public class RestaurantFunctions {
                     |8. Show Added Promotion Package and Quantity|
                     |9. Quit Making Changes to Order
                     ==================================""");
-            option = sc.nextInt();
+            while (true) {
+                try {
+                    option = sc.nextInt();
+                    break;
+                } catch (InputMismatchException ex) {
+                    System.out.println("Please only enter a number from 1-9!");
+                    sc.next(); // Read and discard whatever string the user has entered
+                }
+            }
             switch (option) {
                 case 1:
                     int innerChosenOption;
@@ -777,7 +802,8 @@ public class RestaurantFunctions {
                                 System.out.println("Please enter a valid choice!");
                             }
                         } catch (InputMismatchException e) {
-                            e.printStackTrace();
+                            System.out.println("Please enter a valid choice!");
+                            sc.next();
                         }
 
                     }
@@ -807,7 +833,8 @@ public class RestaurantFunctions {
                                 System.out.println("Please enter a valid choice!");
                             }
                         } catch (InputMismatchException e) {
-                            e.printStackTrace();
+                            System.out.println("Please enter a valid choice!");
+                            sc.next();
                         }
 
                     }
@@ -840,7 +867,7 @@ public class RestaurantFunctions {
                                 System.out.println("Please enter a valid choice!");
                             }
                         } catch (InputMismatchException e) {
-                            e.printStackTrace();
+                            System.out.println("Error!");
                         }
 
                     }
@@ -874,7 +901,7 @@ public class RestaurantFunctions {
                                 System.out.println("Please enter a valid choice!");
                             }
                         } catch (InputMismatchException e) {
-                            e.printStackTrace();
+                            System.out.println("Error!");
                         }
 
                     }
@@ -908,7 +935,8 @@ public class RestaurantFunctions {
                                 System.out.println("Please enter a valid choice!");
                             }
                         } catch (InputMismatchException e) {
-                            e.printStackTrace();
+                            System.out.println("Please enter a valid choice!");
+                            sc.next();
                         }
 
                     }
@@ -940,7 +968,8 @@ public class RestaurantFunctions {
                                 System.out.println("Please enter a valid choice!");
                             }
                         } catch (InputMismatchException e) {
-                            e.printStackTrace();
+                            System.out.println("Please enter a valid choice!");
+                            sc.next();
                         }
 
                     }
@@ -1001,13 +1030,20 @@ public class RestaurantFunctions {
         }
 
         while (true) {
-            optionChosen = scanner.nextInt();
-            if (optionChosen <= i && optionChosen >= 0) {
+            try {
+                optionChosen = scanner.nextInt();
+                if (optionChosen <= i && optionChosen >= 0) {
+                    break;
+                } else {
+                    System.out.println("Please enter a valid choice!");
+                }
                 break;
-            } else {
+            } catch (InputMismatchException ex) {
                 System.out.println("Please enter a valid choice!");
+                scanner.next(); // Read and discard whatever string the user has entered
             }
         }
+
 
         Order orderToCheckOut = activeOrders.get(optionChosen - 1);
         orderToCheckOut.setStaff(currentStaffUser);
@@ -1052,7 +1088,15 @@ public class RestaurantFunctions {
                     |2. Get Report By Month|
                     |3. Quit|
                     ==================================""");
-            option = sc.nextInt();
+            while (true) {
+                try {
+                    option = sc.nextInt();
+                    break;
+                } catch (InputMismatchException ex) {
+                    System.out.println("Please only enter a number from 1-3!");
+                    sc.next(); // Read and discard whatever string the user has entered
+                }
+            }
             switch (option) {
                 case 1 -> {
                     System.out.println("Enter the desired date in the format YYYY-MM-DD");
@@ -1096,12 +1140,10 @@ public class RestaurantFunctions {
                 chosenOption = scanner.nextInt();
                 break;
             } catch (InputMismatchException e) {
-                e.printStackTrace();
-
+                System.out.println("Please only enter a number!");
+                scanner.next();
             }
         }
-
-
         currentStaffUser = staffList.get(chosenOption - 1);
         System.out.println();
     }
@@ -1139,11 +1181,11 @@ public class RestaurantFunctions {
                     Restaurant.setAddress(line);
                     i++;
                     continue;
-                }else if (i ==2){
+                } else if (i == 2) {
                     Restaurant.setOpeningTime(LocalTime.parse(line));
                     i++;
                     continue;
-                }else if (i==3){
+                } else if (i == 3) {
                     Restaurant.setClosingTime(LocalTime.parse(line));
                     i++;
                     continue;
@@ -1159,7 +1201,7 @@ public class RestaurantFunctions {
             br.close();
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Error!");
         }
     }
 
@@ -1195,7 +1237,7 @@ public class RestaurantFunctions {
             }
             br.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Error!");
         }
     }
 
@@ -1226,7 +1268,7 @@ public class RestaurantFunctions {
             }
             br.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Error!");
         }
     }
 
@@ -1261,7 +1303,7 @@ public class RestaurantFunctions {
             }
             br.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Error!");
         }
     }
 
@@ -1297,7 +1339,7 @@ public class RestaurantFunctions {
             }
             br.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Error!");
         }
     }
 
@@ -1356,13 +1398,13 @@ public class RestaurantFunctions {
 
             br.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Error!");
         }
     }
 
     /**
      * This function reads the activeOrder.csv information and creates appropriate
-     * Order objects and adds them the appropriate ActiveOrders list in the Restauarnt class.
+     * Order objects and adds them the appropriate ActiveOrders list in the Restaurant class.
      */
 
     public static void retrieveActiveOrderInformation() {
@@ -1443,7 +1485,7 @@ public class RestaurantFunctions {
             }
             br.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Error!");
         }
     }
 
@@ -1547,7 +1589,7 @@ public class RestaurantFunctions {
             }
             br.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Error!");
         }
     }
 
