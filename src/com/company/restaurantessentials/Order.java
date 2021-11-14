@@ -90,7 +90,6 @@ public class Order {
             // create a writer
             FileWriter writer = new FileWriter("src/com/company/storeddata/orderNumber.csv", false);
             // write all records
-            System.out.println(this.orderNumber);
             writer.write(Integer.toString(this.orderNumber));
             //close the writer
             writer.flush();
