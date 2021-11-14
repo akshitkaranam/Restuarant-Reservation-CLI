@@ -4,6 +4,7 @@ import com.company.administrative.Customer;
 import com.company.administrative.Staff;
 import com.company.menu.MenuItem;
 import com.company.menu.PromotionPackage;
+
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -32,7 +33,7 @@ import java.util.Map;
  *     <li>orderIsActive (boolean value)
  *
  * </ol>
-
+ * <p>
  * This class has 2 main function:
  * <ol>
  *     <li> Reservation
@@ -121,13 +122,14 @@ public class Order {
 
     /**
      * This constructor is used when reading from the activeOrder.csv file when re-establishing the order object.
-     * @param customer  takes in a Customer object.
-     * @param groupSize  the size of the group making the reservation
-     * @param tableNumber the table number for the reservation
-     * @param date the date of the reservation
+     *
+     * @param customer             takes in a Customer object.
+     * @param groupSize            the size of the group making the reservation
+     * @param tableNumber          the table number for the reservation
+     * @param date                 the date of the reservation
      * @param reservationStartTime start time of the reservation
-     * @param reservationEndTime end time of the reservation
-     * @param orderNumber order number of the order/reservation
+     * @param reservationEndTime   end time of the reservation
+     * @param orderNumber          order number of the order/reservation
      */
     public Order(Customer customer, int groupSize, int tableNumber,
                  LocalDate date, LocalTime reservationStartTime, LocalTime reservationEndTime, int orderNumber) {
@@ -197,7 +199,7 @@ public class Order {
     /**
      * This functions allows the staff to edit the item that is already added to the order.
      * The new quantity will override the current quantity.
-     * (i.e if the initial Quantity for Ice Cream was '4', and '2' was passed in to this function, then the quantity
+     * (i.e. if the initial Quantity for Ice Cream was '4', and '2' was passed in to this function, then the quantity
      * will be updated to 2
      *
      * @param item        the MenuItem object that needs to be edited
@@ -213,7 +215,7 @@ public class Order {
         }
     }
 
-    /**
+    /*
      * This function allows the staff to add the Customer desired item into the order.
      *
      * @param promoToAdd the PromotionPackage object that needs to be added to the Order
@@ -222,8 +224,9 @@ public class Order {
 
     /**
      * Adds a PromotionPackage object to the promotionPackageOrderedList
+     *
      * @param promoToAdd the promotionPackage object to add
-     * @param quantity the quantity needed to add
+     * @param quantity   the quantity needed to add
      */
     public void addPromotionPackageToOrder(PromotionPackage promoToAdd, int quantity) {
         promotionPackageOrderedList.put(promoToAdd, quantity);
@@ -233,7 +236,7 @@ public class Order {
     /**
      * This functions allows the staff to edit the item that is already added to the order.
      * * The new quantity will override the current quantity.
-     * * (i.e if the initial Quantity for Package 1 was '4', and '2' was passed in to this function, then the quantity
+     * * (i.e. if the initial Quantity for Package 1 was '4', and '2' was passed in to this function, then the quantity
      * * will be updated to 2
      *
      * @param promotionPackage the PromotionPackage object that needs to be edited
@@ -251,6 +254,7 @@ public class Order {
 
     /**
      * Deletes the passed MenuItem from the Order
+     *
      * @param menuItem the MenuItem object that needs to be removed
      */
 
@@ -328,6 +332,7 @@ public class Order {
 
     /**
      * Sets the boolean variable orderIsActive
+     *
      * @param orderIsActive boolean value if order is active
      */
     public void setOrderIsActive(boolean orderIsActive) {

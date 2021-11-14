@@ -15,6 +15,7 @@ public class StaffList {
 
     /**
      * Returns the List of Staff objects for the staffUsers in the restaurant
+     *
      * @return list of Staff Objects
      */
     public static List<Staff> getStaffList() {
@@ -23,10 +24,11 @@ public class StaffList {
 
     /**
      * Adds a new Staff object into the staffList
-     * @param name name of the staffUser
+     *
+     * @param name       name of the staffUser
      * @param employeeId employeeID of the staffUser
-     * @param jobRole jobRole of the staffUser
-     * @param gender gender of the staffUser
+     * @param jobRole    jobRole of the staffUser
+     * @param gender     gender of the staffUser
      */
     public static void addStaff(String name, String employeeId, Staff.JobRole jobRole, String gender) {
         staffList.add(new Staff(name, employeeId, jobRole, gender));
@@ -34,10 +36,10 @@ public class StaffList {
 
     /**
      * Delete the user from the staffList given the name of the user
+     *
      * @param name name of the staffUser
      */
     public static void deleteUser(String name) {
         staffList.removeIf(staff -> Objects.equals(staff.getName(), name));
     }
-
 }

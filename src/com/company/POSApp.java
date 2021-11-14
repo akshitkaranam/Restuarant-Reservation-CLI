@@ -9,10 +9,9 @@ import java.util.*;
  * This the class where the Main methods is present.
  */
 public class POSApp {
-
-
     /**
      * Main method for the app to function
+     *
      * @param args args
      */
     public static void main(String[] args) {
@@ -26,9 +25,7 @@ public class POSApp {
         RestaurantFunctions.retrieveOrderReservationInformation();
         RestaurantFunctions.retrieveActiveOrderInformation();
         RestaurantFunctions.retrieveInvoicesInformation();
-
         RestaurantFunctions.setCurrentStaff(StaffList.getStaffList().get(0));
-
 
         int option;
         Scanner scanner = new Scanner(System.in);
@@ -38,7 +35,16 @@ public class POSApp {
                     + RestaurantFunctions.getCurrentStaffUser().getJobRole());
 
             printMainMenu();
-            option = scanner.nextInt();
+            while (true) {
+                try {
+                    option = scanner.nextInt();
+                    break;
+                } catch (InputMismatchException ex) {
+                    System.out.println("Please only enter a number from 1-12!");
+                    scanner.next(); // Read and discard whatever string the user has entered
+                }
+            }
+
 
             switch (option) {
                 case 1 -> RestaurantFunctions.makeChangesToMenu();
@@ -59,7 +65,6 @@ public class POSApp {
         scanner.close();
     }
 
-
     private static void printMainMenu() {
         System.out.println("Please select one of the options");
         System.out.println("---------------------------------");
@@ -76,5 +81,4 @@ public class POSApp {
         System.out.println("11: Change Staff User");
         System.out.println("12: Quit");
     }
-
 }

@@ -24,10 +24,10 @@ import java.util.*;
 public class Restaurant {
     private static String name;
     private static String address;
-    private static LocalTime openingTime ;
+    private static LocalTime openingTime;
     private static LocalTime closingTime;
-    private static Map<Integer, Table> tableList = new HashMap<>();
-    private static List<Order> activeOrders = new ArrayList<>();
+    private static final Map<Integer, Table> tableList = new HashMap<>();
+    private static final List<Order> activeOrders = new ArrayList<>();
 
     /**
      * @return Map with the table number as a key and the Table object as the value
@@ -59,6 +59,7 @@ public class Restaurant {
 
     /**
      * Returns the list of Order Objects that have status 'active order'.
+     *
      * @return list of active orders
      */
     public static List<Order> getActiveOrders() {
@@ -67,6 +68,7 @@ public class Restaurant {
 
     /**
      * Returns the name of the restaurant
+     *
      * @return the name of the restaurant
      */
     public static String getName() {
@@ -75,6 +77,7 @@ public class Restaurant {
 
     /**
      * Sets the name of the restaurant
+     *
      * @param name name of the restaurant
      */
     public static void setName(String name) {
@@ -83,6 +86,7 @@ public class Restaurant {
 
     /**
      * Returns the address of the restaurant
+     *
      * @return address of the restaurant
      */
     public static String getAddress() {
@@ -91,6 +95,7 @@ public class Restaurant {
 
     /**
      * Sets the address of the restaurant
+     *
      * @param address address of the restaurant
      */
     public static void setAddress(String address) {
@@ -99,6 +104,7 @@ public class Restaurant {
 
     /**
      * Returns the restaurants opening time
+     *
      * @return restaurant opening time
      */
     public static LocalTime getOpeningTime() {
@@ -107,6 +113,7 @@ public class Restaurant {
 
     /**
      * Sets the restaurant opening time
+     *
      * @param openingTime restaurantOpeningTime
      */
     public static void setOpeningTime(LocalTime openingTime) {
@@ -115,6 +122,7 @@ public class Restaurant {
 
     /**
      * Returns the closing time of the restaurant
+     *
      * @return closing time of the restaurant
      */
     public static LocalTime getClosingTime() {
@@ -123,6 +131,7 @@ public class Restaurant {
 
     /**
      * Sets the closing time of the restaurant
+     *
      * @param closingTime closing time of the restaurant
      */
     public static void setClosingTime(LocalTime closingTime) {
