@@ -189,7 +189,7 @@ public class RestaurantFunctions {
                     continue;
                 }
 
-                if (LocalDateTime.of(date, time).isBefore(LocalDateTime.now().minusMinutes(15))) {
+                if (LocalDateTime.of(date, time).isBefore(LocalDateTime.now().minusMinutes(10))) {
                     System.out.println("You cannot reserve slots in the past. Please try again!");
                 } else {
                     break;
@@ -583,13 +583,6 @@ public class RestaurantFunctions {
                     LocalTime reservationStartTime = thisOrder.getReservationStartTime().minusMinutes(20);
                     LocalTime reservationEndTime = thisOrder.getReservationEndTime().minusMinutes(30);
 
-                    for(Order activeOrders : Restaurant.getActiveOrders()){
-                        if(thisOrder.getTableNumber() == activeOrders.getTableNumber()){
-                            continue outer;
-                        }
-                    }
-
-
                     if (timeNow.isAfter(reservationStartTime) && timeNow.isBefore(reservationEndTime)) {
                         System.out.println((i + 1) + ": " + thisOrder.getCustomer().getName() + " "
 
@@ -620,6 +613,17 @@ public class RestaurantFunctions {
         }
 
         Order relevantOrder = orderOfAllReservationForToday.get(optionSelected - 1);
+
+        for(Order activeOrder : Restaurant.getActiveOrders()){
+            if(relevantOrder.getTableNumber() == activeOrder.getTableNumber()){
+                System.out.println("Sorry, check-in is not possible as previous customer: " +
+                        activeOrder.getCustomer().getName() + " is still dining at table number: "
+                        +activeOrder.getTableNumber());
+                return;
+            }
+        }
+
+
         relevantOrder.setOrderIsActive(true);
         Restaurant.addActiveOrder(relevantOrder);
         Restaurant.processActiveOrderToCSV();
