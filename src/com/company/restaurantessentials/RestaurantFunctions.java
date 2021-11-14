@@ -179,6 +179,11 @@ public class RestaurantFunctions {
                 timeEntered = timeEntered + ":00";
                 time = LocalTime.parse(timeEntered);
 
+                if(time.isBefore(Restaurant.getOpeningTime()) || time.isAfter(Restaurant.getClosingTime())){
+                    System.out.println("You cannot reserve slots beyond the restaurant's operating hours");
+                    continue;
+                }
+
                 if (time.getMinute() != 0 && time.getMinute() != 30) {
                     System.out.println("You can only reserve slots in increments of 30 minutes. Please try again!");
                     continue;
@@ -189,7 +194,6 @@ public class RestaurantFunctions {
                 } else {
                     break;
                 }
-
 
             } catch (DateTimeParseException e) {
                 System.out.println("INCORRECT ENTRY!");
@@ -491,12 +495,18 @@ public class RestaurantFunctions {
                     System.out.println("You can only check slots in increments of 30 minutes. Please try again!");
                     continue;
                 }
+                if(time.isBefore(Restaurant.getOpeningTime()) || time.isAfter(Restaurant.getClosingTime())){
+                    System.out.println("You cannot check for slots beyond the restaurant's operating hours");
+                    continue;
+                }
 
                 if (LocalDateTime.of(date, time).isBefore(LocalDateTime.now().minusMinutes(15))) {
                     System.out.println("You cannot check for slots in the past. Please try again!");
                 } else {
                     break;
                 }
+
+
 
 
             } catch (DateTimeParseException e) {
@@ -544,7 +554,7 @@ public class RestaurantFunctions {
         List<Order> orderOfAllReservationForToday = new ArrayList<>(setOfAllReservation);
         boolean inactiveAvailable = false;
         List<Integer> availableIndex = new ArrayList<>();
-        for (int i = 0; i < orderOfAllReservationForToday.size(); i++) {
+        outer: for (int i = 0; i < orderOfAllReservationForToday.size(); i++) {
             Order thisOrder = orderOfAllReservationForToday.get(i);
 
             if (thisOrder != null) {
@@ -573,13 +583,19 @@ public class RestaurantFunctions {
                     LocalTime reservationStartTime = thisOrder.getReservationStartTime().minusMinutes(20);
                     LocalTime reservationEndTime = thisOrder.getReservationEndTime().minusMinutes(30);
 
+                    for(Order activeOrders : Restaurant.getActiveOrders()){
+                        if(thisOrder.getTableNumber() == activeOrders.getTableNumber()){
+                            continue outer;
+                        }
+                    }
+
+
                     if (timeNow.isAfter(reservationStartTime) && timeNow.isBefore(reservationEndTime)) {
                         System.out.println((i + 1) + ": " + thisOrder.getCustomer().getName() + " "
 
                                 + thisOrder.getCustomer().getContactNumber());
                         availableIndex.add(i + 1);
 
-//                    }
                     }
 
                 }
@@ -1005,7 +1021,16 @@ public class RestaurantFunctions {
                     Restaurant.setAddress(line);
                     i++;
                     continue;
+                }else if (i ==2){
+                    Restaurant.setOpeningTime(LocalTime.parse(line));
+                    i++;
+                    continue;
+                }else if (i==3){
+                    Restaurant.setClosingTime(LocalTime.parse(line));
+                    i++;
+                    continue;
                 }
+
                 // convert line into tokens
                 String[] tokens = line.split(DELIMITER);
                 String tableNumber = tokens[0];
@@ -1014,6 +1039,7 @@ public class RestaurantFunctions {
                 i++;
             }
             br.close();
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }

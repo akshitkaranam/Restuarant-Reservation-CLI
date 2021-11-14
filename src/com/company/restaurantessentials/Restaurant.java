@@ -6,6 +6,7 @@ import com.company.menuItem.PromotionPackage;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -17,10 +18,12 @@ import java.util.*;
  */
 
 public class Restaurant {
-    public static String name;
-    public static String address;
-    private static final Map<Integer, Table> tableList = new HashMap<>();
-    private static final List<Order> activeOrders = new ArrayList<>();
+    private static String name;
+    private static String address;
+    private static LocalTime openingTime;
+    private static LocalTime closingTime;
+    private static Map<Integer, Table> tableList = new HashMap<>();
+    private static List<Order> activeOrders = new ArrayList<>();
 
     /**
      * @return Map with the table number as a key and the Table object as the value
@@ -72,6 +75,22 @@ public class Restaurant {
 
     public static void setAddress(String address) {
         Restaurant.address = address;
+    }
+
+    public static LocalTime getOpeningTime() {
+        return openingTime;
+    }
+
+    public static void setOpeningTime(LocalTime openingTime) {
+        Restaurant.openingTime = openingTime;
+    }
+
+    public static LocalTime getClosingTime() {
+        return closingTime;
+    }
+
+    public static void setClosingTime(LocalTime closingTime) {
+        Restaurant.closingTime = closingTime;
     }
 
     /**
