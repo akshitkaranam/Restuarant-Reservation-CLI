@@ -224,7 +224,7 @@ public class RestaurantFunctions {
                     continue;
                 }
 
-                if (LocalDateTime.of(date, time).isBefore(LocalDateTime.now().minusMinutes(10))) {
+                if (LocalDateTime.of(date, time).isBefore(LocalDateTime.now())) {
                     System.out.println("You cannot reserve slots in the past. Please try again!");
                 } else {
                     break;
