@@ -98,8 +98,8 @@ public class Invoice implements Comparable<Invoice> {
         Map<PromotionPackage, Integer> orderPackageList = order.getPromotionPackageOrderedList();
         System.out.println();
         System.out.println("----------------------------------------------");
-        System.out.println(Restaurant.name);
-        System.out.println(Restaurant.address);
+        System.out.println(Restaurant.getName());
+        System.out.println(Restaurant.getAddress());
 
         System.out.println("Table Number: " + order.getTableNumber());
         System.out.println(localDateTime);
