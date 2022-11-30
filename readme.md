@@ -32,4 +32,4 @@ https://github.com/akshitkaranam/CZ2002_Assignment
 ## Running the App
 * Clone this repo, and run the program on any IDE that supports JAVA.
 * For certain test cases, you can refer to our project report document, where all is explained in detail!
-* You can also check out our demo video here: [https://youtu.be/NnjJYRnQhQE ]()
+* You can also check out our demo video [here](https://youtu.be/NnjJYRnQhQE): 
